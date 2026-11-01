@@ -4,17 +4,36 @@
  * Ensuring 100% IDENTICAL results between Node.js server and GitHub Pages browser runtime!
  */
 const fs = require('fs');
-const path = require('path');
 
 const bundle = `/**
  * =============================================================================
  * Intellinum Flexi PWA Migrator - Client Runtime Engine
  * 100% Client-Side Pure JavaScript Engine (GitHub Pages & Offline Compatible)
- * 100% File-Dependent • Ast-Masked Groovy Compiler • Zero Hardcoded Fallbacks
+ * 100% File-Dependent • AST-Masked Groovy Compiler • Zero Hardcoded Fallbacks
  * =============================================================================
  */
 (function(global) {
   'use strict';
+
+  // ----------------- Browser Safe UUID & Hash -----------------
+  function generateUUID() {
+    if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+      try { return crypto.randomUUID(); } catch(e) {}
+    }
+    return 'session_' + Math.random().toString(36).substring(2, 10) + '_' + Date.now().toString(36);
+  }
+
+  function generateHash(str) {
+    let h1 = 0xdeadbeef, h2 = 0x41c6ce57;
+    for (let i = 0; i < str.length; i++) {
+      const ch = str.charCodeAt(i);
+      h1 = Math.imul(h1 ^ ch, 2654435761);
+      h2 = Math.imul(h2 ^ ch, 1597334677);
+    }
+    h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+    h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+    return (4294967296 * (2097151 & h2) + (h1 >>> 0)).toString(16).padStart(16, '0').slice(0, 16);
+  }
 
   // ----------------- Array & Buffer Helpers -----------------
   function toUint8Array(input) {
@@ -66,15 +85,6 @@ const bundle = `/**
         } catch(e) {}
       }
     }
-
-    // Node.js fallback
-    if (typeof require !== 'undefined') {
-      try {
-        const zlib = require('zlib');
-        return zlib.inflateSync(slice);
-      } catch(e) {}
-    }
-
     return null;
   }
 
@@ -471,15 +481,18 @@ const bundle = `/**
   }
 
 ` +
-// Extract flexi_converter.js logic (constants, rules, convertGroovyToPwaJs, convertPdfFile, convertTxtFile, generateOracleSql)
+// Clean flexi_converter.js logic
 fs.readFileSync('flexi_converter.js', 'utf8')
-  .replace(/const crypto = require\('crypto'\);/, '')
-  .replace(/const \{ parseFlexiPdfReport \} = require\('\.\/pdf_pzn_parser\.js'\);/, '')
-  .replace(/const \{ generatePwaReport \} = require\('\.\/pwa_report_generator\.js'\);/, '')
+  .replace(/const crypto = require\('crypto'\);/g, '')
+  .replace(/const \{ parseFlexiPdfReport \} = require\('\.\/pdf_pzn_parser\.js'\);/g, '')
+  .replace(/const \{ generatePwaReport \} = require\('\.\/pwa_report_generator\.js'\);/g, '')
+  .replace(/crypto\.randomUUID\(\)/g, 'generateUUID()')
   .replace(/module\.exports = \{[\s\S]*?\};/, '')
 +
-// Extract pwa_report_generator.js logic
+// Clean pwa_report_generator.js logic
 fs.readFileSync('pwa_report_generator.js', 'utf8')
+  .replace(/const crypto = require\('crypto'\);/g, '')
+  .replace(/crypto\.createHash\('sha256'\)\.update\(([^)]+)\)\.digest\('hex'\)\.slice\(0,\s*16\)/g, 'generateHash($1)')
   .replace(/module\.exports = \{[\s\S]*?\};/, '')
 +
 `
@@ -499,10 +512,13 @@ fs.readFileSync('pwa_report_generator.js', 'utf8')
     generatePwaReport: generatePwaReport
   };
 
+  if (typeof window !== 'undefined') {
+    window.FlexiClientEngine = global.FlexiClientEngine;
+  }
+
 })(typeof window !== 'undefined' ? window : global);
 `;
 
 fs.writeFileSync('public/js/flexi_client_engine.js', bundle);
 fs.writeFileSync('js/flexi_client_engine.js', bundle);
-console.log('Successfully bundled flexi_client_engine.js into public/ and root js/!');
-
+console.log('Successfully bundled clean zero-require flexi_client_engine.js!');

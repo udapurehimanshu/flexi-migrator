@@ -2,11 +2,31 @@
  * =============================================================================
  * Intellinum Flexi PWA Migrator - Client Runtime Engine
  * 100% Client-Side Pure JavaScript Engine (GitHub Pages & Offline Compatible)
- * 100% File-Dependent • Ast-Masked Groovy Compiler • Zero Hardcoded Fallbacks
+ * 100% File-Dependent • AST-Masked Groovy Compiler • Zero Hardcoded Fallbacks
  * =============================================================================
  */
 (function(global) {
   'use strict';
+
+  // ----------------- Browser Safe UUID & Hash -----------------
+  function generateUUID() {
+    if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+      try { return crypto.randomUUID(); } catch(e) {}
+    }
+    return 'session_' + Math.random().toString(36).substring(2, 10) + '_' + Date.now().toString(36);
+  }
+
+  function generateHash(str) {
+    let h1 = 0xdeadbeef, h2 = 0x41c6ce57;
+    for (let i = 0; i < str.length; i++) {
+      const ch = str.charCodeAt(i);
+      h1 = Math.imul(h1 ^ ch, 2654435761);
+      h2 = Math.imul(h2 ^ ch, 1597334677);
+    }
+    h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+    h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+    return (4294967296 * (2097151 & h2) + (h1 >>> 0)).toString(16).padStart(16, '0').slice(0, 16);
+  }
 
   // ----------------- Array & Buffer Helpers -----------------
   function toUint8Array(input) {
@@ -58,15 +78,6 @@
         } catch(e) {}
       }
     }
-
-    // Node.js fallback
-    if (typeof require !== 'undefined') {
-      try {
-        const zlib = require('zlib');
-        return zlib.inflateSync(slice);
-      } catch(e) {}
-    }
-
     return null;
   }
 
@@ -1029,7 +1040,7 @@ function generateOracleSql(records, targetApp, tableName = 'FLEXI_PERSONALIZATIO
  * Converts a PDF report buffer dynamically into full PWA data model & export payload
  */
 function convertPdfFile(pdfBuffer, fileName = 'uploaded_report.pdf') {
-  const sessionId = crypto.randomUUID();
+  const sessionId = generateUUID();
   const parsed = parseFlexiPdfReport(pdfBuffer, fileName);
 
   const targetApp = parsed.appName;
@@ -1253,7 +1264,7 @@ function convertPdfFile(pdfBuffer, fileName = 'uploaded_report.pdf') {
  * Converts a raw personalization export text payload or XML dynamically
  */
 function convertTxtFile(contentStr, fileName = 'uploaded_payload.txt') {
-  const sessionId = crypto.randomUUID();
+  const sessionId = generateUUID();
   let text = (contentStr || '').trim();
 
   let hasPrefix = false;
@@ -1499,7 +1510,7 @@ function convertTxtFile(contentStr, fileName = 'uploaded_payload.txt') {
  * =============================================================================
  */
 
-const crypto = require('crypto');
+
 
 function generatePwaReport(data) {
   const {
@@ -1523,7 +1534,7 @@ function generatePwaReport(data) {
   const successRate = scriptsCount > 0 ? Math.round((validScriptsCount / scriptsCount) * 100) : 100;
 
   // Compute file fingerprint hash
-  const fileHash = crypto.createHash('sha256').update(fileName + ':' + scriptsCount + ':' + timestamp).digest('hex').slice(0, 16);
+  const fileHash = generateHash(fileName + ':' + scriptsCount + ':' + timestamp);
 
   let md = `# Intellinum Flexi PWA Migration Audit Report\n\n`;
   md += `**Target Application:** \`${appName}\`  \n`;
@@ -1665,5 +1676,9 @@ function generatePwaReport(data) {
     generateOracleSql: generateOracleSql,
     generatePwaReport: generatePwaReport
   };
+
+  if (typeof window !== 'undefined') {
+    window.FlexiClientEngine = global.FlexiClientEngine;
+  }
 
 })(typeof window !== 'undefined' ? window : global);

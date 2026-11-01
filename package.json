@@ -1,0 +1,20 @@
+{
+  "name": "flexi-migrator",
+  "version": "2.0.0",
+  "description": "Intellinum Flexi Personalization Migration Engine (SSH Groovy to PWA JavaScript)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node test_all_files.js"
+  },
+  "keywords": [
+    "intellinum",
+    "flexi",
+    "pwa",
+    "migration",
+    "groovy",
+    "javascript"
+  ],
+  "author": "Himanshu Udapure",
+  "license": "MIT"
+}

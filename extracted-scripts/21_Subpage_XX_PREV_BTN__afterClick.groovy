@@ -1,0 +1,1 @@
+flexi.automate("ctrl","X");

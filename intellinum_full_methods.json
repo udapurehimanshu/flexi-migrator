@@ -1,0 +1,865 @@
+{
+  "FlexiAPI": [
+    {
+      "name": "closeApplication",
+      "signature": "public void closeApplication()",
+      "description": "Close current active application"
+    },
+    {
+      "name": "closeApplication",
+      "signature": "public void closeApplication(boolean showConfirmation)",
+      "description": "Close current active application"
+    },
+    {
+      "name": "openPage",
+      "signature": "public void openPage(java.lang.String pageID)",
+      "description": "Open a new page"
+    },
+    {
+      "name": "backToPage",
+      "signature": "public void backToPage(java.lang.String pageID)",
+      "description": "back to previous page"
+    },
+    {
+      "name": "getPreviousPage",
+      "signature": "public Page getPreviousPage()",
+      "description": "back to previous page"
+    },
+    {
+      "name": "gotoComponent",
+      "signature": "public void gotoComponent(java.lang.String componentName)",
+      "description": "set active cursor to the component"
+    },
+    {
+      "name": "setStatusMessage",
+      "signature": "public void setStatusMessage(java.lang.String message)",
+      "description": "Set message in a status bar"
+    },
+    {
+      "name": "getStatusMessage",
+      "signature": "public java.lang.String getStatusMessage()",
+      "description": "Get message in the status bar"
+    },
+    {
+      "name": "putObject",
+      "signature": "public void putObject(java.lang.String key, java.lang.Object object) throws java.lang.Exception",
+      "description": "Put a temporary object in application. Application object will be destroyed as soon as the application is closed. Use putSessionObject to store in the session"
+    },
+    {
+      "name": "getObject",
+      "signature": "public java.lang.Object getObject(java.lang.String key)",
+      "description": "Get Object from application"
+    },
+    {
+      "name": "removeObject",
+      "signature": "public java.lang.Object removeObject(java.lang.String key)",
+      "description": "Remove object from application."
+    },
+    {
+      "name": "putSessionObject",
+      "signature": "public void putSessionObject(java.lang.String key, java.lang.Object object)",
+      "description": "Put a temporary object in session"
+    },
+    {
+      "name": "getSessionObject",
+      "signature": "public java.lang.Object getSessionObject(java.lang.String key)",
+      "description": "Get Object from session"
+    },
+    {
+      "name": "removeSessionObject",
+      "signature": "public java.lang.Object removeSessionObject(java.lang.String key)",
+      "description": "Remove object from session"
+    },
+    {
+      "name": "executeQuery",
+      "signature": "public com.intellinum.mia.app.util.TableResult executeQuery(java.lang.String query, java.lang.Object[] parameters) throws java.lang.Exception",
+      "description": "Execute select query"
+    },
+    {
+      "name": "executeQuery",
+      "signature": "public com.intellinum.mia.app.util.TableResult executeQuery(java.lang.String query, java.lang.Object[] parameters, java.lang.String connectionName) throws java.lang.Exception",
+      "description": "Execute Insert, Update and Delete query"
+    },
+    {
+      "name": "executePLSQL",
+      "signature": "public java.lang.Object[] executePLSQL(java.lang.String PLSQL, java.lang.Object[] parameters, java.lang.String[] parameterTypes) throws java.lang.Exception",
+      "description": "Execute Stored Procedure"
+    },
+    {
+      "name": "executePLSQL",
+      "signature": "public java.lang.Object[] executePLSQL(java.lang.String PLSQL, java.lang.Object[] parameters, java.lang.String[] parameterTypes, boolean isCommit) throws java.lang.Exception",
+      "description": "Execute Stored Procedure"
+    },
+    {
+      "name": "executeFunction",
+      "signature": "public java.lang.Object executeFunction(java.lang.String functionName, java.lang.Object[] parameters, java.lang.String[] parameterTypes) throws java.lang.Exception",
+      "description": "Execute Function"
+    },
+    {
+      "name": "executeFunction",
+      "signature": "public java.lang.Object executeFunction(java.lang.String functionName, java.lang.Object[] parameters, java.lang.String[] parameterTypes, boolean isCommit) throws java.lang.Exception",
+      "description": "Execute Function"
+    },
+    {
+      "name": "executeProcedureMSSQL",
+      "signature": "public java.lang.Object[] executeProcedureMSSQL(java.lang.String PLSQL, java.lang.Object[] parameters, java.lang.String[] parameterTypes, boolean isCommit) throws java.lang.Exception",
+      "description": "Execute Stored Procedure for MSSQL with Table as the result"
+    },
+    {
+      "name": "getDabataseConnection",
+      "signature": "public java.sql.Connection getDabataseConnection() throws java.sql.SQLException",
+      "description": "get active database connection. If there are multiple data source setup, it will return the transaction database connection setup on the application parameter"
+    },
+    {
+      "name": "getFlexiDatabaseConnection",
+      "signature": "public java.sql.Connection getFlexiDatabaseConnection() throws java.sql.SQLException",
+      "description": "Get flexi database connection. This can be used to retrieve Profile Value, Lookup Value setup on the Flexi Admin."
+    },
+    {
+      "name": "commitTransaction",
+      "signature": "public void commitTransaction() throws java.sql.SQLException",
+      "description": "Commit database transaction"
+    },
+    {
+      "name": "rollbackTransaction",
+      "signature": "public void rollbackTransaction() throws java.sql.SQLException",
+      "description": "Rollback database transaction"
+    },
+    {
+      "name": "showOptionDialog",
+      "signature": "public int showOptionDialog(java.lang.String title, java.lang.String message, java.lang.String[] options) throws java.lang.Exception",
+      "description": "Show a option dialog"
+    },
+    {
+      "name": "showOptionDialog",
+      "signature": "public int showOptionDialog(java.lang.String title, java.lang.String message, java.lang.String[] options, java.lang.String backgroundColor) throws java.lang.Exception",
+      "description": "Show a option dialog"
+    },
+    {
+      "name": "showInputableDialog",
+      "signature": "public java.lang.String showInputableDialog(java.lang.String title, java.lang.String message) throws com.intellinum.mia.app.event.PreventDefaultException",
+      "description": "Show a inputable dialog"
+    },
+    {
+      "name": "playSound",
+      "signature": "public void playSound(java.lang.String name) throws com.intellinum.mia.app.event.PreventDefaultException",
+      "description": "Play a custom sound"
+    },
+    {
+      "name": "playPositiveSound",
+      "signature": "public void playPositiveSound() throws com.intellinum.mia.app.event.PreventDefaultException",
+      "description": "reset all the value of the Input Field in the page(LOV and TextInput)"
+    },
+    {
+      "name": "getCurrentComponent",
+      "signature": "public Component getCurrentComponent()",
+      "description": "Get the active component where cursor is"
+    },
+    {
+      "name": "getCurrentComponentName",
+      "signature": "public java.lang.String getCurrentComponentName()",
+      "description": "Get the name of the active component"
+    },
+    {
+      "name": "callWs",
+      "signature": "public java.util.HashMap callWs(java.lang.String url, java.lang.String username, java.lang.String password, java.lang.String body, java.util.ArrayList outputParams) throws org.xml.sax.SAXException, javax.xml.transform.TransformerException, javax.xml.parsers.ParserConfigurationException, javax.xml.soap.SOAPException, java.io.IOException",
+      "description": "Validate a text against dd-MMM-yyyy date format. Note : SS, Not sure if we should put this here, maybe we should have a new class for utility"
+    },
+    {
+      "name": "openMenu",
+      "signature": "public void openMenu(java.lang.String menuName)",
+      "description": "Deprecated."
+    },
+    {
+      "name": "automate",
+      "signature": "public void automate(java.lang.String action) throws com.intellinum.mia.app.event.PreventDefaultException",
+      "description": "Set loading message. Loading message will be sent to the flexi client every 2 seconds if an active process is running (Ex. calling a webservice )"
+    },
+    {
+      "name": "sendLoadingMessage",
+      "signature": "public void sendLoadingMessage(java.lang.String loadingMessage)",
+      "description": "Send loading message to Flexi Client"
+    },
+    {
+      "name": "sendLoadingDialog",
+      "signature": "public void sendLoadingDialog(java.lang.String loadingMessage)",
+      "description": "Set loading dialog to Flexi Client"
+    },
+    {
+      "name": "getDeviceInfo",
+      "signature": "public DeviceInfo getDeviceInfo()",
+      "description": "Convert csv file to ArrayList"
+    },
+    {
+      "name": "createFile",
+      "signature": "public java.io.File createFile(java.lang.String fullFileName, java.lang.String content) throws java.lang.Exception",
+      "description": "Create text file"
+    },
+    {
+      "name": "createFile",
+      "signature": "public java.io.File createFile(java.lang.String fullFileName, java.lang.String content, boolean overwrite) throws java.lang.Exception",
+      "description": "Create text file"
+    },
+    {
+      "name": "generateCsvFile",
+      "signature": "public java.io.File generateCsvFile(java.lang.String fullFileName, Table table) throws java.lang.Exception",
+      "description": "Generate CSV file"
+    },
+    {
+      "name": "generateCsvFile",
+      "signature": "public java.io.File generateCsvFile(java.lang.String fullFileName, Table table, boolean overwrite) throws java.lang.Exception",
+      "description": "Generate CSV file"
+    },
+    {
+      "name": "generateCsvFile",
+      "signature": "public java.io.File generateCsvFile(java.lang.String fullFileName, com.intellinum.mia.app.util.TableResult tableResult) throws java.lang.Exception",
+      "description": "Generate CSV file"
+    },
+    {
+      "name": "generateCsvFile",
+      "signature": "public java.io.File generateCsvFile(java.lang.String fullFileName, com.intellinum.mia.app.util.TableResult tableResult, boolean overwrite) throws java.lang.Exception",
+      "description": "Generate CSV file"
+    },
+    {
+      "name": "generateCsvFile",
+      "signature": "public java.io.File generateCsvFile(java.lang.String fullFileName, java.util.Collection<java.lang.Object[]> tableResult) throws java.lang.Exception",
+      "description": "Generate CSV file"
+    },
+    {
+      "name": "generateCsvFile",
+      "signature": "public java.io.File generateCsvFile(java.lang.String fullFileName, java.util.Collection<java.lang.Object[]> tableResult, boolean overwrite) throws java.lang.Exception",
+      "description": "Generate CSV file"
+    },
+    {
+      "name": "generateBase64",
+      "signature": "public java.lang.String generateBase64(java.lang.String fullFileName) throws java.io.IOException",
+      "description": "Convert file on the server to base64"
+    },
+    {
+      "name": "clearInputBuffer",
+      "signature": "public void clearInputBuffer()",
+      "description": "Clear all the input in the connection buffer"
+    },
+    {
+      "name": "isInputAvailable",
+      "signature": "public boolean isInputAvailable()",
+      "description": "Check if there is more input in the connection buffer"
+    },
+    {
+      "name": "createPdfFile",
+      "signature": "public void createPdfFile(java.lang.String filename, java.util.ArrayList<java.lang.String[]> content) throws com.intellinum.mia.app.event.PreventDefaultException",
+      "description": "Generate pdf file"
+    },
+    {
+      "name": "createPdfFile",
+      "signature": "public void createPdfFile(java.lang.String filename, java.util.ArrayList<java.lang.String[]> content, java.util.HashMap<java.lang.String,java.lang.Object> config) throws com.intellinum.mia.app.event.PreventDefaultException",
+      "description": "Generate pdf file"
+    },
+    {
+      "name": "insertRecordDb",
+      "signature": "public long insertRecordDb(java.lang.String tableName, java.util.HashMap<java.lang.String,java.lang.String> contentValues) throws java.lang.Exception",
+      "description": "Insert record into the database"
+    },
+    {
+      "name": "deleteRecordDb",
+      "signature": "public long deleteRecordDb(java.lang.String tableName, java.lang.String whereClause, java.lang.String[] whereParams) throws java.lang.Exception",
+      "description": "Delete record from the database"
+    },
+    {
+      "name": "updateRecordDb",
+      "signature": "public long updateRecordDb(java.lang.String tableName, java.util.HashMap<java.lang.String,java.lang.String> contentValues, java.lang.String whereClause, java.lang.String[] whereParams) throws java.lang.Exception",
+      "description": "Update record from the database"
+    },
+    {
+      "name": "compressFileToZip",
+      "signature": "public void compressFileToZip(java.lang.String sourceFileName, java.lang.String compressedFileName) throws java.lang.Exception",
+      "description": "Compress file to zip"
+    },
+    {
+      "name": "compressFilesToZip",
+      "signature": "public void compressFilesToZip(java.lang.String[] sourceFileNames, java.lang.String compressedFileName) throws java.lang.Exception",
+      "description": "Compress files to zip"
+    },
+    {
+      "name": "compressDirToZip",
+      "signature": "public void compressDirToZip(java.lang.String directoryName, java.lang.String compressedFileName) throws java.lang.Exception",
+      "description": "Compress directory to zip"
+    },
+    {
+      "name": "transferTileToSFTP",
+      "signature": "public void transferTileToSFTP(java.lang.String host, int port, java.lang.String username, java.lang.String password, AttachmentField sourceAttachmentField, java.lang.String targetFileName) throws java.lang.Exception",
+      "description": "Cancel script"
+    },
+    {
+      "name": "preventDefault",
+      "signature": "public void preventDefault(java.lang.String message) throws com.intellinum.mia.app.event.PreventDefaultException",
+      "description": "Is Device has a camera functionality"
+    },
+    {
+      "name": "getDecimalSeparator",
+      "signature": "public java.lang.String getDecimalSeparator()",
+      "description": "Open Page Template from LogFire Page"
+    },
+    {
+      "name": "getWMSCloudRFInterface",
+      "signature": "public WMSCloudRFInterface getWMSCloudRFInterface() throws java.lang.Exception",
+      "description": ""
+    },
+    {
+      "name": "main",
+      "signature": "public static void main(java.lang.String args) throws java.lang.Exception",
+      "description": ""
+    }
+  ],
+  "FlexiWebService": [
+    {
+      "name": "setOperation",
+      "signature": "public void setOperation(java.lang.String operation)",
+      "description": "Set operation for the SOAP Web Service"
+    },
+    {
+      "name": "setRestOperation",
+      "signature": "public void setRestOperation(java.lang.String restOperation)",
+      "description": "Set operation for REST Web Service"
+    },
+    {
+      "name": "setRestAction",
+      "signature": "public void setRestAction(java.lang.String restAction)",
+      "description": "Set action for REST Web Service"
+    },
+    {
+      "name": "setRestContentType",
+      "signature": "public void setRestContentType(java.lang.String contentType)",
+      "description": "Set content type for the web service callWebService. Ex. plain/text, application/xml, application/json, etc)"
+    },
+    {
+      "name": "setRequest",
+      "signature": "public void setRequest(java.lang.String requestContent)",
+      "description": "Set content for the callWebService"
+    },
+    {
+      "name": "setType",
+      "signature": "public void setType(com.intellinum.mia.app.ui.logical.FlexiWebService.WebServiceType type)",
+      "description": "Calling web service"
+    },
+    {
+      "name": "callWebService",
+      "signature": "public void callWebService() throws java.lang.Exception",
+      "description": "Calling web service"
+    },
+    {
+      "name": "getResponse",
+      "signature": "public java.lang.String getResponse(java.lang.String name) throws java.lang.Exception",
+      "description": "Getting response from web service. If it is SOAP type, response will be processed into XML tree and value for the xml component with the same name as parameter name will be returned If it is REST type, it will always return null"
+    },
+    {
+      "name": "getRawResponse",
+      "signature": "public java.lang.String getRawResponse() throws java.lang.Exception",
+      "description": "Get response/result from web service call."
+    },
+    {
+      "name": "getTable",
+      "signature": "public java.util.ArrayList<java.lang.String[]> getTable() throws java.lang.Exception",
+      "description": "Get response in the form of table"
+    },
+    {
+      "name": "extractPropertiesFromJSON",
+      "signature": "public void extractPropertiesFromJSON(org.json.JSONObject json)",
+      "description": "Set the cache duration. If the cache is expired, a new request will be made"
+    },
+    {
+      "name": "getCacheDuration",
+      "signature": "public int getCacheDuration()",
+      "description": "This method is used to call a webservice using background thread. This is mainly used to optimize the performance Some of the webservice can be pre-call so that when the actual call take place, the result can be used immediately shorten the waiting time of the user"
+    },
+    {
+      "name": "callWebServiceBackground",
+      "signature": "public void callWebServiceBackground(java.util.HashMap<java.lang.String,java.lang.String> parameters) throws java.lang.Exception",
+      "description": "This method is used to call a webservice using background thread. This is mainly used to optimize the performance Some of the webservice can be pre-call so that when the actual call take place, the result can be used immediately shorten the waiting time of the user"
+    },
+    {
+      "name": "getFinalUrl",
+      "signature": "public java.lang.String getFinalUrl(java.util.HashMap parameters) throws java.io.UnsupportedEncodingException",
+      "description": ""
+    },
+    {
+      "name": "removeNewLine",
+      "signature": "protected java.lang.String removeNewLine(java.lang.String s)",
+      "description": ""
+    },
+    {
+      "name": "setAuthenticationMode",
+      "signature": "public void setAuthenticationMode(java.lang.String authenticationMode) throws java.lang.Exception",
+      "description": ""
+    },
+    {
+      "name": "setOauth10Parameter",
+      "signature": "public void setOauth10Parameter(java.lang.String consumerKey, java.lang.String consumerSecret, java.lang.String accessToken, java.lang.String accessTokenSecret, java.lang.String realm) throws java.lang.Exception",
+      "description": ""
+    },
+    {
+      "name": "setOauth10Parameter",
+      "signature": "public void setOauth10Parameter(java.lang.String consumerKey, java.lang.String consumerSecret, java.lang.String accessToken, java.lang.String accessTokenSecret, java.lang.String realm, java.lang.String signMethod) throws java.lang.Exception",
+      "description": ""
+    },
+    {
+      "name": "setCustomFieldEnabled",
+      "signature": "public void setCustomFieldEnabled(Page page, java.lang.String levelName)",
+      "description": ""
+    },
+    {
+      "name": "updateRequestWithCustomField",
+      "signature": "public java.lang.String updateRequestWithCustomField(java.lang.String requestContent)",
+      "description": ""
+    },
+    {
+      "name": "callWebService",
+      "signature": "public void callWebService(java.util.HashMap<java.lang.String,java.lang.String> parameters, int page) throws java.lang.Exception",
+      "description": ""
+    },
+    {
+      "name": "getTotalPage",
+      "signature": "public int getTotalPage() throws java.lang.Exception",
+      "description": ""
+    },
+    {
+      "name": "getCurrentPage",
+      "signature": "public int getCurrentPage() throws java.lang.Exception",
+      "description": ""
+    },
+    {
+      "name": "resultCount",
+      "signature": "public int resultCount() throws java.lang.Exception",
+      "description": ""
+    },
+    {
+      "name": "pagingUrlUpdate",
+      "signature": "protected void pagingUrlUpdate(int page)",
+      "description": ""
+    },
+    {
+      "name": "transformUrlString",
+      "signature": "protected java.lang.String transformUrlString(java.lang.String content, int page)",
+      "description": ""
+    },
+    {
+      "name": "main",
+      "signature": "public static void main(java.lang.String[] args) throws java.lang.Exception",
+      "description": ""
+    },
+    {
+      "name": "clone",
+      "signature": "public java.lang.Object clone()",
+      "description": ""
+    }
+  ],
+  "TextInputField": [
+    {
+      "name": "getJSONObjectProperties",
+      "signature": "public org.json.JSONObject getJSONObjectProperties(org.json.JSONObject properties)",
+      "description": "Description copied from interface: com.intellinum.mia.app.runtime.Transferable"
+    },
+    {
+      "name": "isPassword",
+      "signature": "public boolean isPassword()",
+      "description": "Description copied from interface: com.intellinum.mia.app.runtime.Transferable"
+    },
+    {
+      "name": "getValue",
+      "signature": "public java.lang.String getValue()",
+      "description": "Get value for the Text Input. If the field type is password, then it will return **** instead of the plain text. Use getPasswordValue function to get the plain password."
+    },
+    {
+      "name": "getPasswordValue",
+      "signature": "public java.lang.String getPasswordValue()",
+      "description": "Get the plain value for password type text input"
+    }
+  ],
+  "Page": [
+    {
+      "name": "setTitle",
+      "signature": "public Page setTitle(java.lang.String title)",
+      "description": "Set page title"
+    },
+    {
+      "name": "addEventListener",
+      "signature": "public Page addEventListener(com.intellinum.mia.app.event.PageEventListener eventListener)",
+      "description": "Get component by name"
+    },
+    {
+      "name": "getContainer",
+      "signature": "public Container getContainer(java.lang.String name)",
+      "description": "Get Container by name"
+    },
+    {
+      "name": "runInputProcessor",
+      "signature": "public com.intellinum.mia.app.runtime.InputData runInputProcessor(java.lang.String inputProcessor, com.intellinum.mia.app.runtime.InputData inputData) throws com.intellinum.mia.app.event.PreventDefaultException",
+      "description": "Get Component by case insensitive name"
+    },
+    {
+      "name": "getComponent",
+      "signature": "public Component getComponent(Container container, java.lang.String name)",
+      "description": "Get component position in the page the last 3 character indicate the position in a container rest the front character indicate the position of container in the page"
+    },
+    {
+      "name": "getComponentPosition",
+      "signature": "public int getComponentPosition(Component component)",
+      "description": "Get component position in the page"
+    },
+    {
+      "name": "openPage",
+      "signature": "public Event openPage(Event event) throws com.intellinum.mia.app.event.PreventDefaultException",
+      "description": "Function to open page"
+    },
+    {
+      "name": "closePage",
+      "signature": "protected Event closePage(Event event)",
+      "description": "Function to close page"
+    },
+    {
+      "name": "specialKey",
+      "signature": "protected Event specialKey(Event event) throws com.intellinum.mia.app.event.PreventDefaultException",
+      "description": "Override this function. For custom page, creation of container and component should be in this function"
+    },
+    {
+      "name": "gainFocus",
+      "signature": "protected Event gainFocus(Event event) throws com.intellinum.mia.app.event.PreventDefaultException",
+      "description": "Description copied from class: FlexiUIObject"
+    },
+    {
+      "name": "lostFocus",
+      "signature": "public Event lostFocus(Event event) throws java.lang.Exception",
+      "description": "This function is called when object lost a focus/cursor. This should be only called by the component container"
+    },
+    {
+      "name": "doAction",
+      "signature": "public void doAction(com.intellinum.mia.app.action.Action action) throws java.lang.Exception",
+      "description": "Action taken when receive an input from server."
+    },
+    {
+      "name": "getCurrentContainerIndex",
+      "signature": "public int getCurrentContainerIndex()",
+      "description": "Get active container position"
+    },
+    {
+      "name": "moveToPreviousComponent",
+      "signature": "public void moveToPreviousComponent(com.intellinum.mia.app.action.Action action) throws java.lang.Exception",
+      "description": "Get previous component before the current active component"
+    },
+    {
+      "name": "moveToNextComponent",
+      "signature": "public void moveToNextComponent(com.intellinum.mia.app.action.Action action) throws java.lang.Exception",
+      "description": "Get next component after the current active component. This should only be called by container when there are no more field in the source container"
+    },
+    {
+      "name": "isFocusable",
+      "signature": "public boolean isFocusable()",
+      "description": "Description copied from class: FlexiUIObject"
+    },
+    {
+      "name": "toString",
+      "signature": "public java.lang.String toString()",
+      "description": "Set the cursor to the first focusable field"
+    },
+    {
+      "name": "toJsonObject",
+      "signature": "public org.json.JSONObject toJsonObject()",
+      "description": "Description copied from interface: com.intellinum.mia.app.runtime.Transferable"
+    },
+    {
+      "name": "getJSONObjectProperties",
+      "signature": "public org.json.JSONObject getJSONObjectProperties(org.json.JSONObject properties)",
+      "description": "Description copied from interface: com.intellinum.mia.app.runtime.Transferable"
+    },
+    {
+      "name": "getObjectType",
+      "signature": "public java.lang.String getObjectType()",
+      "description": "Description copied from interface: com.intellinum.mia.app.runtime.Transferable"
+    },
+    {
+      "name": "storeInApplicationObject",
+      "signature": "public void storeInApplicationObject() throws com.intellinum.mia.app.event.PreventDefaultException",
+      "description": "Description copied from interface: com.intellinum.mia.app.runtime.Transferable"
+    },
+    {
+      "name": "reset",
+      "signature": "public void reset() throws com.intellinum.mia.app.event.PreventDefaultException",
+      "description": "Description copied from interface: com.intellinum.mia.app.runtime.Transferable"
+    },
+    {
+      "name": "runSubsequentValue",
+      "signature": "public void runSubsequentValue(java.util.HashMap<java.lang.String,java.lang.String> subsequentVal) throws com.intellinum.mia.app.event.PreventDefaultException",
+      "description": "//08212016 SS Extract barcode and assign the value to the respective field"
+    },
+    {
+      "name": "validateForm",
+      "signature": "public java.lang.String validateForm() throws java.lang.Exception",
+      "description": "Remove childs component from container"
+    },
+    {
+      "name": "getContainerIndex",
+      "signature": "public int getContainerIndex(java.lang.String name)",
+      "description": "Check if the container/component is active (with cursor)"
+    },
+    {
+      "name": "isParentContainer",
+      "signature": "public boolean isParentContainer(java.lang.String parentName, java.lang.String componentName)",
+      "description": "Check whether the container is a parent of a component"
+    },
+    {
+      "name": "addLogicalObject",
+      "signature": "public void addLogicalObject(FlexiLogicalObject logicalObject)",
+      "description": "This should only be called by the Personalization Package"
+    },
+    {
+      "name": "addBarcodeComponentObject",
+      "signature": "public void addBarcodeComponentObject(com.intellinum.mia.app.util.scan.BarcodeComponent barcodeComponent, com.intellinum.mia.app.personalization.additional.AdditionalBarcodeComponent additionalBarcodeComponent) throws java.lang.Exception",
+      "description": ""
+    },
+    {
+      "name": "addLogicalObject",
+      "signature": "public void addLogicalObject(java.util.ArrayList<FlexiLogicalObject> logicalObjects)",
+      "description": ""
+    },
+    {
+      "name": "getLogicalObjects",
+      "signature": "public java.util.Vector<FlexiLogicalObject> getLogicalObjects()",
+      "description": ""
+    },
+    {
+      "name": "getPageID",
+      "signature": "public java.lang.String getPageID()",
+      "description": ""
+    },
+    {
+      "name": "getPersonalizationManager",
+      "signature": "public com.intellinum.mia.app.personalization.manager.PersonalizationManager getPersonalizationManager()",
+      "description": ""
+    },
+    {
+      "name": "clearPage",
+      "signature": "public void clearPage()",
+      "description": ""
+    },
+    {
+      "name": "setInputProcessor",
+      "signature": "public void setInputProcessor(java.lang.String inputProcessor)",
+      "description": ""
+    },
+    {
+      "name": "getAllComponent",
+      "signature": "public java.util.ArrayList<com.intellinum.mia.app.FlexiObject> getAllComponent()",
+      "description": ""
+    },
+    {
+      "name": "setOnPromptDialog",
+      "signature": "public void setOnPromptDialog(java.lang.String onPromptDialog)",
+      "description": ""
+    },
+    {
+      "name": "getOnPromptDialog",
+      "signature": "public java.lang.String getOnPromptDialog()",
+      "description": ""
+    },
+    {
+      "name": "setAfterPromptDialog",
+      "signature": "public void setAfterPromptDialog(java.lang.String afterPromptDialog)",
+      "description": ""
+    },
+    {
+      "name": "getAfterPromptDialog",
+      "signature": "public java.lang.String getAfterPromptDialog()",
+      "description": ""
+    },
+    {
+      "name": "setOnStatusChanged",
+      "signature": "public void setOnStatusChanged(java.lang.String onStatusChanged)",
+      "description": ""
+    },
+    {
+      "name": "getOnStatusChanged",
+      "signature": "public java.lang.String getOnStatusChanged()",
+      "description": ""
+    },
+    {
+      "name": "onStatusChanged",
+      "signature": "public void onStatusChanged(java.lang.String oldMessage, java.lang.String newMessage) throws com.intellinum.mia.app.event.PreventDefaultException",
+      "description": ""
+    },
+    {
+      "name": "runOnPromptPage",
+      "signature": "public java.lang.String runOnPromptPage(java.lang.String title, java.lang.String message, java.lang.String[] options, java.lang.String backgroundColor) throws com.intellinum.mia.app.event.PreventDefaultException",
+      "description": ""
+    },
+    {
+      "name": "runAfterPromptPage",
+      "signature": "public java.lang.String runAfterPromptPage(java.lang.String title, java.lang.String message, java.lang.String[] options, int choice) throws com.intellinum.mia.app.event.PreventDefaultException",
+      "description": ""
+    },
+    {
+      "name": "runOnPromptPage",
+      "signature": "public java.lang.String runOnPromptPage(java.lang.String title, java.lang.String message) throws com.intellinum.mia.app.event.PreventDefaultException",
+      "description": ""
+    },
+    {
+      "name": "runAfterPromptPage",
+      "signature": "public java.lang.String runAfterPromptPage(java.lang.String title, java.lang.String message, java.lang.String userInput) throws com.intellinum.mia.app.event.PreventDefaultException",
+      "description": ""
+    },
+    {
+      "name": "getVersion",
+      "signature": "public java.lang.String getVersion()",
+      "description": ""
+    },
+    {
+      "name": "isValidNames",
+      "signature": "public boolean isValidNames(java.lang.String name)",
+      "description": ""
+    },
+    {
+      "name": "clearValidNames",
+      "signature": "public void clearValidNames()",
+      "description": ""
+    },
+    {
+      "name": "putValidNames",
+      "signature": "public void putValidNames(java.lang.String name)",
+      "description": ""
+    },
+    {
+      "name": "removeValidNames",
+      "signature": "public void removeValidNames(java.lang.String name)",
+      "description": ""
+    },
+    {
+      "name": "updateValidNames",
+      "signature": "public void updateValidNames()",
+      "description": ""
+    },
+    {
+      "name": "removeDuplicates",
+      "signature": "public static <T> java.util.Vector<T> removeDuplicates(java.util.Vector<T> list)",
+      "description": ""
+    },
+    {
+      "name": "showDisablePersonalizationWarn",
+      "signature": "public boolean showDisablePersonalizationWarn()",
+      "description": ""
+    },
+    {
+      "name": "getVoiceManager",
+      "signature": "public com.intellinum.mia.app.voice.VoiceManager getVoiceManager()",
+      "description": ""
+    },
+    {
+      "name": "isVoiceEnable",
+      "signature": "public boolean isVoiceEnable()",
+      "description": ""
+    },
+    {
+      "name": "setVoiceEnable",
+      "signature": "public void setVoiceEnable(boolean voiceEnable)",
+      "description": ""
+    },
+    {
+      "name": "onPageCreated",
+      "signature": "public void onPageCreated(Event event) throws com.intellinum.mia.app.event.PreventDefaultException",
+      "description": ""
+    },
+    {
+      "name": "disableBackButton",
+      "signature": "public void disableBackButton()",
+      "description": ""
+    },
+    {
+      "name": "enabledBackButton",
+      "signature": "public void enabledBackButton()",
+      "description": ""
+    },
+    {
+      "name": "setOnRfidCaptured",
+      "signature": "public void setOnRfidCaptured(java.lang.String onRfidCaptured)",
+      "description": ""
+    },
+    {
+      "name": "setOnBulkScan",
+      "signature": "public void setOnBulkScan(java.lang.String onBulkScan)",
+      "description": ""
+    },
+    {
+      "name": "getOnBulkScan",
+      "signature": "public java.lang.String getOnBulkScan()",
+      "description": ""
+    },
+    {
+      "name": "getOnRfidCaptured",
+      "signature": "public java.lang.String getOnRfidCaptured()",
+      "description": ""
+    },
+    {
+      "name": "runOnRFIDCapture",
+      "signature": "public void runOnRFIDCapture(com.intellinum.mia.app.action.Action action) throws com.intellinum.mia.app.event.PreventDefaultException",
+      "description": ""
+    },
+    {
+      "name": "runOnBulkScan",
+      "signature": "public void runOnBulkScan(com.intellinum.mia.app.action.Action action) throws com.intellinum.mia.app.event.PreventDefaultException",
+      "description": ""
+    },
+    {
+      "name": "setLastActiveComponent",
+      "signature": "public void setLastActiveComponent(java.lang.String lastActiveComponent)",
+      "description": ""
+    },
+    {
+      "name": "getLastActiveComponent",
+      "signature": "public java.lang.String getLastActiveComponent()",
+      "description": ""
+    },
+    {
+      "name": "destroy",
+      "signature": "public void destroy()",
+      "description": ""
+    },
+    {
+      "name": "getCustomFieldContent",
+      "signature": "public java.lang.Object getCustomFieldContent()",
+      "description": ""
+    },
+    {
+      "name": "getCustomFieldIdentifier",
+      "signature": "public java.lang.String getCustomFieldIdentifier()",
+      "description": ""
+    },
+    {
+      "name": "setCurrentComponent",
+      "signature": "public void setCurrentComponent(Component component) throws com.intellinum.mia.app.event.PreventDefaultException",
+      "description": ""
+    },
+    {
+      "name": "getBackgroundColor",
+      "signature": "public java.lang.String getBackgroundColor()",
+      "description": ""
+    },
+    {
+      "name": "setBackgroundColor",
+      "signature": "public void setBackgroundColor(java.lang.String color)",
+      "description": ""
+    },
+    {
+      "name": "isDisableLocalizationFormat",
+      "signature": "public boolean isDisableLocalizationFormat()",
+      "description": ""
+    },
+    {
+      "name": "disableLocalizationFormat",
+      "signature": "public void disableLocalizationFormat()",
+      "description": ""
+    },
+    {
+      "name": "enableLocalizationFormat",
+      "signature": "public void enableLocalizationFormat()",
+      "description": ""
+    }
+  ]
+}

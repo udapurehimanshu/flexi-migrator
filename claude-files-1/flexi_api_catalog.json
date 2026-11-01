@@ -1,0 +1,3240 @@
+{
+ "FlexiAPI": {
+  "extends": "Object",
+  "methods": {
+   "openApplication": [
+    "void openApplication(String application) throws Exception"
+   ],
+   "closeApplication": [
+    "void closeApplication()",
+    "void closeApplication(boolean showConfirmation)"
+   ],
+   "openPage": [
+    "void openPage(String pageID)"
+   ],
+   "backToPage": [
+    "void backToPage(String pageID)"
+   ],
+   "getPreviousPage": [
+    "Page getPreviousPage()"
+   ],
+   "closePage": [
+    "void closePage()"
+   ],
+   "backToPreviousPage": [
+    "void backToPreviousPage()"
+   ],
+   "gotoComponent": [
+    "void gotoComponent(String componentName)"
+   ],
+   "setStatusMessage": [
+    "void setStatusMessage(String message)"
+   ],
+   "getStatusMessage": [
+    "String getStatusMessage()"
+   ],
+   "putObject": [
+    "void putObject(String key, Object object) throws Exception"
+   ],
+   "getObject": [
+    "Object getObject(String key)"
+   ],
+   "removeObject": [
+    "Object removeObject(String key)"
+   ],
+   "putSessionObject": [
+    "void putSessionObject(String key, Object object)"
+   ],
+   "getSessionObject": [
+    "Object getSessionObject(String key)"
+   ],
+   "removeSessionObject": [
+    "Object removeSessionObject(String key)"
+   ],
+   "executeQuery": [
+    "TableResult executeQuery(String query, Object[] parameters) throws Exception",
+    "TableResult executeQuery(String query, Object[] parameters, String connectionName) throws Exception"
+   ],
+   "executeUpdate": [
+    "int executeUpdate(String query, Object[] parameters, boolean isCommit) throws Exception"
+   ],
+   "executePLSQL": [
+    "Object[] executePLSQL(String PLSQL, Object[] parameters, String[] parameterTypes) throws Exception",
+    "Object[] executePLSQL(String PLSQL, Object[] parameters, String[] parameterTypes, boolean isCommit) throws Exception"
+   ],
+   "executeFunction": [
+    "Object executeFunction(String functionName, Object[] parameters, String[] parameterTypes) throws Exception",
+    "Object executeFunction(String functionName, Object[] parameters, String[] parameterTypes, boolean isCommit) throws Exception"
+   ],
+   "executeProcedureMSSQL": [
+    "Object[] executeProcedureMSSQL(String PLSQL, Object[] parameters, String[] parameterTypes, boolean isCommit) throws Exception"
+   ],
+   "getDabataseConnection": [
+    "java.sql.Connection getDabataseConnection() throws java.sql.SQLException"
+   ],
+   "getFlexiDatabaseConnection": [
+    "java.sql.Connection getFlexiDatabaseConnection() throws java.sql.SQLException"
+   ],
+   "commitTransaction": [
+    "void commitTransaction() throws java.sql.SQLException"
+   ],
+   "rollbackTransaction": [
+    "void rollbackTransaction() throws java.sql.SQLException"
+   ],
+   "showOptionDialog": [
+    "int showOptionDialog(String title, String message, String[] options) throws Exception",
+    "int showOptionDialog(String title, String message, String[] options, String backgroundColor) throws Exception"
+   ],
+   "showInputableDialog": [
+    "String showInputableDialog(String title, String message) throws PreventDefaultException"
+   ],
+   "playSound": [
+    "void playSound(String name) throws PreventDefaultException"
+   ],
+   "playPositiveSound": [
+    "void playPositiveSound() throws PreventDefaultException"
+   ],
+   "playNegativeSound": [
+    "void playNegativeSound() throws PreventDefaultException"
+   ],
+   "resetPage": [
+    "void resetPage() throws PreventDefaultException"
+   ],
+   "getCurrentComponent": [
+    "Component getCurrentComponent()"
+   ],
+   "getCurrentComponentName": [
+    "String getCurrentComponentName()"
+   ],
+   "callWs": [
+    "HashMap callWs(String url, String username, String password, String body, ArrayList outputParams) throws org.xml.sax.SAXException, javax.xml.transform.Transform"
+   ],
+   "callSerialWebService": [
+    "HashMap callSerialWebService(String wsUrl, String wsUsername, String wsPassword, String reason, String productCode, String lotNumber, String location, String us"
+   ],
+   "decomissionWebService": [
+    "void decomissionWebService( InputField itemSource, InputField reasonCode, InputField productCode, InputField lotNumber, InputField locationCreated, InputField s"
+   ],
+   "decomissionCaptureService": [
+    "void decomissionCaptureService(String baseurl, String username, String password, InputField serialNumber, InputField reasonCode, InputField lotNumber, InputFiel"
+   ],
+   "decomWS": [
+    "void decomWS( InputField itemSource, InputField reasonCode, InputField productCode, InputField lotNumber, InputField locationCreated, InputField serialNumber, I"
+   ],
+   "massDecomWS": [
+    "void massDecomWS( InputField itemSource, InputField reasonCode, InputField productCode, InputField lotNumber, InputField locationCreated, InputField serialNumbe"
+   ],
+   "deaggregate": [
+    "void deaggregate( Event event, String url, String password, String username, InputField CHILD_SERIAL_NUMBER, InputField CHILD_SERIAL_TYPE, InputField PARENT_PRO"
+   ],
+   "epcisService": [
+    "protected void epcisService( Event event, String url, String password, String username, InputField CHILD_SERIAL_NUMBER, InputField CHILD_SERIAL_TYPE, InputField"
+   ],
+   "printClear": [
+    "void printClear( InputField CHILD_SERIAL_NUMBER, InputField PRINTER) throws Exception"
+   ],
+   "printExit": [
+    "void printExit( InputField CHILD_SERIAL_NUMBER, InputField PRINTER) throws Exception"
+   ],
+   "validateForm": [
+    "String validateForm() throws Exception"
+   ],
+   "isValidDate": [
+    "boolean isValidDate(String text)"
+   ],
+   "openMenu": [
+    "void openMenu(String menuName)"
+   ],
+   "openPers": [
+    "void openPers() throws Exception"
+   ],
+   "setLoginPage": [
+    "void setLoginPage(String pageID)"
+   ],
+   "getLoginPage": [
+    "String getLoginPage()"
+   ],
+   "sendKey": [
+    "@Deprecated void sendKey(String action) throws PreventDefaultException"
+   ],
+   "automate": [
+    "void automate(String action) throws PreventDefaultException",
+    "void automate(String action, String data) throws PreventDefaultException",
+    "void automate(String action, String data, String target) throws PreventDefaultException"
+   ],
+   "setLoadingMessage": [
+    "void setLoadingMessage(String loadingMessage)"
+   ],
+   "sendLoadingMessage": [
+    "void sendLoadingMessage(String loadingMessage)"
+   ],
+   "sendLoadingDialog": [
+    "void sendLoadingDialog(String loadingMessage)"
+   ],
+   "getDeviceInfo": [
+    "DeviceInfo getDeviceInfo()"
+   ],
+   "sendEmail": [
+    "void sendEmail(String subject, String text, String to, String filePath) throws Exception"
+   ],
+   "speak": [
+    "void speak(String sentence)"
+   ],
+   "testingBackgroundTask": [
+    "void testingBackgroundTask()"
+   ],
+   "generateID": [
+    "int generateID()"
+   ],
+   "generateWebServiceTask": [
+    "WebServiceFlexiTask generateWebServiceTask( FlexiWebService flexiWebService, HashMap parameters, String stamp)",
+    "LogFireWebServiceTask generateWebServiceTask(LogFireWebService logFireWebService, HashMap parameters, String stamp)"
+   ],
+   "clearAction": [
+    "void clearAction()"
+   ],
+   "removeLastAction": [
+    "void removeLastAction()"
+   ],
+   "getContext": [
+    "Context getContext()"
+   ],
+   "printSessionVariable": [
+    "void printSessionVariable()"
+   ],
+   "printApplicationVariable": [
+    "void printApplicationVariable()"
+   ],
+   "tsvConvert": [
+    "ArrayList<String[]> tsvConvert( AttachmentField attachmentField)"
+   ],
+   "csvConvert": [
+    "ArrayList<String[]> csvConvert( AttachmentField attachmentField)"
+   ],
+   "createFile": [
+    "java.io.File createFile(String fullFileName, String content) throws Exception",
+    "java.io.File createFile(String fullFileName, String content, boolean overwrite) throws Exception"
+   ],
+   "generateCsvFile": [
+    "java.io.File generateCsvFile(String fullFileName, Table table) throws Exception",
+    "java.io.File generateCsvFile(String fullFileName, Table table, boolean overwrite) throws Exception",
+    "java.io.File generateCsvFile(String fullFileName, TableResult tableResult) throws Exception",
+    "java.io.File generateCsvFile(String fullFileName, TableResult tableResult, boolean overwrite) throws Exception",
+    "java.io.File generateCsvFile(String fullFileName, Collection<Object[]> tableResult) throws Exception",
+    "java.io.File generateCsvFile(String fullFileName, Collection<Object[]> tableResult, boolean overwrite) throws Exception"
+   ],
+   "generateBase64": [
+    "String generateBase64(String fullFileName) throws java.io.IOException"
+   ],
+   "clearInputBuffer": [
+    "void clearInputBuffer()"
+   ],
+   "isInputAvailable": [
+    "boolean isInputAvailable()"
+   ],
+   "createPdfFile": [
+    "void createPdfFile(String filename, ArrayList<String[]> content) throws PreventDefaultException",
+    "void createPdfFile(String filename, ArrayList<String[]> content, HashMap<String,Object> config) throws PreventDefaultException"
+   ],
+   "insertRecordDb": [
+    "long insertRecordDb(String tableName, HashMap<String,String> contentValues) throws Exception"
+   ],
+   "deleteRecordDb": [
+    "long deleteRecordDb(String tableName, String whereClause, String[] whereParams) throws Exception"
+   ],
+   "updateRecordDb": [
+    "long updateRecordDb(String tableName, HashMap<String,String> contentValues, String whereClause, String[] whereParams) throws Exception"
+   ],
+   "compressFileToZip": [
+    "void compressFileToZip(String sourceFileName, String compressedFileName) throws Exception"
+   ],
+   "compressFilesToZip": [
+    "void compressFilesToZip(String[] sourceFileNames, String compressedFileName) throws Exception"
+   ],
+   "compressDirToZip": [
+    "void compressDirToZip(String directoryName, String compressedFileName) throws Exception"
+   ],
+   "transferTileToSFTP": [
+    "void transferTileToSFTP(String host, int port, String username, String password, AttachmentField sourceAttachmentField, String targetFileName) throws Exception",
+    "void transferTileToSFTP(String host, int port, String username, String password, String sourceFileName, String targetFileName) throws Exception",
+    "void transferTileToSFTP(String host, int port, String username, String password, java.io.File sourceFile, String targetFileName) throws Exception"
+   ],
+   "transferTileToSFTPWithPVK": [
+    "void transferTileToSFTPWithPVK(String host, int port, String username, String privateKeyFile, AttachmentField sourceAttachmentField, String targetFileName) thro",
+    "void transferTileToSFTPWithPVK(String host, int port, String username, String privateKeyFile, String sourceFileName, String targetFileName) throws Exception",
+    "void transferTileToSFTPWithPVK(String host, int port, String username, String privateKeyFile, java.io.File sourceFile, String targetFileName) throws Exception"
+   ],
+   "setAsyncStatusMessage": [
+    "void setAsyncStatusMessage(String asyncStatusMessage)"
+   ],
+   "main": [
+    "static void main(String[] args) throws Exception"
+   ],
+   "preventDefault": [
+    "void preventDefault() throws PreventDefaultException",
+    "void preventDefault(String message) throws PreventDefaultException"
+   ],
+   "isOnline": [
+    "boolean isOnline()"
+   ],
+   "isCameraSupported": [
+    "boolean isCameraSupported()"
+   ],
+   "getDecimalSeparator": [
+    "String getDecimalSeparator()"
+   ],
+   "getLocale": [
+    "String getLocale()"
+   ],
+   "printLabel": [
+    "String printLabel(String transactionType, HashMap params)"
+   ],
+   "openTemplate": [
+    "void openTemplate(String pageName)"
+   ],
+   "getWMSCloudRFInterface": [
+    "WMSCloudRFInterface getWMSCloudRFInterface() throws Exception"
+   ]
+  }
+ },
+ "FlexiWebService": {
+  "extends": "FlexiLogicalObject",
+  "methods": {
+   "setUrl": [
+    "void setUrl(String url)"
+   ],
+   "setOperation": [
+    "void setOperation(String operation)"
+   ],
+   "setRestOperation": [
+    "void setRestOperation(String restOperation)"
+   ],
+   "setRestAction": [
+    "void setRestAction(String restAction)"
+   ],
+   "setRestContentType": [
+    "void setRestContentType(String contentType)"
+   ],
+   "setRequest": [
+    "void setRequest(String requestContent)"
+   ],
+   "setType": [
+    "void setType(WebServiceType type)",
+    "void setType(String type) throws PreventDefaultException"
+   ],
+   "isKeepHistory": [
+    "boolean isKeepHistory()"
+   ],
+   "setKeepHistory": [
+    "void setKeepHistory(boolean keepHistory)"
+   ],
+   "callWebService": [
+    "void callWebService(HashMap<String,String> parameters, boolean isBackground) throws Exception",
+    "void callWebService(HashMap<String,String> parameters) throws Exception",
+    "void callWebService() throws Exception",
+    "void callWebService(HashMap<String,String> parameters, int page) throws Exception"
+   ],
+   "runWebService": [
+    "protected void runWebService(HashMap parameters) throws Exception"
+   ],
+   "getResponse": [
+    "String getResponse(String name) throws Exception"
+   ],
+   "getRawResponse": [
+    "String getRawResponse() throws Exception"
+   ],
+   "getTable": [
+    "ArrayList<String[]> getTable() throws Exception"
+   ],
+   "extractPropertiesFromJSON": [
+    "void extractPropertiesFromJSON(org.json.JSONObject json)"
+   ],
+   "getJSONResult": [
+    "Object getJSONResult(String path) throws Exception"
+   ],
+   "getRequestContent": [
+    "String getRequestContent()"
+   ],
+   "getCustom": [
+    "String getCustom()"
+   ],
+   "setCustom": [
+    "void setCustom(String custom)"
+   ],
+   "getResponseCode": [
+    "int getResponseCode() throws Exception"
+   ],
+   "setPassword": [
+    "void setPassword(String password)"
+   ],
+   "setUsername": [
+    "void setUsername(String username)"
+   ],
+   "getUsername": [
+    "String getUsername()"
+   ],
+   "getPassword": [
+    "String getPassword()"
+   ],
+   "onResponseReceived": [
+    "protected void onResponseReceived( Event event) throws PreventDefaultException"
+   ],
+   "updateRawResponse": [
+    "void updateRawResponse(String response) throws Exception"
+   ],
+   "isSuccess": [
+    "boolean isSuccess() throws Exception"
+   ],
+   "getDescription": [
+    "String getDescription()"
+   ],
+   "setDescription": [
+    "void setDescription(String description)"
+   ],
+   "getType": [
+    "WebServiceType getType()"
+   ],
+   "getContentType": [
+    "String getContentType()"
+   ],
+   "getColumnMap": [
+    "String getColumnMap()"
+   ],
+   "setColumnMapString": [
+    "void setColumnMapString(String columnMapString)"
+   ],
+   "getRestOperation": [
+    "String getRestOperation()"
+   ],
+   "getRestAction": [
+    "String getRestAction()"
+   ],
+   "getUrl": [
+    "String getUrl()"
+   ],
+   "addRequestHeader": [
+    "void addRequestHeader(String key, String value)"
+   ],
+   "setRequestHeader": [
+    "void setRequestHeader(HashMap requestHeader)"
+   ],
+   "setOnResponseReceived": [
+    "void setOnResponseReceived(String onResponseReceived)"
+   ],
+   "getOnResponseReceived": [
+    "String getOnResponseReceived()"
+   ],
+   "isIncludeSecurity": [
+    "boolean isIncludeSecurity()"
+   ],
+   "setIncludeSecurity": [
+    "void setIncludeSecurity(boolean includeSecurity)"
+   ],
+   "getOnCallingRequest": [
+    "String getOnCallingRequest()"
+   ],
+   "setOnCallingRequest": [
+    "void setOnCallingRequest(String onCallingRequest)"
+   ],
+   "setCacheScope": [
+    "void setCacheScope(CacheScope cacheScope)"
+   ],
+   "getCacheScope": [
+    "CacheScope getCacheScope()"
+   ],
+   "setCacheDuration": [
+    "void setCacheDuration(int duration)"
+   ],
+   "getCacheDuration": [
+    "int getCacheDuration()"
+   ],
+   "setCacheEnabled": [
+    "void setCacheEnabled(boolean enabled)"
+   ],
+   "isCacheEnabled": [
+    "boolean isCacheEnabled()"
+   ],
+   "addText": [
+    "void addText(String name, String text)"
+   ],
+   "addAttachment": [
+    "void addAttachment(String name, String filePath)"
+   ],
+   "callWebServiceBackground": [
+    "void callWebServiceBackground(HashMap<String,String> parameters, boolean isLOV) throws Exception",
+    "void callWebServiceBackground(HashMap<String,String> parameters) throws Exception"
+   ],
+   "getFinalUrl": [
+    "String getFinalUrl(HashMap parameters) throws java.io.UnsupportedEncodingException"
+   ],
+   "removeNewLine": [
+    "protected String removeNewLine(String s)"
+   ],
+   "setAuthenticationMode": [
+    "void setAuthenticationMode(String authenticationMode) throws Exception"
+   ],
+   "setOauth10Parameter": [
+    "void setOauth10Parameter(String consumerKey, String consumerSecret, String accessToken, String accessTokenSecret, String realm) throws Exception",
+    "void setOauth10Parameter(String consumerKey, String consumerSecret, String accessToken, String accessTokenSecret, String realm, String signMethod) throws Except"
+   ],
+   "setCustomFieldEnabled": [
+    "void setCustomFieldEnabled( Page page, String levelName)"
+   ],
+   "updateRequestWithCustomField": [
+    "String updateRequestWithCustomField(String requestContent)"
+   ],
+   "getTotalPage": [
+    "int getTotalPage() throws Exception"
+   ],
+   "getCurrentPage": [
+    "int getCurrentPage() throws Exception"
+   ],
+   "resultCount": [
+    "int resultCount() throws Exception"
+   ],
+   "pagingUrlUpdate": [
+    "protected void pagingUrlUpdate(int page)"
+   ],
+   "transformUrlString": [
+    "protected String transformUrlString(String content, int page)"
+   ],
+   "main": [
+    "static void main(String[] args) throws Exception"
+   ]
+  }
+ },
+ "FlexiLogicalObject": {
+  "extends": "FlexiObject",
+  "methods": {}
+ },
+ "FlexiUIObject": {
+  "extends": "FlexiObject",
+  "methods": {
+   "isHiddenCheck": [
+    "boolean isHiddenCheck()"
+   ],
+   "isHidden": [
+    "boolean isHidden()"
+   ],
+   "setHidden": [
+    "void setHidden(boolean hidden) throws PreventDefaultException"
+   ],
+   "getName": [
+    "String getName()"
+   ],
+   "gainFocus": [
+    "protected abstract Event gainFocus( Event event) throws PreventDefaultException"
+   ],
+   "lostFocus": [
+    "protected abstract Event lostFocus( Event event) throws PreventDefaultException, Exception"
+   ],
+   "doAction": [
+    "abstract void doAction(Action action) throws Exception"
+   ],
+   "isFocusable": [
+    "abstract boolean isFocusable()"
+   ],
+   "getParent": [
+    "FlexiUIObject getParent()"
+   ],
+   "getFirstFocusable": [
+    "FlexiUIObject getFirstFocusable() throws PreventDefaultException"
+   ],
+   "setFirstFocusable": [
+    "FlexiUIObject setFirstFocusable( Event event) throws PreventDefaultException"
+   ],
+   "getParentPage": [
+    "protected Page getParentPage()"
+   ],
+   "getRenderedLogic": [
+    "String getRenderedLogic()"
+   ],
+   "setRenderedLogic": [
+    "void setRenderedLogic(String renderedLogic)"
+   ],
+   "getRendered": [
+    "String getRendered()"
+   ],
+   "setRendered": [
+    "void setRendered(String rendered)"
+   ],
+   "storeInApplicationObject": [
+    "void storeInApplicationObject() throws PreventDefaultException"
+   ],
+   "getContext": [
+    "Context getContext()"
+   ]
+  }
+ },
+ "Component": {
+  "extends": "FlexiUIObject",
+  "methods": {
+   "setAutoEnter": [
+    "void setAutoEnter(boolean autoEnter)"
+   ],
+   "isAutoEnter": [
+    "boolean isAutoEnter()"
+   ],
+   "addEventListener": [
+    "T addEventListener(ComponentEventListener eventListener)"
+   ],
+   "getEventListeners": [
+    "ArrayList<EventListener> getEventListeners()"
+   ],
+   "getPreferredColumn": [
+    "int getPreferredColumn()"
+   ],
+   "setPreferredColumn": [
+    "T setPreferredColumn(int preferredColumn)"
+   ],
+   "setContainer": [
+    "void setContainer( Container container)"
+   ],
+   "setOnFocus": [
+    "void setOnFocus(String onFocus)"
+   ],
+   "setOnExit": [
+    "void setOnExit(String onExit)"
+   ],
+   "getSubsequentValue": [
+    "String getSubsequentValue()"
+   ],
+   "setSubsequentValue": [
+    "void setSubsequentValue(String subsequentValue)"
+   ],
+   "gainFocus": [
+    "protected Event gainFocus( Event event) throws PreventDefaultException"
+   ],
+   "lostFocus": [
+    "protected Event lostFocus( Event event) throws Exception"
+   ],
+   "doAction": [
+    "void doAction(Action action) throws Exception"
+   ],
+   "isFocusable": [
+    "boolean isFocusable()"
+   ],
+   "getParentContainer": [
+    "Container getParentContainer()"
+   ],
+   "toJsonObject": [
+    "org.json.JSONObject toJsonObject()"
+   ],
+   "getJSONObjectProperties": [
+    "org.json.JSONObject getJSONObjectProperties(org.json.JSONObject properties)"
+   ],
+   "extractPropertiesFromJSON": [
+    "void extractPropertiesFromJSON(org.json.JSONObject json) throws PreventDefaultException"
+   ],
+   "reset": [
+    "void reset() throws PreventDefaultException"
+   ],
+   "toString": [
+    "String toString()"
+   ],
+   "isHighLightedUI": [
+    "abstract boolean isHighLightedUI()"
+   ],
+   "getHighLightedUILabel": [
+    "String getHighLightedUILabel()"
+   ],
+   "setHighLightedUILabel": [
+    "void setHighLightedUILabel(String label)"
+   ]
+  }
+ },
+ "Field": {
+  "extends": "Component",
+  "methods": {
+   "getLabel": [
+    "String getLabel()"
+   ],
+   "getOriginalLabel": [
+    "String getOriginalLabel()"
+   ],
+   "setLabel": [
+    "T setLabel(String label)"
+   ],
+   "getJSONObjectProperties": [
+    "org.json.JSONObject getJSONObjectProperties(org.json.JSONObject properties)"
+   ],
+   "extractPropertiesFromJSON": [
+    "void extractPropertiesFromJSON(org.json.JSONObject json) throws PreventDefaultException"
+   ]
+  }
+ },
+ "InputField": {
+  "extends": "Field",
+  "methods": {
+   "getValue": [
+    "String getValue()"
+   ],
+   "getDefaultValue": [
+    "String getDefaultValue()"
+   ],
+   "setValue": [
+    "T setValue(String value) throws PreventDefaultException"
+   ],
+   "getDateTimeFormat": [
+    "String getDateTimeFormat()"
+   ],
+   "setDateTimeFormat": [
+    "void setDateTimeFormat(String dateTimeFormat)"
+   ],
+   "setValueFromBarcode": [
+    "T setValueFromBarcode(String value) throws PreventDefaultException"
+   ],
+   "isRequired": [
+    "boolean isRequired()"
+   ],
+   "setRequired": [
+    "T setRequired(boolean required)"
+   ],
+   "getLength": [
+    "int getLength()"
+   ],
+   "setLength": [
+    "T setLength(int length)"
+   ],
+   "getValueType": [
+    "int getValueType()"
+   ],
+   "setValueType": [
+    "T setValueType(int valueType)"
+   ],
+   "isReadOnly": [
+    "boolean isReadOnly()"
+   ],
+   "setReadOnly": [
+    "T setReadOnly(boolean readOnly)"
+   ],
+   "getType": [
+    "String getType()"
+   ],
+   "setType": [
+    "void setType(String type)"
+   ],
+   "doAction": [
+    "void doAction(Action action) throws Exception"
+   ],
+   "onKeyEntered": [
+    "protected void onKeyEntered( Event event) throws PreventDefaultException"
+   ],
+   "barcodeCheck": [
+    "protected Action barcodeCheck(Action action)"
+   ],
+   "isFocusable": [
+    "boolean isFocusable()"
+   ],
+   "gainFocus": [
+    "protected Event gainFocus( Event event) throws PreventDefaultException"
+   ],
+   "processDefaultValue": [
+    "void processDefaultValue() throws PreventDefaultException"
+   ],
+   "runDefaultValueSelectQuery": [
+    "protected String runDefaultValueSelectQuery(String query)"
+   ],
+   "lostFocus": [
+    "protected Event lostFocus( Event event) throws Exception"
+   ],
+   "validation": [
+    "void validation( Event event) throws Exception"
+   ],
+   "validate": [
+    "boolean validate()"
+   ],
+   "getJSONObjectProperties": [
+    "org.json.JSONObject getJSONObjectProperties(org.json.JSONObject properties)"
+   ],
+   "getDisplayValue": [
+    "protected String getDisplayValue()"
+   ],
+   "extractPropertiesFromJSON": [
+    "void extractPropertiesFromJSON(org.json.JSONObject json) throws PreventDefaultException"
+   ],
+   "runBarcode": [
+    "String runBarcode(String barcode)"
+   ],
+   "setAltercase": [
+    "T setAltercase(String altercase)"
+   ],
+   "getAltercase": [
+    "String getAltercase()"
+   ],
+   "setDefaultValue": [
+    "void setDefaultValue(String defaultValue)"
+   ],
+   "reset": [
+    "void reset() throws PreventDefaultException"
+   ],
+   "setEnableGenerate": [
+    "void setEnableGenerate(boolean enableGenerate)"
+   ],
+   "isEnableGenerate": [
+    "boolean isEnableGenerate()"
+   ],
+   "setAutoSelect": [
+    "void setAutoSelect(boolean autoSelect)"
+   ],
+   "isAutoSelect": [
+    "boolean isAutoSelect()"
+   ]
+  }
+ },
+ "TextInputField": {
+  "extends": "InputField",
+  "methods": {
+   "getObjectType": [
+    "String getObjectType()"
+   ],
+   "getJSONObjectProperties": [
+    "org.json.JSONObject getJSONObjectProperties(org.json.JSONObject properties)"
+   ],
+   "isPassword": [
+    "boolean isPassword()"
+   ],
+   "setPassword": [
+    "TextInputField setPassword(boolean password)"
+   ],
+   "addTextInputListener": [
+    "void addTextInputListener(TextInputEventListener textInputEventListener)"
+   ],
+   "extractPropertiesFromJSON": [
+    "void extractPropertiesFromJSON(org.json.JSONObject json) throws PreventDefaultException"
+   ],
+   "getValue": [
+    "String getValue()"
+   ]
+  }
+ },
+ "LOVField": {
+  "extends": "InputField",
+  "methods": {
+   "addLOVEventListener": [
+    "void addLOVEventListener(LOVEventListener lovEventListener)"
+   ],
+   "getLovStatement": [
+    "String getLovStatement()"
+   ],
+   "setLovStatement": [
+    "void setLovStatement(String lovStatement)"
+   ],
+   "getInputParameters": [
+    "String[] getInputParameters()"
+   ],
+   "getInputParametersString": [
+    "String getInputParametersString()"
+   ],
+   "setInputParameter": [
+    "void setInputParameter(String inputParameter)"
+   ],
+   "getParameterTypes": [
+    "String[] getParameterTypes()"
+   ],
+   "getParameterTypesString": [
+    "String getParameterTypesString()"
+   ],
+   "setParameterTypes": [
+    "void setParameterTypes(String parameterTypes)"
+   ],
+   "getColumnDisplay": [
+    "String[] getColumnDisplay()"
+   ],
+   "getColumnDisplayString": [
+    "String getColumnDisplayString()"
+   ],
+   "setColumnDisplay": [
+    "void setColumnDisplay(String columnDisplay)"
+   ],
+   "getColumnPrompt": [
+    "String[] getColumnPrompt()"
+   ],
+   "getColummPromptString": [
+    "String getColummPromptString()"
+   ],
+   "setColumnPrompt": [
+    "void setColumnPrompt(String columnPrompt)"
+   ],
+   "getLovPageTitle": [
+    "String getLovPageTitle()"
+   ],
+   "setLovPageTitle": [
+    "void setLovPageTitle(String lovPageTitle)"
+   ],
+   "isAddPercent": [
+    "boolean isAddPercent()"
+   ],
+   "setAddPercent": [
+    "void setAddPercent(boolean isAddPercent)"
+   ],
+   "doAction": [
+    "void doAction(Action action) throws Exception"
+   ],
+   "lovSubmitEvent": [
+    "protected Event lovSubmitEvent( Event event)"
+   ],
+   "getSelectedValues": [
+    "ArrayList getSelectedValues()"
+   ],
+   "setSelectedValues": [
+    "void setSelectedValues(ArrayList selectedValues)"
+   ],
+   "gainFocus": [
+    "protected Event gainFocus( Event event) throws PreventDefaultException"
+   ],
+   "setAutoSubmit": [
+    "void setAutoSubmit(boolean autoSubmit)"
+   ],
+   "isAutoSubmit": [
+    "boolean isAutoSubmit()"
+   ],
+   "isValidateLOV": [
+    "boolean isValidateLOV()"
+   ],
+   "setValidateLOV": [
+    "void setValidateLOV(boolean validateLOV)"
+   ],
+   "openLOVPage": [
+    "protected void openLOVPage(Action action) throws PreventDefaultException"
+   ],
+   "getObjectType": [
+    "String getObjectType()"
+   ],
+   "extractPropertiesFromJSON": [
+    "void extractPropertiesFromJSON(org.json.JSONObject json) throws PreventDefaultException"
+   ],
+   "getLovSourceType": [
+    "String getLovSourceType()"
+   ],
+   "reset": [
+    "void reset() throws PreventDefaultException"
+   ],
+   "setWebServiceSourceName": [
+    "void setWebServiceSourceName(String webServiceSourceName)"
+   ],
+   "getWebServiceSourceName": [
+    "String getWebServiceSourceName()"
+   ],
+   "setLovSourceType": [
+    "void setLovSourceType(String lovSourceType) throws Exception"
+   ],
+   "setValidatedValue": [
+    "void setValidatedValue(String value)"
+   ],
+   "getValidatedValue": [
+    "String getValidatedValue()"
+   ],
+   "setBlindSearch": [
+    "void setBlindSearch(int totalCharacter)"
+   ],
+   "getBlindSearch": [
+    "int getBlindSearch()"
+   ],
+   "setLoadedData": [
+    "void setLoadedData(ArrayList<String[]> loadedData)"
+   ],
+   "getLoadedData": [
+    "ArrayList<String[]> getLoadedData()"
+   ],
+   "setSelectedRows": [
+    "void setSelectedRows(ArrayList<Integer> selectedRows)"
+   ],
+   "getSelectedRows": [
+    "ArrayList<Integer> getSelectedRows()"
+   ],
+   "isMultiSelection": [
+    "boolean isMultiSelection()"
+   ]
+  }
+ },
+ "Button": {
+  "extends": "Field",
+  "methods": {
+   "setShortcutChar": [
+    "void setShortcutChar(String shortcutChar)"
+   ],
+   "getShortcutChar": [
+    "String getShortcutChar()"
+   ],
+   "addEventListener": [
+    "void addEventListener(ButtonEventListener eventListener)"
+   ],
+   "setOnClick": [
+    "void setOnClick(String onClick)"
+   ],
+   "buttonClicked": [
+    "void buttonClicked( Event event) throws PreventDefaultException"
+   ],
+   "transformOnSubmit": [
+    "protected String transformOnSubmit(String onSubmit, String onClick)"
+   ],
+   "doAction": [
+    "void doAction(Action action) throws Exception"
+   ],
+   "getObjectType": [
+    "String getObjectType()"
+   ],
+   "getJSONObjectProperties": [
+    "org.json.JSONObject getJSONObjectProperties(org.json.JSONObject properties)"
+   ],
+   "extractPropertiesFromJSON": [
+    "void extractPropertiesFromJSON(org.json.JSONObject json) throws PreventDefaultException"
+   ],
+   "isHighLightedUI": [
+    "boolean isHighLightedUI()"
+   ],
+   "getHighLightedUILabel": [
+    "String getHighLightedUILabel()"
+   ],
+   "gainFocus": [
+    "protected Event gainFocus( Event event) throws PreventDefaultException"
+   ],
+   "setVoiceMacro": [
+    "void setVoiceMacro(String voiceMacro)"
+   ],
+   "getVoiceMacro": [
+    "String getVoiceMacro()"
+   ],
+   "setColor": [
+    "void setColor(String color)"
+   ],
+   "setBackgroundColor": [
+    "void setBackgroundColor(String backgroundColor)"
+   ],
+   "getColor": [
+    "String getColor()"
+   ],
+   "getBackgroundColor": [
+    "String getBackgroundColor()"
+   ],
+   "getIcon": [
+    "String getIcon()"
+   ],
+   "setIcon": [
+    "void setIcon(String icon)"
+   ],
+   "getOnSubmit": [
+    "String getOnSubmit()"
+   ]
+  }
+ },
+ "Page": {
+  "extends": "FlexiUIObject",
+  "methods": {
+   "setApplication": [
+    "void setApplication( Application application)"
+   ],
+   "getTitle": [
+    "String getTitle()"
+   ],
+   "setTitle": [
+    "Page setTitle(String title)"
+   ],
+   "addEventListener": [
+    "Page addEventListener(PageEventListener eventListener)"
+   ],
+   "addContainer": [
+    "void addContainer( Container container) throws PreventDefaultException"
+   ],
+   "addContainerAt": [
+    "void addContainerAt(int index, Container container) throws PreventDefaultException"
+   ],
+   "getContainers": [
+    "ArrayList< Container > getContainers()"
+   ],
+   "getCurrentContainerName": [
+    "String getCurrentContainerName()"
+   ],
+   "setCurrentContainer": [
+    "void setCurrentContainer( Container currentContainer)"
+   ],
+   "getCurrentContainer": [
+    "Container getCurrentContainer()"
+   ],
+   "getComponent": [
+    "Component getComponent(String name)",
+    "Component getComponent( Container container, String name)"
+   ],
+   "getContainer": [
+    "Container getContainer(String name)"
+   ],
+   "runInputProcessor": [
+    "InputData runInputProcessor(String inputProcessor, InputData inputData) throws PreventDefaultException",
+    "InputData runInputProcessor(InputData inputData) throws PreventDefaultException"
+   ],
+   "getComponentIgnoreCase": [
+    "Component getComponentIgnoreCase(String name)"
+   ],
+   "getComponentPosition": [
+    "int getComponentPosition(String name)",
+    "int getComponentPosition( Component component)"
+   ],
+   "openPage": [
+    "Event openPage( Event event) throws PreventDefaultException"
+   ],
+   "closePage": [
+    "protected Event closePage( Event event)"
+   ],
+   "specialKey": [
+    "protected Event specialKey( Event event) throws PreventDefaultException"
+   ],
+   "buildPage": [
+    "abstract void buildPage() throws Exception"
+   ],
+   "gainFocus": [
+    "protected Event gainFocus( Event event) throws PreventDefaultException"
+   ],
+   "lostFocus": [
+    "Event lostFocus( Event event) throws Exception"
+   ],
+   "doAction": [
+    "void doAction(Action action) throws Exception"
+   ],
+   "getCurrentContainerIndex": [
+    "int getCurrentContainerIndex()"
+   ],
+   "moveToPreviousComponent": [
+    "void moveToPreviousComponent(Action action) throws Exception"
+   ],
+   "getPreviousComponent": [
+    "Component getPreviousComponent()"
+   ],
+   "moveToNextComponent": [
+    "void moveToNextComponent(Action action) throws Exception"
+   ],
+   "getNextComponent": [
+    "Component getNextComponent()"
+   ],
+   "isFocusable": [
+    "boolean isFocusable()"
+   ],
+   "toString": [
+    "String toString()"
+   ],
+   "setFirstFocus": [
+    "FlexiUIObject setFirstFocus() throws PreventDefaultException"
+   ],
+   "toJsonObject": [
+    "org.json.JSONObject toJsonObject()"
+   ],
+   "getJSONObjectProperties": [
+    "org.json.JSONObject getJSONObjectProperties(org.json.JSONObject properties)"
+   ],
+   "getObjectType": [
+    "String getObjectType()"
+   ],
+   "storeInApplicationObject": [
+    "void storeInApplicationObject() throws PreventDefaultException"
+   ],
+   "extractPropertiesFromJSON": [
+    "void extractPropertiesFromJSON(org.json.JSONObject json)"
+   ],
+   "reset": [
+    "void reset() throws PreventDefaultException"
+   ],
+   "runSubsequentValue": [
+    "void runSubsequentValue(HashMap<String,String> subsequentVal) throws PreventDefaultException"
+   ],
+   "getInputProcessor": [
+    "String getInputProcessor()"
+   ],
+   "runBarcode": [
+    "void runBarcode(Action action)"
+   ],
+   "validateForm": [
+    "String validateForm() throws Exception"
+   ],
+   "checkRequiredField": [
+    "String checkRequiredField(String name)"
+   ],
+   "removeChild": [
+    "void removeChild(String name) throws PreventDefaultException"
+   ],
+   "getContainerIndex": [
+    "int getContainerIndex(String name)"
+   ],
+   "isActive": [
+    "boolean isActive(String name)"
+   ],
+   "isParentContainer": [
+    "boolean isParentContainer(String parentName, String componentName)"
+   ],
+   "addLogicalObject": [
+    "void addLogicalObject( FlexiLogicalObject logicalObject)",
+    "void addLogicalObject(ArrayList< FlexiLogicalObject > logicalObjects)"
+   ],
+   "addBarcodeTypeObject": [
+    "void addBarcodeTypeObject(BarcodeType barcodeType, AdditionalBarcodeType additionalBarcodeType) throws Exception"
+   ],
+   "addBarcodeComponentObject": [
+    "void addBarcodeComponentObject(BarcodeComponent barcodeComponent, AdditionalBarcodeComponent additionalBarcodeComponent) throws Exception"
+   ],
+   "getLogicalObjects": [
+    "Vector< FlexiLogicalObject > getLogicalObjects()"
+   ],
+   "getPageID": [
+    "String getPageID()"
+   ],
+   "getPersonalizationManager": [
+    "PersonalizationManager getPersonalizationManager()"
+   ],
+   "clearPage": [
+    "void clearPage()"
+   ],
+   "setInputProcessor": [
+    "void setInputProcessor(String inputProcessor)"
+   ],
+   "getAllComponent": [
+    "ArrayList<com.intellinum.mia.app.FlexiObject> getAllComponent()"
+   ],
+   "setOnPromptDialog": [
+    "void setOnPromptDialog(String onPromptDialog)"
+   ],
+   "getOnPromptDialog": [
+    "String getOnPromptDialog()"
+   ],
+   "setAfterPromptDialog": [
+    "void setAfterPromptDialog(String afterPromptDialog)"
+   ],
+   "getAfterPromptDialog": [
+    "String getAfterPromptDialog()"
+   ],
+   "setOnStatusChanged": [
+    "void setOnStatusChanged(String onStatusChanged)"
+   ],
+   "getOnStatusChanged": [
+    "String getOnStatusChanged()"
+   ],
+   "onStatusChanged": [
+    "void onStatusChanged(String oldMessage, String newMessage) throws PreventDefaultException"
+   ],
+   "runOnPromptPage": [
+    "String runOnPromptPage(String title, String message, String[] options, String backgroundColor) throws PreventDefaultException",
+    "String runOnPromptPage(String title, String message) throws PreventDefaultException"
+   ],
+   "runAfterPromptPage": [
+    "String runAfterPromptPage(String title, String message, String[] options, int choice) throws PreventDefaultException",
+    "String runAfterPromptPage(String title, String message, String userInput) throws PreventDefaultException"
+   ],
+   "getVersion": [
+    "String getVersion()"
+   ],
+   "isValidNames": [
+    "boolean isValidNames(String name)"
+   ],
+   "clearValidNames": [
+    "void clearValidNames()"
+   ],
+   "putValidNames": [
+    "void putValidNames(String name)"
+   ],
+   "removeValidNames": [
+    "void removeValidNames(String name)"
+   ],
+   "updateValidNames": [
+    "void updateValidNames()"
+   ],
+   "removeDuplicates": [
+    "static <T> Vector<T> removeDuplicates(Vector<T> list)"
+   ],
+   "showDisablePersonalizationWarn": [
+    "boolean showDisablePersonalizationWarn()"
+   ],
+   "getVoiceManager": [
+    "VoiceManager getVoiceManager()"
+   ],
+   "isVoiceEnable": [
+    "boolean isVoiceEnable()"
+   ],
+   "setVoiceEnable": [
+    "void setVoiceEnable(boolean voiceEnable)"
+   ],
+   "onPageCreated": [
+    "void onPageCreated( Event event) throws PreventDefaultException"
+   ],
+   "disableBackButton": [
+    "void disableBackButton()"
+   ],
+   "enabledBackButton": [
+    "void enabledBackButton()"
+   ],
+   "setOnRfidCaptured": [
+    "void setOnRfidCaptured(String onRfidCaptured)"
+   ],
+   "setOnBulkScan": [
+    "void setOnBulkScan(String onBulkScan)"
+   ],
+   "getOnBulkScan": [
+    "String getOnBulkScan()"
+   ],
+   "getOnRfidCaptured": [
+    "String getOnRfidCaptured()"
+   ],
+   "runOnRFIDCapture": [
+    "void runOnRFIDCapture(Action action) throws PreventDefaultException"
+   ],
+   "runOnBulkScan": [
+    "void runOnBulkScan(Action action) throws PreventDefaultException"
+   ],
+   "setLastActiveComponent": [
+    "void setLastActiveComponent(String lastActiveComponent)"
+   ],
+   "getLastActiveComponent": [
+    "String getLastActiveComponent()"
+   ],
+   "destroy": [
+    "void destroy()"
+   ],
+   "getCustomFieldContent": [
+    "Object getCustomFieldContent()"
+   ],
+   "getCustomFieldIdentifier": [
+    "String getCustomFieldIdentifier()"
+   ],
+   "setCurrentComponent": [
+    "void setCurrentComponent( Component component) throws PreventDefaultException"
+   ],
+   "getBackgroundColor": [
+    "String getBackgroundColor()"
+   ],
+   "setBackgroundColor": [
+    "void setBackgroundColor(String color)"
+   ],
+   "isDisableLocalizationFormat": [
+    "boolean isDisableLocalizationFormat()"
+   ],
+   "disableLocalizationFormat": [
+    "void disableLocalizationFormat()"
+   ]
+  }
+ },
+ "Application": {
+  "extends": "FlexiUIObject",
+  "methods": {
+   "addPage": [
+    "void addPage( Page page) throws PreventDefaultException"
+   ],
+   "openApplication": [
+    "Event openApplication( Event event)"
+   ],
+   "addTemplate": [
+    "void addTemplate( Container template)"
+   ],
+   "getTemplate": [
+    "Container getTemplate(String templateName)"
+   ],
+   "getBarcodeManager": [
+    "BarcodeManager getBarcodeManager()"
+   ],
+   "resetBarcodeManager": [
+    "void resetBarcodeManager()"
+   ],
+   "closeApplication": [
+    "Event closeApplication( Event event)"
+   ],
+   "exitApplication": [
+    "Event exitApplication( Event event) throws Exception"
+   ],
+   "enterApplication": [
+    "Event enterApplication( Event event)"
+   ],
+   "openPage": [
+    "void openPage(int pageID) throws Exception",
+    "void openPage(String classname) throws Exception"
+   ],
+   "closePage": [
+    "void closePage()"
+   ],
+   "getCurrentPage": [
+    "Page getCurrentPage()"
+   ],
+   "getCurrentPagePosition": [
+    "int getCurrentPagePosition()"
+   ],
+   "gotoNextPage": [
+    "void gotoNextPage()"
+   ],
+   "gotoPreviousPage": [
+    "void gotoPreviousPage(Action action) throws Exception"
+   ],
+   "putObject": [
+    "void putObject(Object key, Object value)"
+   ],
+   "removeObject": [
+    "Object removeObject(Object key)"
+   ],
+   "getObject": [
+    "Object getObject(Object key)"
+   ],
+   "addEventListener": [
+    "void addEventListener(ApplicationEventListener applicationEventListener)"
+   ],
+   "gainFocus": [
+    "protected Event gainFocus( Event event) throws PreventDefaultException"
+   ],
+   "lostFocus": [
+    "protected Event lostFocus( Event event) throws PreventDefaultException"
+   ],
+   "doAction": [
+    "void doAction(Action action) throws Exception"
+   ],
+   "removePage": [
+    "void removePage(String pageID)"
+   ],
+   "isFocusable": [
+    "boolean isFocusable()"
+   ],
+   "getFirstPageID": [
+    "int getFirstPageID()"
+   ],
+   "getFirstPage": [
+    "String getFirstPage()"
+   ],
+   "regainFocus": [
+    "void regainFocus(Action action) throws PreventDefaultException"
+   ],
+   "getDefaultDataSource": [
+    "String getDefaultDataSource()"
+   ],
+   "getTransactionConnection": [
+    "java.sql.Connection getTransactionConnection()"
+   ],
+   "destroy": [
+    "void destroy( Event event) throws Exception",
+    "void destroy()"
+   ],
+   "getQueryManager": [
+    "QueryManager getQueryManager() throws Exception"
+   ],
+   "getApplicationID": [
+    "String getApplicationID()"
+   ],
+   "getPage": [
+    "Page getPage(int position) throws Exception"
+   ],
+   "printApplicationVariable": [
+    "void printApplicationVariable()"
+   ]
+  }
+ },
+ "Label": {
+  "extends": "Field",
+  "methods": {
+   "isFocusable": [
+    "boolean isFocusable()"
+   ],
+   "extractPropertiesFromJSON": [
+    "void extractPropertiesFromJSON(org.json.JSONObject json) throws PreventDefaultException"
+   ],
+   "isHighLightedUI": [
+    "boolean isHighLightedUI()"
+   ],
+   "getObjectType": [
+    "String getObjectType()"
+   ],
+   "getJSONObjectProperties": [
+    "org.json.JSONObject getJSONObjectProperties(org.json.JSONObject properties)"
+   ]
+  }
+ },
+ "CheckBoxField": {
+  "extends": "Field",
+  "methods": {
+   "getObjectType": [
+    "String getObjectType()"
+   ],
+   "getJSONObjectProperties": [
+    "org.json.JSONObject getJSONObjectProperties(org.json.JSONObject properties)"
+   ],
+   "extractPropertiesFromJSON": [
+    "void extractPropertiesFromJSON(org.json.JSONObject json) throws PreventDefaultException"
+   ],
+   "isHighLightedUI": [
+    "boolean isHighLightedUI()"
+   ],
+   "setChecked": [
+    "void setChecked(boolean isChecked)"
+   ],
+   "isChecked": [
+    "boolean isChecked()"
+   ],
+   "getValue": [
+    "String getValue()"
+   ],
+   "setValue": [
+    "void setValue(String value)"
+   ],
+   "getOnCheckedChanged": [
+    "String getOnCheckedChanged()"
+   ],
+   "setOnCheckedChanged": [
+    "void setOnCheckedChanged(String onCheckedChanged)"
+   ],
+   "gainFocus": [
+    "protected Event gainFocus( Event event) throws PreventDefaultException"
+   ],
+   "doAction": [
+    "void doAction(Action action) throws Exception"
+   ],
+   "checkedChanged": [
+    "void checkedChanged( Event event) throws PreventDefaultException"
+   ]
+  }
+ },
+ "Combo": {
+  "extends": "Field",
+  "methods": {
+   "addOption": [
+    "void addOption(String key, String value) throws PreventDefaultException",
+    "void addOption( ComboItem comboItem) throws PreventDefaultException"
+   ],
+   "removeOption": [
+    "void removeOption(String value)"
+   ],
+   "getObjectType": [
+    "String getObjectType()"
+   ],
+   "getJSONObjectProperties": [
+    "org.json.JSONObject getJSONObjectProperties(org.json.JSONObject properties)"
+   ],
+   "extractPropertiesFromJSON": [
+    "void extractPropertiesFromJSON(org.json.JSONObject json) throws PreventDefaultException"
+   ],
+   "setReadOnly": [
+    "void setReadOnly(boolean readOnly)"
+   ],
+   "isReadOnly": [
+    "boolean isReadOnly()"
+   ],
+   "setInputParameter": [
+    "void setInputParameter(String inputParameter)"
+   ],
+   "getInputParameter": [
+    "String getInputParameter()"
+   ],
+   "setInputParameterTypes": [
+    "void setInputParameterTypes(String parameterTypes)"
+   ],
+   "getParameterTypes": [
+    "String getParameterTypes()"
+   ],
+   "getParameterTypesArray": [
+    "String[] getParameterTypesArray()"
+   ],
+   "getInputParameterArray": [
+    "Object[] getInputParameterArray()"
+   ],
+   "reset": [
+    "void reset()"
+   ],
+   "isHighLightedUI": [
+    "boolean isHighLightedUI()"
+   ],
+   "lostFocus": [
+    "protected Event lostFocus( Event event) throws Exception"
+   ],
+   "getSelectedIndexByValue": [
+    "protected int getSelectedIndexByValue(String value)"
+   ],
+   "getValue": [
+    "String getValue()"
+   ],
+   "setValue": [
+    "void setValue(String value) throws PreventDefaultException"
+   ],
+   "setKey": [
+    "void setKey(String key) throws PreventDefaultException"
+   ],
+   "isValidOption": [
+    "protected int isValidOption(String value)"
+   ],
+   "isValidKey": [
+    "protected int isValidKey(String key)"
+   ],
+   "getOnSelect": [
+    "String getOnSelect()"
+   ],
+   "setOnSelect": [
+    "void setOnSelect(String onSelect)"
+   ],
+   "getQuery": [
+    "String getQuery()"
+   ],
+   "setQuery": [
+    "void setQuery(String query)"
+   ],
+   "executeQuery": [
+    "void executeQuery() throws PreventDefaultException"
+   ],
+   "addEventListener": [
+    "void addEventListener(ComboEventListener comboEventListener)"
+   ],
+   "onSelected": [
+    "void onSelected( Event event) throws PreventDefaultException"
+   ],
+   "setSelectedIndex": [
+    "void setSelectedIndex(int index) throws PreventDefaultException"
+   ],
+   "getSelectedKey": [
+    "String getSelectedKey() throws PreventDefaultException"
+   ],
+   "getSelectedValue": [
+    "String getSelectedValue() throws PreventDefaultException"
+   ]
+  }
+ },
+ "Container": {
+  "extends": "FlexiUIObject",
+  "methods": {
+   "getName": [
+    "String getName()"
+   ],
+   "addChild": [
+    "void addChild( Component component) throws Exception",
+    "void addChild( Container container) throws PreventDefaultException"
+   ],
+   "addChildAt": [
+    "void addChildAt(int position, Container container) throws PreventDefaultException",
+    "void addChildAt(int position, Component component) throws PreventDefaultException"
+   ],
+   "add": [
+    "void add(int index, FlexiUIObject flexiUIObject) throws PreventDefaultException",
+    "void add( FlexiUIObject flexiUIObject) throws PreventDefaultException"
+   ],
+   "setCurrentIndex": [
+    "void setCurrentIndex(int currentIndex)"
+   ],
+   "getCurrentIndex": [
+    "int getCurrentIndex()"
+   ],
+   "setCurrentChild": [
+    "void setCurrentChild( Component component)"
+   ],
+   "getCurrentComponent": [
+    "Component getCurrentComponent()"
+   ],
+   "getCurrentChild": [
+    "FlexiUIObject getCurrentChild()"
+   ],
+   "getChildPosition": [
+    "int getChildPosition(String name)"
+   ],
+   "setPage": [
+    "void setPage( Page page)"
+   ],
+   "setContainer": [
+    "void setContainer( Container container)"
+   ],
+   "getChildByName": [
+    "Component getChildByName(String name)"
+   ],
+   "getUIObjectByName": [
+    "FlexiUIObject getUIObjectByName(String name)"
+   ],
+   "getContainerByName": [
+    "Container getContainerByName(String name)"
+   ],
+   "getChildByNameIgnoreCase": [
+    "Component getChildByNameIgnoreCase(String name)"
+   ],
+   "getChildren": [
+    "ArrayList< FlexiUIObject > getChildren()"
+   ],
+   "isPrintTitle": [
+    "boolean isPrintTitle()"
+   ],
+   "setPrintTitle": [
+    "void setPrintTitle(boolean printTitle)"
+   ],
+   "gainFocus": [
+    "protected Event gainFocus( Event event) throws PreventDefaultException"
+   ],
+   "setCurrentContainer": [
+    "void setCurrentContainer( Container container)"
+   ],
+   "lostFocus": [
+    "protected Event lostFocus( Event event) throws Exception"
+   ],
+   "addEventListener": [
+    "void addEventListener(ContainerEventListener containerEventListener)"
+   ],
+   "doAction": [
+    "void doAction(Action action) throws Exception"
+   ],
+   "getPreviousComponent": [
+    "Component getPreviousComponent()"
+   ],
+   "getNextComponent": [
+    "Component getNextComponent()"
+   ],
+   "isFocusable": [
+    "boolean isFocusable()"
+   ],
+   "clearChildren": [
+    "void clearChildren()"
+   ],
+   "getFirstFocusable": [
+    "FlexiUIObject getFirstFocusable() throws PreventDefaultException"
+   ],
+   "toJsonObject": [
+    "org.json.JSONObject toJsonObject()"
+   ],
+   "getJSONObjectProperties": [
+    "org.json.JSONObject getJSONObjectProperties(org.json.JSONObject properties)"
+   ],
+   "extractPropertiesFromJSON": [
+    "void extractPropertiesFromJSON(org.json.JSONObject json)"
+   ],
+   "extractChildrenFromJSON": [
+    "void extractChildrenFromJSON(org.json.JSONArray array) throws Exception"
+   ],
+   "getLogicalObjects": [
+    "ArrayList< FlexiLogicalObject > getLogicalObjects()"
+   ],
+   "reset": [
+    "void reset() throws PreventDefaultException"
+   ],
+   "storeInApplicationObject": [
+    "void storeInApplicationObject() throws PreventDefaultException"
+   ],
+   "runBarcode": [
+    "String runBarcode(String barcode)"
+   ],
+   "validateContainer": [
+    "String validateContainer(String targetName) throws Exception"
+   ],
+   "removeChild": [
+    "FlexiUIObject removeChild(String name) throws PreventDefaultException"
+   ],
+   "isActive": [
+    "boolean isActive(String name)"
+   ],
+   "getAllComponent": [
+    "ArrayList<com.intellinum.mia.app.FlexiObject> getAllComponent()"
+   ],
+   "updateValidNames": [
+    "void updateValidNames()"
+   ],
+   "containChildren": [
+    "boolean containChildren(Class classType)"
+   ],
+   "initialize": [
+    "void initialize() throws Exception"
+   ],
+   "destroy": [
+    "void destroy()"
+   ],
+   "checkRequiredField": [
+    "String checkRequiredField(String name) throws Exception"
+   ],
+   "setCurrentComponent": [
+    "boolean setCurrentComponent( Component component) throws PreventDefaultException"
+   ],
+   "isTemplate": [
+    "boolean isTemplate()"
+   ]
+  }
+ },
+ "Table": {
+  "extends": "Container",
+  "methods": {
+   "getMaxRow": [
+    "int getMaxRow()"
+   ],
+   "setMaxRow": [
+    "void setMaxRow(int maxRow)"
+   ],
+   "getName": [
+    "String getName()"
+   ],
+   "isSelectedAll": [
+    "boolean isSelectedAll()"
+   ],
+   "setSelectedAll": [
+    "void setSelectedAll(boolean selectedAll) throws Exception"
+   ],
+   "getInputParameters": [
+    "String[] getInputParameters()"
+   ],
+   "getParameterTypes": [
+    "String[] getParameterTypes()"
+   ],
+   "getInputParameter": [
+    "String getInputParameter()"
+   ],
+   "setInputParameter": [
+    "void setInputParameter(String inputParameter)"
+   ],
+   "getParameterTypesString": [
+    "String getParameterTypesString()"
+   ],
+   "setParameterTypes": [
+    "void setParameterTypes(String parameterTypes)"
+   ],
+   "setOnEdited": [
+    "void setOnEdited(String onEdited)"
+   ],
+   "setOnSelectionChanged": [
+    "void setOnSelectionChanged(String onSelectionChanged)"
+   ],
+   "getAllRows": [
+    "ArrayList< TableRow > getAllRows()"
+   ],
+   "getSelectedRows": [
+    "ArrayList< TableRow > getSelectedRows()"
+   ],
+   "setSelectedRows": [
+    "void setSelectedRows(ArrayList< TableRow > selectedRows)"
+   ],
+   "setSelectedRow": [
+    "void setSelectedRow( TableRow selectedRow)"
+   ],
+   "selectRow": [
+    "void selectRow(int position) throws Exception"
+   ],
+   "unselectRow": [
+    "void unselectRow(int position) throws Exception"
+   ],
+   "setUnSelectRow": [
+    "void setUnSelectRow( TableRow unSelectRow)"
+   ],
+   "getQuery": [
+    "String getQuery()"
+   ],
+   "setQuery": [
+    "void setQuery(String query)"
+   ],
+   "getColumnWidth": [
+    "int[] getColumnWidth()"
+   ],
+   "getFirstChildIndex": [
+    "int getFirstChildIndex()"
+   ],
+   "getFirstColumnIndex": [
+    "int getFirstColumnIndex()"
+   ],
+   "getColumnDisplay": [
+    "String[] getColumnDisplay()"
+   ],
+   "setColumnDisplay": [
+    "void setColumnDisplay(String columnDisplay)"
+   ],
+   "getColumnPrompt": [
+    "ArrayList<String> getColumnPrompt()"
+   ],
+   "getColumnPromptsAsArray": [
+    "String[] getColumnPromptsAsArray()"
+   ],
+   "setColumnPrompt": [
+    "void setColumnPrompt(String columnPrompt)"
+   ],
+   "addRow": [
+    "void addRow( TableRow tableRow) throws Exception",
+    "void addRow(String[] record) throws Exception"
+   ],
+   "updateRow": [
+    "void updateRow( TableRow tableRow) throws Exception"
+   ],
+   "removeRow": [
+    "void removeRow( TableRow tableRow)"
+   ],
+   "clearRow": [
+    "void clearRow()"
+   ],
+   "executeQuery": [
+    "void executeQuery() throws PreventDefaultException"
+   ],
+   "executeSelectQuery": [
+    "void executeSelectQuery()"
+   ],
+   "executePLSQL": [
+    "void executePLSQL()"
+   ],
+   "doAction": [
+    "void doAction(Action action) throws Exception"
+   ],
+   "setCurrentChild": [
+    "void setCurrentChild( Component component)"
+   ],
+   "getObjectType": [
+    "String getObjectType()"
+   ],
+   "extractPropertiesFromJSON": [
+    "void extractPropertiesFromJSON(org.json.JSONObject json)"
+   ],
+   "getJSONObjectProperties": [
+    "org.json.JSONObject getJSONObjectProperties(org.json.JSONObject properties)"
+   ],
+   "toString": [
+    "String toString()"
+   ],
+   "loadColumn": [
+    "protected void loadColumn()"
+   ],
+   "getAllData": [
+    "ArrayList<String[]> getAllData()"
+   ],
+   "loadData": [
+    "void loadData(ArrayList<String[]> data) throws Exception"
+   ],
+   "isMultipleSelection": [
+    "boolean isMultipleSelection()"
+   ],
+   "setMultipleSelection": [
+    "void setMultipleSelection(boolean multipleSelection)"
+   ],
+   "isShowSelection": [
+    "boolean isShowSelection()"
+   ],
+   "setShowSelection": [
+    "void setShowSelection(boolean showSelection)"
+   ],
+   "getColumnDisplaysString": [
+    "String getColumnDisplaysString()"
+   ],
+   "getColumnPromptsString": [
+    "String getColumnPromptsString()"
+   ],
+   "getColumnTypesString": [
+    "String getColumnTypesString()"
+   ],
+   "getOnSelectionChanged": [
+    "String getOnSelectionChanged()"
+   ],
+   "runSelectionEvent": [
+    "void runSelectionEvent( Event event, HashMap extraInfo) throws PreventDefaultException"
+   ],
+   "setRowColor": [
+    "void setRowColor(int rowPosition, String color) throws Exception"
+   ],
+   "setColumnType": [
+    "void setColumnType(int columnPosition, String type) throws Exception"
+   ],
+   "setColumnTypes": [
+    "void setColumnTypes(String types)"
+   ],
+   "onSpecialColumnTypeClick": [
+    "void onSpecialColumnTypeClick( Event event, String clickedColumn, TableRow tableRow) throws PreventDefaultException"
+   ],
+   "setOnClicked": [
+    "void setOnClicked(String onClicked)"
+   ],
+   "getOnClicked": [
+    "String getOnClicked()"
+   ],
+   "setSelectable": [
+    "void setSelectable(int rowPosition, boolean selectable) throws PreventDefaultException"
+   ],
+   "isSelectable": [
+    "boolean isSelectable(int rowPosition) throws PreventDefaultException"
+   ],
+   "orderBy": [
+    "void orderBy(int columnIndex, String columnDataType, boolean isAscending) throws PreventDefaultException",
+    "void orderBy(int columnIndex) throws PreventDefaultException",
+    "void orderBy(int columnIndex, boolean isAscending) throws PreventDefaultException",
+    "void orderBy(int[] columnIndexes, String[] columnDataTypes, boolean[] orderDirections) throws Exception"
+   ],
+   "setReadOnly": [
+    "void setReadOnly(boolean readOnly)"
+   ],
+   "isReadOnly": [
+    "boolean isReadOnly()"
+   ],
+   "toJsonObject": [
+    "org.json.JSONObject toJsonObject()"
+   ],
+   "nextPage": [
+    "void nextPage()"
+   ],
+   "prevPage": [
+    "void prevPage()"
+   ],
+   "mappingValueToTemplate": [
+    "protected org.json.JSONObject mappingValueToTemplate( Container template)"
+   ],
+   "setOnRenderRowTemplate": [
+    "void setOnRenderRowTemplate(String onRenderRowTemplate)"
+   ],
+   "getOnRenderRowTemplate": [
+    "String getOnRenderRowTemplate()"
+   ],
+   "extractTemplateChild": [
+    "protected HashMap<String,Object> extractTemplateChild( Container templateContainer, HashMap result)"
+   ]
+  }
+ },
+ "Block": {
+  "extends": "Div",
+  "methods": {
+   "getSubtype": [
+    "String getSubtype()"
+   ],
+   "setSubtype": [
+    "void setSubtype(String subtype)"
+   ],
+   "getObjectType": [
+    "String getObjectType()"
+   ],
+   "getJSONObjectProperties": [
+    "org.json.JSONObject getJSONObjectProperties(org.json.JSONObject properties)"
+   ]
+  }
+ },
+ "Session": {
+  "extends": "Object",
+  "methods": {
+   "Session": [
+    "Session(IOManager ioManager) throws Exception"
+   ],
+   "setRuntime": [
+    "void setRuntime(FlexiRuntime runtime)"
+   ],
+   "getOfflineManager": [
+    "OfflineManager getOfflineManager() throws java.sql.SQLException"
+   ],
+   "getFileTransferManager": [
+    "FileTransferManager getFileTransferManager()"
+   ],
+   "getSoundManager": [
+    "SoundManager getSoundManager()"
+   ],
+   "getFlexiAPI": [
+    "FlexiAPI getFlexiAPI()"
+   ],
+   "isDropped": [
+    "boolean isDropped()"
+   ],
+   "setDropped": [
+    "void setDropped(boolean dropped)"
+   ],
+   "getLastInteraction": [
+    "long getLastInteraction()"
+   ],
+   "setLastInteraction": [
+    "void setLastInteraction()"
+   ],
+   "getCurrentApplication": [
+    "Application getCurrentApplication()"
+   ],
+   "openApplication": [
+    "void openApplication(String applicationID)"
+   ],
+   "closeApplication": [
+    "void closeApplication(boolean showConfirm)"
+   ],
+   "openApplicationFromSession": [
+    "protected void openApplicationFromSession(String applicationID, Action action) throws Exception"
+   ],
+   "openApplicationFromSideMenu": [
+    "protected Application openApplicationFromSideMenu(String applicationID) throws Exception"
+   ],
+   "closeApplicationFromSession": [
+    "void closeApplicationFromSession(Action action) throws Exception"
+   ],
+   "getCurrentPage": [
+    "Page getCurrentPage()"
+   ],
+   "putObject": [
+    "Session putObject(String key, Object value)"
+   ],
+   "getObject": [
+    "Object getObject(String key)"
+   ],
+   "removeObject": [
+    "Object removeObject(String key)"
+   ],
+   "getObjectStringValue": [
+    "String getObjectStringValue(String key)"
+   ],
+   "getStatusMessage": [
+    "String getStatusMessage()"
+   ],
+   "setStatusMessage": [
+    "Session setStatusMessage(String statusMessage)"
+   ],
+   "getQueryManager": [
+    "QueryManager getQueryManager() throws Exception"
+   ],
+   "returnConnection": [
+    "void returnConnection()"
+   ],
+   "getIoManager": [
+    "IOManager getIoManager()"
+   ],
+   "sendMessage": [
+    "void sendMessage(String message)"
+   ],
+   "sendAdminMessage": [
+    "void sendAdminMessage(String title, String message)"
+   ],
+   "putApplicationObject": [
+    "void putApplicationObject(Object key, Object value) throws PreventDefaultException"
+   ],
+   "removeApplicationObject": [
+    "Object removeApplicationObject(Object key)"
+   ],
+   "getApplicationObject": [
+    "Object getApplicationObject(Object key)"
+   ],
+   "addAction": [
+    "void addAction(Action action)"
+   ],
+   "prioritizeAction": [
+    "void prioritizeAction(Action action)"
+   ],
+   "openPage": [
+    "void openPage(String pageID)"
+   ],
+   "backToPage": [
+    "void backToPage(String pageID)"
+   ],
+   "closePage": [
+    "void closePage()"
+   ],
+   "openMenuPage": [
+    "void openMenuPage(String menuID)"
+   ],
+   "gotoComponent": [
+    "void gotoComponent(String destComponentName)"
+   ],
+   "getNextAction": [
+    "Action getNextAction()"
+   ],
+   "getTotalAction": [
+    "int getTotalAction()"
+   ],
+   "getCurrentAction": [
+    "Action getCurrentAction()"
+   ],
+   "removeAction": [
+    "void removeAction(int actionPos)"
+   ],
+   "removeLastAction": [
+    "void removeLastAction()"
+   ],
+   "getLastAction": [
+    "void getLastAction()"
+   ],
+   "clearAction": [
+    "void clearAction()"
+   ],
+   "getCurrentComponent": [
+    "Component getCurrentComponent()"
+   ],
+   "setCurrentComponent": [
+    "void setCurrentComponent( Component component) throws PreventDefaultException"
+   ],
+   "doAction": [
+    "void doAction(Action action) throws Exception"
+   ],
+   "openSideMenuOption": [
+    "protected void openSideMenuOption(Action action) throws Exception"
+   ],
+   "addClientAction": [
+    "void addClientAction(String action)"
+   ],
+   "getClientActions": [
+    "ArrayList<String> getClientActions()"
+   ],
+   "showOptionDialog": [
+    "int showOptionDialog(String title, String message, String[] options) throws Exception",
+    "int showOptionDialog(String title, String message, String[] options, String backgroundColor) throws Exception"
+   ],
+   "showInputableDialog": [
+    "String showInputableDialog(String title, String message) throws PreventDefaultException"
+   ],
+   "sendSound": [
+    "void sendSound(String name) throws PreventDefaultException"
+   ],
+   "sendPositiveSound": [
+    "void sendPositiveSound()"
+   ],
+   "sendNegativeSound": [
+    "void sendNegativeSound()"
+   ],
+   "resetPage": [
+    "void resetPage() throws PreventDefaultException"
+   ],
+   "destroy": [
+    "void destroy()"
+   ],
+   "isDestroyed": [
+    "boolean isDestroyed()"
+   ],
+   "dropShellConnection": [
+    "void dropShellConnection()",
+    "void dropShellConnection(String message)"
+   ],
+   "continueSession": [
+    "void continueSession(Context context)",
+    "void continueSession(Context context, String accessToken)"
+   ],
+   "getContext": [
+    "Context getContext()"
+   ],
+   "registerUser": [
+    "void registerUser(String userID, String username, String language, String userType, AuthenticationType authType) throws PreventDefaultException"
+   ],
+   "getAccessToken": [
+    "String getAccessToken()"
+   ],
+   "unregisterUser": [
+    "void unregisterUser(boolean destroy)",
+    "void unregisterUser()"
+   ],
+   "getSessionID": [
+    "String getSessionID()"
+   ],
+   "generateID": [
+    "static int generateID()"
+   ],
+   "getTotalSession": [
+    "static int getTotalSession()"
+   ],
+   "clearContext": [
+    "void clearContext()"
+   ],
+   "loadTranslation": [
+    "void loadTranslation(String pageID)"
+   ],
+   "getTranslation": [
+    "String getTranslation(String fieldID, String originalValue)"
+   ],
+   "pingClient": [
+    "boolean pingClient()"
+   ],
+   "addSideMenu": [
+    "void addSideMenu( SideMenu sideMenu)"
+   ],
+   "loadSideMenu": [
+    "void loadSideMenu()"
+   ],
+   "getSideMenuManager": [
+    "SideMenuManager getSideMenuManager()"
+   ],
+   "openMenu": [
+    "void openMenu(String menuName)"
+   ],
+   "loadProfileValue": [
+    "void loadProfileValue(ProfileLevel level)"
+   ],
+   "removeProfileValue": [
+    "protected void removeProfileValue(ProfileLevel profileLevel)"
+   ],
+   "logFireServerUpdate": [
+    "void logFireServerUpdate() throws Exception"
+   ],
+   "getRuntime": [
+    "FlexiRuntime getRuntime()"
+   ],
+   "getCurrentApplicationPosition": [
+    "int getCurrentApplicationPosition()"
+   ],
+   "isLogFireUserPersonalizationAuthorized": [
+    "boolean isLogFireUserPersonalizationAuthorized() throws Exception"
+   ],
+   "getWebServiceHistoryManager": [
+    "WebServiceHistoryManager getWebServiceHistoryManager()"
+   ],
+   "registerStatistic": [
+    "void registerStatistic(Statistic statistic)"
+   ],
+   "getStatistic": [
+    "Statistic getStatistic(String className)"
+   ],
+   "setPersonalizationEnabled": [
+    "void setPersonalizationEnabled(boolean personalizationEnabled)"
+   ],
+   "isPersonalizationEnabled": [
+    "boolean isPersonalizationEnabled()"
+   ],
+   "actionCompleted": [
+    "void actionCompleted()"
+   ],
+   "markedAsBusy": [
+    "void markedAsBusy()",
+    "void markedAsBusy(String message)"
+   ],
+   "setLoadingMessage": [
+    "void setLoadingMessage(String loadingMessage)"
+   ],
+   "sendLoadingMessage": [
+    "void sendLoadingMessage(String loadingMessage)"
+   ],
+   "sendLoadingDialog": [
+    "void sendLoadingDialog(String loadingMessage)"
+   ],
+   "isBusy": [
+    "void isBusy()"
+   ],
+   "getSessionBasedOnToken": [
+    "Session getSessionBasedOnToken(String accessToken)"
+   ],
+   "setRenderMode": [
+    "void setRenderMode(int renderMode, Object object)"
+   ],
+   "runTask": [
+    "void runTask(FlexiTask flexiTask)"
+   ],
+   "printSessionVariable": [
+    "void printSessionVariable()"
+   ],
+   "auditCreateSession": [
+    "void auditCreateSession()"
+   ],
+   "auditLoginSession": [
+    "void auditLoginSession(String username)"
+   ],
+   "auditLogoutSession": [
+    "void auditLogoutSession()"
+   ],
+   "auditDestroySession": [
+    "void auditDestroySession()"
+   ],
+   "sendOAuth": [
+    "void sendOAuth(String link, String userCode)"
+   ],
+   "updateStatistic": [
+    "void updateStatistic(long totalHit, long totalTime)"
+   ],
+   "getPreviousPage": [
+    "Page getPreviousPage()"
+   ],
+   "subscribeMirror": [
+    "void subscribeMirror( Session session)"
+   ],
+   "unsubscribeMirror": [
+    "void unsubscribeMirror( Session session)"
+   ],
+   "offlineSyncCheck": [
+    "int offlineSyncCheck() throws java.sql.SQLException"
+   ],
+   "onLoginEvent": [
+    "void onLoginEvent()"
+   ],
+   "getUserCompanyName": [
+    "String getUserCompanyName()"
+   ],
+   "getCompanyId": [
+    "long getCompanyId()"
+   ],
+   "loadCompanyId": [
+    "void loadCompanyId(String companyName)"
+   ],
+   "isLogFire": [
+    "boolean isLogFire()"
+   ],
+   "loadMenuIndex": [
+    "protected void loadMenuIndex()"
+   ],
+   "searchMenu": [
+    "ArrayList searchMenu(String menuName)"
+   ],
+   "getApplicationFromMenuIndex": [
+    "String getApplicationFromMenuIndex(int selectedMenu)"
+   ]
+  }
+ },
+ "Event": {
+  "extends": "EventObject",
+  "methods": {
+   "getAction": [
+    "Action getAction()"
+   ],
+   "getSession": [
+    "Session getSession()"
+   ],
+   "preventDefault": [
+    "void preventDefault() throws PreventDefaultException",
+    "void preventDefault(String message) throws PreventDefaultException"
+   ]
+  }
+ },
+ "Log": {
+  "extends": "Object",
+  "methods": {
+   "trace": [
+    "static void trace(String log)"
+   ],
+   "warn": [
+    "static void warn(String log)"
+   ],
+   "error": [
+    "static void error(String log, Exception ex)",
+    "static void error(Object log, Exception ex)",
+    "static void error(String log, String message)"
+   ]
+  }
+ },
+ "TextArea": {
+  "extends": "TextInputField",
+  "methods": {
+   "setLines": [
+    "void setLines(int lines)"
+   ],
+   "getLines": [
+    "int getLines()"
+   ],
+   "getObjectType": [
+    "String getObjectType()"
+   ],
+   "getJSONObjectProperties": [
+    "org.json.JSONObject getJSONObjectProperties(org.json.JSONObject properties)"
+   ]
+  }
+ },
+ "AttachmentField": {
+  "extends": "Field",
+  "methods": {
+   "getDeviceFilePath": [
+    "String getDeviceFilePath()"
+   ],
+   "getServerFilepath": [
+    "String getServerFilepath()"
+   ],
+   "getFileType": [
+    "String getFileType()"
+   ],
+   "setFileType": [
+    "void setFileType(String type)"
+   ],
+   "setFileFormat": [
+    "void setFileFormat(String fileFormat)"
+   ],
+   "getFileFormat": [
+    "String getFileFormat()"
+   ],
+   "setFileDescription": [
+    "void setFileDescription(String fileDescription)"
+   ],
+   "getFileDescription": [
+    "String getFileDescription()"
+   ],
+   "getTags": [
+    "String getTags()"
+   ],
+   "setTags": [
+    "void setTags(String tag)"
+   ],
+   "getTransferMode": [
+    "String getTransferMode()"
+   ],
+   "setTransferMode": [
+    "void setTransferMode(String transferMode)"
+   ],
+   "doAction": [
+    "void doAction(Action action) throws Exception"
+   ],
+   "sendOpenFileDialog": [
+    "protected void sendOpenFileDialog()"
+   ],
+   "clearAttachment": [
+    "protected void clearAttachment()"
+   ],
+   "saveAttachmentToDatabase": [
+    "String saveAttachmentToDatabase() throws Exception"
+   ],
+   "gainFocus": [
+    "protected Event gainFocus( Event event) throws PreventDefaultException"
+   ],
+   "getJSONObjectProperties": [
+    "org.json.JSONObject getJSONObjectProperties(org.json.JSONObject properties)"
+   ],
+   "getObjectType": [
+    "String getObjectType()"
+   ],
+   "extractPropertiesFromJSON": [
+    "void extractPropertiesFromJSON(org.json.JSONObject json) throws PreventDefaultException"
+   ],
+   "isFocusable": [
+    "boolean isFocusable()"
+   ],
+   "reset": [
+    "void reset()"
+   ],
+   "isHighLightedUI": [
+    "boolean isHighLightedUI()"
+   ],
+   "isAttached": [
+    "boolean isAttached()"
+   ],
+   "destroy": [
+    "void destroy()"
+   ],
+   "setDirectory": [
+    "void setDirectory(String directory)"
+   ],
+   "getDirectory": [
+    "String getDirectory()"
+   ],
+   "setCustomFileName": [
+    "void setCustomFileName(String customFileName)"
+   ],
+   "getCustomFileName": [
+    "String getCustomFileName()"
+   ],
+   "getAttachmentId": [
+    "String getAttachmentId()"
+   ],
+   "getOnAttachmentReceived": [
+    "String getOnAttachmentReceived()"
+   ],
+   "setOnAttachmentReceived": [
+    "void setOnAttachmentReceived(String onAttachmentReceived)"
+   ],
+   "getReference1": [
+    "String getReference1()"
+   ],
+   "getReference2": [
+    "String getReference2()"
+   ],
+   "getReference3": [
+    "String getReference3()"
+   ],
+   "getReference4": [
+    "String getReference4()"
+   ],
+   "getReference5": [
+    "String getReference5()"
+   ],
+   "getReference6": [
+    "String getReference6()"
+   ],
+   "getReference7": [
+    "String getReference7()"
+   ],
+   "getReference8": [
+    "String getReference8()"
+   ],
+   "getReference9": [
+    "String getReference9()"
+   ],
+   "getReference10": [
+    "String getReference10()"
+   ],
+   "setReference1": [
+    "void setReference1(String reference1)"
+   ],
+   "setReference2": [
+    "void setReference2(String reference2)"
+   ],
+   "setReference3": [
+    "void setReference3(String reference3)"
+   ],
+   "setReference4": [
+    "void setReference4(String reference4)"
+   ],
+   "setReference5": [
+    "void setReference5(String reference5)"
+   ],
+   "setReference6": [
+    "void setReference6(String reference6)"
+   ],
+   "setReference7": [
+    "void setReference7(String reference7)"
+   ],
+   "setReference8": [
+    "void setReference8(String reference8)"
+   ],
+   "setReference9": [
+    "void setReference9(String reference9)"
+   ]
+  }
+ },
+ "GPSField": {
+  "extends": "InputField",
+  "methods": {
+   "setValue": [
+    "void setValue(String longtitude, String latitude)",
+    "String setValue(String value)"
+   ]
+  }
+ },
+ "ListBox": {
+  "extends": "Field",
+  "methods": {
+   "getObjectType": [
+    "String getObjectType()"
+   ],
+   "addValue": [
+    "void addValue(String value)"
+   ],
+   "getValue": [
+    "String getValue(int index)"
+   ],
+   "getValues": [
+    "ArrayList<String> getValues()"
+   ],
+   "clearValues": [
+    "void clearValues()"
+   ],
+   "isFocusable": [
+    "boolean isFocusable()"
+   ],
+   "getJSONObjectProperties": [
+    "org.json.JSONObject getJSONObjectProperties(org.json.JSONObject properties)"
+   ]
+  }
+ },
+ "RadioButtonField": {
+  "extends": "Field",
+  "methods": {
+   "getObjectType": [
+    "String getObjectType()"
+   ],
+   "doAction": [
+    "void doAction(Action action) throws Exception"
+   ],
+   "setChecked": [
+    "void setChecked()"
+   ],
+   "extractPropertiesFromJSON": [
+    "void extractPropertiesFromJSON(org.json.JSONObject json) throws PreventDefaultException"
+   ],
+   "getJSONObjectProperties": [
+    "org.json.JSONObject getJSONObjectProperties(org.json.JSONObject properties)"
+   ],
+   "gainFocus": [
+    "protected Event gainFocus( Event event) throws PreventDefaultException"
+   ]
+  }
+ },
+ "RadioButtonGroup": {
+  "extends": "Container",
+  "methods": {
+   "getObjectType": [
+    "String getObjectType()"
+   ],
+   "add": [
+    "void add(int index, FlexiUIObject flexiUIObject) throws PreventDefaultException"
+   ],
+   "setLabel": [
+    "void setLabel(String label)"
+   ],
+   "getLabel": [
+    "String getLabel()"
+   ],
+   "extractPropertiesFromJSON": [
+    "void extractPropertiesFromJSON(org.json.JSONObject json)"
+   ],
+   "getJSONObjectProperties": [
+    "org.json.JSONObject getJSONObjectProperties(org.json.JSONObject properties)"
+   ],
+   "setChecked": [
+    "void setChecked( RadioButtonField radioButtonField)",
+    "void setChecked(int index) throws PreventDefaultException"
+   ],
+   "uncheck": [
+    "void uncheck()"
+   ],
+   "getSelectedOption": [
+    "String getSelectedOption()"
+   ]
+  }
+ },
+ "Image": {
+  "extends": "Field",
+  "methods": {
+   "getObjectType": [
+    "String getObjectType()"
+   ],
+   "getJSONObjectProperties": [
+    "org.json.JSONObject getJSONObjectProperties(org.json.JSONObject properties)"
+   ],
+   "extractPropertiesFromJSON": [
+    "void extractPropertiesFromJSON(org.json.JSONObject json) throws PreventDefaultException"
+   ],
+   "isHighLightedUI": [
+    "boolean isHighLightedUI()"
+   ],
+   "isFocusable": [
+    "boolean isFocusable()"
+   ],
+   "getSrc": [
+    "String getSrc()"
+   ],
+   "setSrc": [
+    "void setSrc(String src)"
+   ],
+   "setBase64": [
+    "void setBase64(String base64)"
+   ],
+   "setBytes": [
+    "void setBytes(byte[] bytes)"
+   ],
+   "getAlt": [
+    "String getAlt()"
+   ],
+   "setAlt": [
+    "void setAlt(String alt)"
+   ],
+   "loadDatabaseImage": [
+    "void loadDatabaseImage()"
+   ],
+   "doAction": [
+    "void doAction(Action action) throws Exception"
+   ],
+   "popupButtonClicked": [
+    "void popupButtonClicked( Event event)"
+   ],
+   "loadBase64": [
+    "void loadBase64()"
+   ],
+   "getRenderType": [
+    "String getRenderType()"
+   ],
+   "setRenderType": [
+    "void setRenderType(String renderType) throws PreventDefaultException"
+   ]
+  }
+ },
+ "Grid": {
+  "extends": "Div",
+  "methods": {
+   "getRows": [
+    "int getRows()"
+   ],
+   "setRows": [
+    "void setRows(int rows)"
+   ],
+   "getColumns": [
+    "int getColumns()"
+   ],
+   "getFieldCountPerRow": [
+    "ArrayList getFieldCountPerRow()"
+   ],
+   "setFieldCountPerRow": [
+    "void setFieldCountPerRow(ArrayList fieldCountPerRow)"
+   ],
+   "setColumns": [
+    "void setColumns(int columns)"
+   ],
+   "getObjectType": [
+    "String getObjectType()"
+   ],
+   "getJSONObjectProperties": [
+    "org.json.JSONObject getJSONObjectProperties(org.json.JSONObject properties)"
+   ],
+   "extractPropertiesFromJSON": [
+    "void extractPropertiesFromJSON(org.json.JSONObject json)"
+   ],
+   "getColumnRatio": [
+    "String getColumnRatio()"
+   ]
+  }
+ },
+ "TableRow": {
+  "extends": "Component",
+  "methods": {
+   "getName": [
+    "String getName()"
+   ],
+   "setName": [
+    "void setName(String name)"
+   ],
+   "getValues": [
+    "ArrayList<String> getValues()"
+   ],
+   "setValues": [
+    "void setValues(ArrayList<String> values)"
+   ],
+   "getPreviousValues": [
+    "ArrayList<String> getPreviousValues()"
+   ],
+   "setPreviousValues": [
+    "void setPreviousValues(ArrayList<String> previousValues)"
+   ],
+   "isSelected": [
+    "boolean isSelected()"
+   ],
+   "setSelected": [
+    "void setSelected(boolean selected) throws Exception"
+   ],
+   "isEditable": [
+    "boolean isEditable()"
+   ],
+   "setEditable": [
+    "void setEditable(boolean editable)"
+   ],
+   "addEventListener": [
+    "void addEventListener(TableSelectionEventListener tableSelectionEventListener)"
+   ],
+   "thisSelected": [
+    "void thisSelected( Event event, boolean selected) throws Exception"
+   ],
+   "isHidden": [
+    "boolean isHidden()"
+   ],
+   "setHidden": [
+    "void setHidden(boolean hidden)"
+   ],
+   "getJSONObjectProperties": [
+    "org.json.JSONObject getJSONObjectProperties(org.json.JSONObject properties)"
+   ],
+   "doAction": [
+    "void doAction(Action action) throws Exception"
+   ],
+   "getObjectType": [
+    "String getObjectType()"
+   ],
+   "gainFocus": [
+    "protected Event gainFocus( Event event) throws PreventDefaultException"
+   ],
+   "onSpecialColumnTypeClick": [
+    "void onSpecialColumnTypeClick( Event onSpecialColumnTypeClick, String clickedColumn) throws PreventDefaultException"
+   ],
+   "toString": [
+    "String toString()"
+   ],
+   "isHighLightedUI": [
+    "boolean isHighLightedUI()"
+   ],
+   "setRowColors": [
+    "void setRowColors(String color) throws Exception",
+    "void setRowColors(ArrayList<String> colors) throws Exception"
+   ],
+   "setCellColor": [
+    "void setCellColor(int position, String color) throws Exception"
+   ],
+   "isValidColor": [
+    "boolean isValidColor(String color)"
+   ],
+   "setSelectable": [
+    "void setSelectable(boolean selectable)"
+   ],
+   "isSelectable": [
+    "boolean isSelectable()"
+   ],
+   "setReadOnly": [
+    "void setReadOnly(boolean readOnly)"
+   ],
+   "isReadOnly": [
+    "boolean isReadOnly()"
+   ]
+  }
+ },
+ "TableColumn": {
+  "extends": "Component",
+  "methods": {
+   "getName": [
+    "String getName()"
+   ],
+   "setName": [
+    "void setName(String name)"
+   ],
+   "getValues": [
+    "ArrayList<String> getValues()"
+   ],
+   "setValues": [
+    "void setValues(ArrayList<String> values)"
+   ],
+   "isHidden": [
+    "boolean isHidden()"
+   ],
+   "setHidden": [
+    "void setHidden(boolean hidden)"
+   ],
+   "doAction": [
+    "void doAction(Action action) throws Exception"
+   ],
+   "getObjectType": [
+    "String getObjectType()"
+   ],
+   "getJSONObjectProperties": [
+    "org.json.JSONObject getJSONObjectProperties(org.json.JSONObject properties)"
+   ],
+   "setColumnTypes": [
+    "void setColumnTypes(ArrayList columnTypes)"
+   ],
+   "clearColumnTypes": [
+    "void clearColumnTypes()"
+   ],
+   "setColumnType": [
+    "void setColumnType(int position, TableColumn.TableColumnType columnType) throws Exception",
+    "void setColumnType(int position, String columnType) throws Exception"
+   ],
+   "toString": [
+    "String toString()"
+   ],
+   "isHighLightedUI": [
+    "boolean isHighLightedUI()"
+   ]
+  }
+ },
+ "DeviceInfo": {
+  "extends": "Object",
+  "methods": {}
+ },
+ "Div": {
+  "extends": "Container",
+  "methods": {
+   "getObjectType": [
+    "String getObjectType()"
+   ]
+  }
+ },
+ "Fieldset": {
+  "extends": "Div",
+  "methods": {
+   "setHeader": [
+    "void setHeader(String header)"
+   ],
+   "getHeader": [
+    "String getHeader()"
+   ],
+   "getObjectType": [
+    "String getObjectType()"
+   ],
+   "getJSONObjectProperties": [
+    "org.json.JSONObject getJSONObjectProperties(org.json.JSONObject properties)"
+   ]
+  }
+ },
+ "KPI": {
+  "extends": "Field",
+  "methods": {
+   "getObjectType": [
+    "String getObjectType()"
+   ],
+   "isFocusable": [
+    "boolean isFocusable()"
+   ],
+   "extractPropertiesFromJSON": [
+    "void extractPropertiesFromJSON(org.json.JSONObject json) throws PreventDefaultException"
+   ],
+   "update": [
+    "void update()"
+   ],
+   "executeQuery": [
+    "String executeQuery()"
+   ],
+   "getJSONObjectProperties": [
+    "org.json.JSONObject getJSONObjectProperties(org.json.JSONObject properties)"
+   ],
+   "getText": [
+    "String getText()"
+   ],
+   "setText": [
+    "void setText(String text)"
+   ],
+   "getValue": [
+    "String getValue()"
+   ],
+   "setValue": [
+    "void setValue(String value)"
+   ],
+   "getStatement": [
+    "String getStatement()"
+   ],
+   "setStatement": [
+    "void setStatement(String statement)"
+   ],
+   "getStyle": [
+    "String getStyle()"
+   ]
+  }
+ },
+ "List": {
+  "extends": "Container",
+  "methods": {
+   "doAction": [
+    "void doAction(Action action) throws Exception"
+   ],
+   "getName": [
+    "String getName()"
+   ],
+   "getStartRenderPosX": [
+    "int getStartRenderPosX()"
+   ],
+   "setStartRenderPosX": [
+    "void setStartRenderPosX(int startRenderPosX)"
+   ],
+   "getObjectType": [
+    "String getObjectType()"
+   ]
+  }
+ },
+ "ListItem": {
+  "extends": "Field",
+  "methods": {
+   "addValue": [
+    "void addValue(String value)"
+   ],
+   "clearValues": [
+    "void clearValues()"
+   ],
+   "getValues": [
+    "ArrayList<String> getValues()"
+   ],
+   "setValues": [
+    "void setValues(ArrayList<String> values)"
+   ],
+   "addEventListener": [
+    "void addEventListener(ListItemEventListener listItemEventListener)"
+   ],
+   "listItemClicked": [
+    "void listItemClicked( Event event) throws PreventDefaultException"
+   ],
+   "doAction": [
+    "void doAction(Action action) throws Exception"
+   ],
+   "getObjectType": [
+    "String getObjectType()"
+   ],
+   "gainFocus": [
+    "protected Event gainFocus( Event event) throws PreventDefaultException"
+   ],
+   "toJsonObject": [
+    "org.json.JSONObject toJsonObject()"
+   ],
+   "toString": [
+    "String toString()"
+   ]
+  }
+ },
+ "MenuItem": {
+  "extends": "ListItem",
+  "methods": {
+   "getObjectType": [
+    "String getObjectType()"
+   ],
+   "setIcon": [
+    "void setIcon(String icon)"
+   ],
+   "setIconByte": [
+    "void setIconByte(String iconByte)"
+   ],
+   "getIcon": [
+    "String getIcon()"
+   ],
+   "getJSONObjectProperties": [
+    "org.json.JSONObject getJSONObjectProperties(org.json.JSONObject properties)"
+   ],
+   "toJsonObject": [
+    "org.json.JSONObject toJsonObject()"
+   ]
+  }
+ },
+ "SideMenu": {
+  "extends": "FlexiUIObject",
+  "methods": {
+   "gainFocus": [
+    "protected Event gainFocus( Event event) throws PreventDefaultException"
+   ],
+   "lostFocus": [
+    "protected Event lostFocus( Event event) throws Exception"
+   ],
+   "doAction": [
+    "void doAction(Action action) throws Exception"
+   ],
+   "isFocusable": [
+    "boolean isFocusable()"
+   ],
+   "destroy": [
+    "void destroy()"
+   ],
+   "toJsonObject": [
+    "org.json.JSONObject toJsonObject()"
+   ],
+   "getJSONObjectProperties": [
+    "org.json.JSONObject getJSONObjectProperties(org.json.JSONObject properties)"
+   ],
+   "getObjectType": [
+    "String getObjectType()"
+   ],
+   "extractPropertiesFromJSON": [
+    "void extractPropertiesFromJSON(org.json.JSONObject json)"
+   ],
+   "reset": [
+    "void reset()"
+   ],
+   "setIcon": [
+    "void setIcon(String icon)"
+   ],
+   "setIconByte": [
+    "void setIconByte(String iconByte)"
+   ],
+   "setLabel": [
+    "void setLabel(String label)"
+   ],
+   "setApplicationID": [
+    "void setApplicationID(String applicationID)"
+   ],
+   "getApplicationID": [
+    "String getApplicationID()"
+   ]
+  }
+ },
+ "Chart": {
+  "extends": "Field",
+  "methods": {
+   "getObjectType": [
+    "String getObjectType()"
+   ],
+   "isFocusable": [
+    "boolean isFocusable()"
+   ],
+   "extractPropertiesFromJSON": [
+    "void extractPropertiesFromJSON(org.json.JSONObject json) throws PreventDefaultException"
+   ],
+   "refresh": [
+    "void refresh() throws Exception"
+   ],
+   "initialize": [
+    "void initialize() throws Exception"
+   ],
+   "executeQuery": [
+    "void executeQuery()"
+   ],
+   "getJSONObjectProperties": [
+    "org.json.JSONObject getJSONObjectProperties(org.json.JSONObject properties)"
+   ],
+   "getCategoryPrompt": [
+    "String getCategoryPrompt()"
+   ],
+   "setCategoryPrompt": [
+    "void setCategoryPrompt(String categoryPrompt)"
+   ],
+   "getColorValue": [
+    "String getColorValue()"
+   ],
+   "setColorValue": [
+    "void setColorValue(String colorValue)"
+   ],
+   "getValuePrompt": [
+    "String getValuePrompt()"
+   ],
+   "setValuePrompt": [
+    "void setValuePrompt(String value)"
+   ],
+   "getType": [
+    "String getType()"
+   ],
+   "setType": [
+    "void setType(String type)"
+   ],
+   "getStatement": [
+    "String getStatement()"
+   ],
+   "setStatement": [
+    "void setStatement(String statement)"
+   ],
+   "setWebServiceName": [
+    "void setWebServiceName(String webServiceName)"
+   ],
+   "getWebServiceName": [
+    "String getWebServiceName()"
+   ],
+   "setDataSourceType": [
+    "void setDataSourceType(String dataSourceType)"
+   ],
+   "getDataSourceType": [
+    "String getDataSourceType()"
+   ],
+   "setChartValues": [
+    "void setChartValues(ArrayList categories, ArrayList values) throws PreventDefaultException",
+    "void setChartValues(ArrayList<String[]> table) throws PreventDefaultException"
+   ],
+   "setShowLegend": [
+    "void setShowLegend(boolean showLegend)"
+   ],
+   "isShowLegend": [
+    "boolean isShowLegend()"
+   ],
+   "executeWebService": [
+    "void executeWebService() throws Exception"
+   ]
+  }
+ },
+ "Divider": {
+  "extends": "Component",
+  "methods": {
+   "isHighLightedUI": [
+    "boolean isHighLightedUI()"
+   ],
+   "getObjectType": [
+    "String getObjectType()"
+   ],
+   "extractPropertiesFromJSON": [
+    "void extractPropertiesFromJSON(org.json.JSONObject json) throws PreventDefaultException"
+   ],
+   "getJSONObjectProperties": [
+    "org.json.JSONObject getJSONObjectProperties(org.json.JSONObject properties)"
+   ],
+   "isFocusable": [
+    "boolean isFocusable()"
+   ],
+   "getWidth": [
+    "double getWidth()"
+   ],
+   "setWidth": [
+    "void setWidth(double width)"
+   ],
+   "getColor": [
+    "String getColor()"
+   ],
+   "setColor": [
+    "void setColor(String color)"
+   ],
+   "getAlignment": [
+    "String getAlignment()"
+   ]
+  }
+ },
+ "ComboItem": {
+  "extends": "Object",
+  "methods": {
+   "getKey": [
+    "String getKey()"
+   ]
+  }
+ },
+ "VoiceMacro": {
+  "extends": "FlexiLogicalObject",
+  "methods": {
+   "extractPropertiesFromJSON": [
+    "void extractPropertiesFromJSON(org.json.JSONObject jsonObject)"
+   ],
+   "setVoiceMacro": [
+    "void setVoiceMacro(String voiceMacro)"
+   ],
+   "setAction": [
+    "void setAction(String action)"
+   ],
+   "getVoiceMacro": [
+    "String getVoiceMacro()"
+   ],
+   "getAction": [
+    "String getAction()"
+   ]
+  }
+ },
+ "FlexiAsyncTask": {
+  "extends": "FlexiLogicalObject",
+  "methods": {
+   "extractPropertiesFromJSON": [
+    "void extractPropertiesFromJSON(org.json.JSONObject json)"
+   ],
+   "startTask": [
+    "void startTask() throws Exception",
+    "void startTask(HashMap<String,Object> parameters) throws Exception"
+   ],
+   "isTaskCompleted": [
+    "boolean isTaskCompleted()"
+   ],
+   "getScript": [
+    "String getScript()"
+   ],
+   "setScript": [
+    "void setScript(String script)"
+   ],
+   "getTag": [
+    "String getTag()"
+   ],
+   "setTag": [
+    "void setTag(String tag)"
+   ]
+  }
+ }
+}

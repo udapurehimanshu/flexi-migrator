@@ -1,6 +1,15 @@
 # Intellinum Flexi PWA Migrator (SSH → PWA)
 
-A production-grade, zero-dependency Node.js platform that migrates legacy **Intellinum Flexi Personalization** configurations (Groovy / BeanShell scripts, custom fields, web services, LOVs) to modern **Flexi PWA JavaScript**.
+A production-grade platform that migrates legacy **Intellinum Flexi Personalization** configurations (Groovy / BeanShell scripts, custom fields, web services, LOVs) to modern **Flexi PWA JavaScript**.
+
+🌐 **Live Demo on GitHub Pages**: [https://udapurehimanshu.github.io/flexi-migrator/](https://udapurehimanshu.github.io/flexi-migrator/)
+
+---
+
+## ⚡ Deployment Modes
+
+1. **Client-Side / GitHub Pages (Zero-Install)**: Runs directly in your browser. PDF coordinate parsing, Groovy AST transpilation, PWA payload generation, and validation happen entirely client-side via WebAssembly/pako deflate.
+2. **Local Node.js Server**: Clone and run `node server.js` for an on-premises enterprise environment with local REST APIs.
 
 ## Key Features
 

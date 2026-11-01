@@ -1,0 +1,1762 @@
+{
+  "FlexiAPI": [
+    {
+      "returnType": "void",
+      "name": "automate",
+      "signature": "void automate(java.lang.String&nbsp;action)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "automate",
+      "signature": "void automate(java.lang.String&nbsp;action, java.lang.String&nbsp;data)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "automate",
+      "signature": "void automate(java.lang.String&nbsp;action, java.lang.String&nbsp;data, java.lang.String&nbsp;target)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "backToPage",
+      "signature": "void backToPage(java.lang.String&nbsp;pageID)",
+      "description": "back to previous page"
+    },
+    {
+      "returnType": "void",
+      "name": "backToPreviousPage",
+      "signature": "void backToPreviousPage()",
+      "description": "back to previous page"
+    },
+    {
+      "returnType": "java.util.HashMap",
+      "name": "callSerialWebService",
+      "signature": "java.util.HashMap callSerialWebService(java.lang.String&nbsp;wsUrl, java.lang.String&nbsp;wsUsername, java.lang.String&nbsp;wsPassword, java.lang.String&nbsp;reason, java.lang.String&nbsp;productCode, java.lang.String&nbsp;lotNumber, java.lang.String&nbsp;location, java.lang.String&nbsp;username, java.lang.String&nbsp;serialNumber, java.util.ArrayList&nbsp;outputParams)",
+      "description": ""
+    },
+    {
+      "returnType": "java.util.HashMap",
+      "name": "callWs",
+      "signature": "java.util.HashMap callWs(java.lang.String&nbsp;url, java.lang.String&nbsp;username, java.lang.String&nbsp;password, java.lang.String&nbsp;body, java.util.ArrayList&nbsp;outputParams)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "clearAction",
+      "signature": "void clearAction()",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "clearInputBuffer",
+      "signature": "void clearInputBuffer()",
+      "description": "Clear all the input in the connection buffer"
+    },
+    {
+      "returnType": "void",
+      "name": "closeApplication",
+      "signature": "void closeApplication()",
+      "description": "Close current active application"
+    },
+    {
+      "returnType": "void",
+      "name": "closeApplication",
+      "signature": "void closeApplication(boolean&nbsp;showConfirmation)",
+      "description": "Close current active application"
+    },
+    {
+      "returnType": "void",
+      "name": "closePage",
+      "signature": "void closePage()",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "commitTransaction",
+      "signature": "void commitTransaction()",
+      "description": "Commit database transaction"
+    },
+    {
+      "returnType": "void",
+      "name": "compressDirToZip",
+      "signature": "void compressDirToZip(java.lang.String&nbsp;directoryName, java.lang.String&nbsp;compressedFileName)",
+      "description": "Compress directory to zip"
+    },
+    {
+      "returnType": "void",
+      "name": "compressFilesToZip",
+      "signature": "void compressFilesToZip(java.lang.String[]&nbsp;sourceFileNames, java.lang.String&nbsp;compressedFileName)",
+      "description": "Compress files to zip"
+    },
+    {
+      "returnType": "void",
+      "name": "compressFileToZip",
+      "signature": "void compressFileToZip(java.lang.String&nbsp;sourceFileName, java.lang.String&nbsp;compressedFileName)",
+      "description": "Compress file to zip"
+    },
+    {
+      "returnType": "java.io.File",
+      "name": "createFile",
+      "signature": "java.io.File createFile(java.lang.String&nbsp;fullFileName, java.lang.String&nbsp;content)",
+      "description": "Create text file"
+    },
+    {
+      "returnType": "java.io.File",
+      "name": "createFile",
+      "signature": "java.io.File createFile(java.lang.String&nbsp;fullFileName, java.lang.String&nbsp;content, boolean&nbsp;overwrite)",
+      "description": "Create text file"
+    },
+    {
+      "returnType": "void",
+      "name": "createPdfFile",
+      "signature": "void createPdfFile(java.lang.String&nbsp;filename, java.util.ArrayList&lt;java.lang.String[]&gt;&nbsp;content)",
+      "description": "Generate pdf file"
+    },
+    {
+      "returnType": "void",
+      "name": "createPdfFile",
+      "signature": "void createPdfFile(java.lang.String&nbsp;filename, java.util.ArrayList&lt;java.lang.String[]&gt;&nbsp;content, java.util.HashMap&lt;java.lang.String,java.lang.Object&gt;&nbsp;config)",
+      "description": "Generate pdf file"
+    },
+    {
+      "returnType": "java.util.ArrayList&lt;java.lang.String[]&gt;",
+      "name": "csvConvert",
+      "signature": "java.util.ArrayList&lt;java.lang.String[]&gt; csvConvert(AttachmentField&nbsp;attachmentField)",
+      "description": "Convert csv file to ArrayList"
+    },
+    {
+      "returnType": "void",
+      "name": "deaggregate",
+      "signature": "void deaggregate(Event&nbsp;event, java.lang.String&nbsp;url, java.lang.String&nbsp;password, java.lang.String&nbsp;username, InputField&nbsp;CHILD_SERIAL_NUMBER, InputField&nbsp;CHILD_SERIAL_TYPE, InputField&nbsp;PARENT_PRODUCT_CODE_TYPE, InputField&nbsp;CHILD_PRODUCT_CODE_TYPE, InputField&nbsp;PARENT_SERIAL_NUMBER, InputField&nbsp;LOCATION_CREATED, Button&nbsp;deaggregateButton)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "decomissionCaptureService",
+      "signature": "void decomissionCaptureService(java.lang.String&nbsp;baseurl, java.lang.String&nbsp;username, java.lang.String&nbsp;password, InputField&nbsp;serialNumber, InputField&nbsp;reasonCode, InputField&nbsp;lotNumber, InputField&nbsp;expirationDate, InputField&nbsp;productUOM, InputField&nbsp;itemNumber, Button&nbsp;decommissionButton, InputField&nbsp;locationCreated)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "decomissionWebService",
+      "signature": "void decomissionWebService(InputField&nbsp;itemSource, InputField&nbsp;reasonCode, InputField&nbsp;productCode, InputField&nbsp;lotNumber, InputField&nbsp;locationCreated, InputField&nbsp;serialNumber, InputField&nbsp;expirationDate, InputField&nbsp;productUOM, InputField&nbsp;itemNumber, Button&nbsp;decommissionButton)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "decomWS",
+      "signature": "void decomWS(InputField&nbsp;itemSource, InputField&nbsp;reasonCode, InputField&nbsp;productCode, InputField&nbsp;lotNumber, InputField&nbsp;locationCreated, InputField&nbsp;serialNumber, InputField&nbsp;expirationDate, InputField&nbsp;productUOM, InputField&nbsp;itemNumber, Button&nbsp;decommissionButton, Event&nbsp;event)",
+      "description": ""
+    },
+    {
+      "returnType": "long",
+      "name": "deleteRecordDb",
+      "signature": "long deleteRecordDb(java.lang.String&nbsp;tableName, java.lang.String&nbsp;whereClause, java.lang.String[]&nbsp;whereParams)",
+      "description": "Delete record from the database"
+    },
+    {
+      "returnType": "protected void",
+      "name": "epcisService",
+      "signature": "protected void epcisService(Event&nbsp;event, java.lang.String&nbsp;url, java.lang.String&nbsp;password, java.lang.String&nbsp;username, InputField&nbsp;CHILD_SERIAL_NUMBER, InputField&nbsp;CHILD_SERIAL_TYPE, InputField&nbsp;PARENT_PRODUCT_CODE_TYPE, InputField&nbsp;CHILD_PRODUCT_CODE_TYPE, InputField&nbsp;PARENT_SERIAL_NUMBER, InputField&nbsp;LOCATION_CREATED, Button&nbsp;deaggregateButton)",
+      "description": ""
+    },
+    {
+      "returnType": "java.lang.Object",
+      "name": "executeFunction",
+      "signature": "java.lang.Object executeFunction(java.lang.String&nbsp;functionName, java.lang.Object[]&nbsp;parameters, java.lang.String[]&nbsp;parameterTypes)",
+      "description": "Execute Function"
+    },
+    {
+      "returnType": "java.lang.Object",
+      "name": "executeFunction",
+      "signature": "java.lang.Object executeFunction(java.lang.String&nbsp;functionName, java.lang.Object[]&nbsp;parameters, java.lang.String[]&nbsp;parameterTypes, boolean&nbsp;isCommit)",
+      "description": "Execute Function"
+    },
+    {
+      "returnType": "java.lang.Object[]",
+      "name": "executePLSQL",
+      "signature": "java.lang.Object[] executePLSQL(java.lang.String&nbsp;PLSQL, java.lang.Object[]&nbsp;parameters, java.lang.String[]&nbsp;parameterTypes)",
+      "description": "Execute Stored Procedure"
+    },
+    {
+      "returnType": "java.lang.Object[]",
+      "name": "executePLSQL",
+      "signature": "java.lang.Object[] executePLSQL(java.lang.String&nbsp;PLSQL, java.lang.Object[]&nbsp;parameters, java.lang.String[]&nbsp;parameterTypes, boolean&nbsp;isCommit)",
+      "description": "Execute Stored Procedure"
+    },
+    {
+      "returnType": "java.lang.Object[]",
+      "name": "executeProcedureMSSQL",
+      "signature": "java.lang.Object[] executeProcedureMSSQL(java.lang.String&nbsp;PLSQL, java.lang.Object[]&nbsp;parameters, java.lang.String[]&nbsp;parameterTypes, boolean&nbsp;isCommit)",
+      "description": "Execute Stored Procedure for MSSQL with Table as the result"
+    },
+    {
+      "returnType": "com.intellinum.mia.app.util.TableResult",
+      "name": "executeQuery",
+      "signature": "com.intellinum.mia.app.util.TableResult executeQuery(java.lang.String&nbsp;query, java.lang.Object[]&nbsp;parameters)",
+      "description": "Execute select query"
+    },
+    {
+      "returnType": "com.intellinum.mia.app.util.TableResult",
+      "name": "executeQuery",
+      "signature": "com.intellinum.mia.app.util.TableResult executeQuery(java.lang.String&nbsp;query, java.lang.Object[]&nbsp;parameters, java.lang.String&nbsp;connectionName)",
+      "description": ""
+    },
+    {
+      "returnType": "int",
+      "name": "executeUpdate",
+      "signature": "int executeUpdate(java.lang.String&nbsp;query, java.lang.Object[]&nbsp;parameters, boolean&nbsp;isCommit)",
+      "description": "Execute Insert, Update and Delete query"
+    },
+    {
+      "returnType": "java.lang.String",
+      "name": "generateBase64",
+      "signature": "java.lang.String generateBase64(java.lang.String&nbsp;fullFileName)",
+      "description": "Convert file on the server to base64"
+    },
+    {
+      "returnType": "java.io.File",
+      "name": "generateCsvFile",
+      "signature": "java.io.File generateCsvFile(java.lang.String&nbsp;fullFileName, java.util.Collection&lt;java.lang.Object[]&gt;&nbsp;tableResult)",
+      "description": "Generate CSV file"
+    },
+    {
+      "returnType": "java.io.File",
+      "name": "generateCsvFile",
+      "signature": "java.io.File generateCsvFile(java.lang.String&nbsp;fullFileName, java.util.Collection&lt;java.lang.Object[]&gt;&nbsp;tableResult, boolean&nbsp;overwrite)",
+      "description": "Generate CSV file"
+    },
+    {
+      "returnType": "java.io.File",
+      "name": "generateCsvFile",
+      "signature": "java.io.File generateCsvFile(java.lang.String&nbsp;fullFileName, Table&nbsp;table)",
+      "description": "Generate CSV file"
+    },
+    {
+      "returnType": "java.io.File",
+      "name": "generateCsvFile",
+      "signature": "java.io.File generateCsvFile(java.lang.String&nbsp;fullFileName, Table&nbsp;table, boolean&nbsp;overwrite)",
+      "description": "Generate CSV file"
+    },
+    {
+      "returnType": "java.io.File",
+      "name": "generateCsvFile",
+      "signature": "java.io.File generateCsvFile(java.lang.String&nbsp;fullFileName, com.intellinum.mia.app.util.TableResult&nbsp;tableResult)",
+      "description": "Generate CSV file"
+    },
+    {
+      "returnType": "java.io.File",
+      "name": "generateCsvFile",
+      "signature": "java.io.File generateCsvFile(java.lang.String&nbsp;fullFileName, com.intellinum.mia.app.util.TableResult&nbsp;tableResult, boolean&nbsp;overwrite)",
+      "description": "Generate CSV file"
+    },
+    {
+      "returnType": "int",
+      "name": "generateID",
+      "signature": "int generateID()",
+      "description": ""
+    },
+    {
+      "returnType": "com.intellinum.mia.app.util.webservice.WebServiceFlexiTask",
+      "name": "generateWebServiceTask",
+      "signature": "com.intellinum.mia.app.util.webservice.WebServiceFlexiTask generateWebServiceTask(FlexiWebService&nbsp;flexiWebService, java.util.HashMap&nbsp;parameters, java.lang.String&nbsp;stamp)",
+      "description": ""
+    },
+    {
+      "returnType": "com.intellinum.mia.app.logfire.logical.LogFireWebServiceTask",
+      "name": "generateWebServiceTask",
+      "signature": "com.intellinum.mia.app.logfire.logical.LogFireWebServiceTask generateWebServiceTask(com.intellinum.mia.app.logfire.logical.LogFireWebService&nbsp;logFireWebService, java.util.HashMap&nbsp;parameters, java.lang.String&nbsp;stamp)",
+      "description": ""
+    },
+    {
+      "returnType": "com.intellinum.mia.app.runtime.Context",
+      "name": "getContext",
+      "signature": "com.intellinum.mia.app.runtime.Context getContext()",
+      "description": ""
+    },
+    {
+      "returnType": "Component",
+      "name": "getCurrentComponent",
+      "signature": "Component getCurrentComponent()",
+      "description": "Get the active component where cursor is"
+    },
+    {
+      "returnType": "java.lang.String",
+      "name": "getCurrentComponentName",
+      "signature": "java.lang.String getCurrentComponentName()",
+      "description": "Get the name of the active component"
+    },
+    {
+      "returnType": "java.sql.Connection",
+      "name": "getDabataseConnection",
+      "signature": "java.sql.Connection getDabataseConnection()",
+      "description": "get active database connection."
+    },
+    {
+      "returnType": "java.lang.String",
+      "name": "getDecimalSeparator",
+      "signature": "java.lang.String getDecimalSeparator()",
+      "description": ""
+    },
+    {
+      "returnType": "DeviceInfo",
+      "name": "getDeviceInfo",
+      "signature": "DeviceInfo getDeviceInfo()",
+      "description": ""
+    },
+    {
+      "returnType": "java.sql.Connection",
+      "name": "getFlexiDatabaseConnection",
+      "signature": "java.sql.Connection getFlexiDatabaseConnection()",
+      "description": "Get flexi database connection."
+    },
+    {
+      "returnType": "java.lang.String",
+      "name": "getLocale",
+      "signature": "java.lang.String getLocale()",
+      "description": ""
+    },
+    {
+      "returnType": "java.lang.String",
+      "name": "getLoginPage",
+      "signature": "java.lang.String getLoginPage()",
+      "description": ""
+    },
+    {
+      "returnType": "java.lang.Object",
+      "name": "getObject",
+      "signature": "java.lang.Object getObject(java.lang.String&nbsp;key)",
+      "description": "Get Object from application"
+    },
+    {
+      "returnType": "Page",
+      "name": "getPreviousPage",
+      "signature": "Page getPreviousPage()",
+      "description": ""
+    },
+    {
+      "returnType": "java.lang.Object",
+      "name": "getSessionObject",
+      "signature": "java.lang.Object getSessionObject(java.lang.String&nbsp;key)",
+      "description": "Get Object from session"
+    },
+    {
+      "returnType": "java.lang.String",
+      "name": "getStatusMessage",
+      "signature": "java.lang.String getStatusMessage()",
+      "description": "Get message in the status bar"
+    },
+    {
+      "returnType": "WMSCloudRFInterface",
+      "name": "getWMSCloudRFInterface",
+      "signature": "WMSCloudRFInterface getWMSCloudRFInterface()",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "gotoComponent",
+      "signature": "void gotoComponent(java.lang.String&nbsp;componentName)",
+      "description": "set active cursor to the component"
+    },
+    {
+      "returnType": "long",
+      "name": "insertRecordDb",
+      "signature": "long insertRecordDb(java.lang.String&nbsp;tableName, java.util.HashMap&lt;java.lang.String,java.lang.String&gt;&nbsp;contentValues)",
+      "description": "Insert record into the database"
+    },
+    {
+      "returnType": "boolean",
+      "name": "isCameraSupported",
+      "signature": "boolean isCameraSupported()",
+      "description": "Is Device has a camera functionality"
+    },
+    {
+      "returnType": "boolean",
+      "name": "isInputAvailable",
+      "signature": "boolean isInputAvailable()",
+      "description": "Check if there is more input in the connection buffer"
+    },
+    {
+      "returnType": "boolean",
+      "name": "isOnline",
+      "signature": "boolean isOnline()",
+      "description": ""
+    },
+    {
+      "returnType": "boolean",
+      "name": "isValidDate",
+      "signature": "boolean isValidDate(java.lang.String&nbsp;text)",
+      "description": "Validate a text against dd-MMM-yyyy date format."
+    },
+    {
+      "returnType": "static void",
+      "name": "main",
+      "signature": "static void main(java.lang.String&nbsp;args)",
+      "description": ""
+    },
+    {
+      "returnType": "static void",
+      "name": "main",
+      "signature": "static void main(java.lang.String[]&nbsp;args)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "massDecomWS",
+      "signature": "void massDecomWS(InputField&nbsp;itemSource, InputField&nbsp;reasonCode, InputField&nbsp;productCode, InputField&nbsp;lotNumber, InputField&nbsp;locationCreated, InputField&nbsp;serialNumber, InputField&nbsp;expirationDate, InputField&nbsp;productUOM, InputField&nbsp;itemNumber, InputField&nbsp;serialType, Button&nbsp;decommissionButton, Event&nbsp;event)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "openApplication",
+      "signature": "void openApplication(java.lang.String&nbsp;application)",
+      "description": "Open a new application"
+    },
+    {
+      "returnType": "void",
+      "name": "openMenu",
+      "signature": "void openMenu(java.lang.String&nbsp;menuName)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "openPage",
+      "signature": "void openPage(java.lang.String&nbsp;pageID)",
+      "description": "Open a new page"
+    },
+    {
+      "returnType": "void",
+      "name": "openPers",
+      "signature": "void openPers()",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "openTemplate",
+      "signature": "void openTemplate(java.lang.String&nbsp;pageName)",
+      "description": "Open Page Template from LogFire Page"
+    },
+    {
+      "returnType": "void",
+      "name": "playNegativeSound",
+      "signature": "void playNegativeSound()",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "playPositiveSound",
+      "signature": "void playPositiveSound()",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "playSound",
+      "signature": "void playSound(java.lang.String&nbsp;name)",
+      "description": "Play a custom sound"
+    },
+    {
+      "returnType": "void",
+      "name": "preventDefault",
+      "signature": "void preventDefault()",
+      "description": "Cancel script"
+    },
+    {
+      "returnType": "void",
+      "name": "preventDefault",
+      "signature": "void preventDefault(java.lang.String&nbsp;message)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "printApplicationVariable",
+      "signature": "void printApplicationVariable()",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "printClear",
+      "signature": "void printClear(InputField&nbsp;CHILD_SERIAL_NUMBER, InputField&nbsp;PRINTER)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "printExit",
+      "signature": "void printExit(InputField&nbsp;CHILD_SERIAL_NUMBER, InputField&nbsp;PRINTER)",
+      "description": ""
+    },
+    {
+      "returnType": "java.lang.String",
+      "name": "printLabel",
+      "signature": "java.lang.String printLabel(java.lang.String&nbsp;transactionType, java.util.HashMap&nbsp;params)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "printSessionVariable",
+      "signature": "void printSessionVariable()",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "putObject",
+      "signature": "void putObject(java.lang.String&nbsp;key, java.lang.Object&nbsp;object)",
+      "description": "Put a temporary object in application."
+    },
+    {
+      "returnType": "void",
+      "name": "putSessionObject",
+      "signature": "void putSessionObject(java.lang.String&nbsp;key, java.lang.Object&nbsp;object)",
+      "description": "Put a temporary object in session"
+    },
+    {
+      "returnType": "void",
+      "name": "removeLastAction",
+      "signature": "void removeLastAction()",
+      "description": ""
+    },
+    {
+      "returnType": "java.lang.Object",
+      "name": "removeObject",
+      "signature": "java.lang.Object removeObject(java.lang.String&nbsp;key)",
+      "description": "Remove object from application."
+    },
+    {
+      "returnType": "java.lang.Object",
+      "name": "removeSessionObject",
+      "signature": "java.lang.Object removeSessionObject(java.lang.String&nbsp;key)",
+      "description": "Remove object from session"
+    },
+    {
+      "returnType": "void",
+      "name": "resetPage",
+      "signature": "void resetPage()",
+      "description": "reset all the value of the Input Field in the page(LOV and TextInput)"
+    },
+    {
+      "returnType": "void",
+      "name": "rollbackTransaction",
+      "signature": "void rollbackTransaction()",
+      "description": "Rollback database transaction"
+    },
+    {
+      "returnType": "void",
+      "name": "sendEmail",
+      "signature": "void sendEmail(java.lang.String&nbsp;subject, java.lang.String&nbsp;text, java.lang.String&nbsp;to, java.lang.String&nbsp;filePath)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "sendKey",
+      "signature": "void sendKey(java.lang.String&nbsp;action)",
+      "description": "Deprecated.&nbsp;"
+    },
+    {
+      "returnType": "void",
+      "name": "sendLoadingDialog",
+      "signature": "void sendLoadingDialog(java.lang.String&nbsp;loadingMessage)",
+      "description": "Set loading dialog to Flexi Client"
+    },
+    {
+      "returnType": "void",
+      "name": "sendLoadingMessage",
+      "signature": "void sendLoadingMessage(java.lang.String&nbsp;loadingMessage)",
+      "description": "Send loading message to Flexi Client"
+    },
+    {
+      "returnType": "void",
+      "name": "setAsyncStatusMessage",
+      "signature": "void setAsyncStatusMessage(java.lang.String&nbsp;asyncStatusMessage)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "setLoadingMessage",
+      "signature": "void setLoadingMessage(java.lang.String&nbsp;loadingMessage)",
+      "description": "Set loading message."
+    },
+    {
+      "returnType": "void",
+      "name": "setLoginPage",
+      "signature": "void setLoginPage(java.lang.String&nbsp;pageID)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "setStatusMessage",
+      "signature": "void setStatusMessage(java.lang.String&nbsp;message)",
+      "description": "Set message in a status bar"
+    },
+    {
+      "returnType": "java.lang.String",
+      "name": "showInputableDialog",
+      "signature": "java.lang.String showInputableDialog(java.lang.String&nbsp;title, java.lang.String&nbsp;message)",
+      "description": "Show a inputable dialog"
+    },
+    {
+      "returnType": "int",
+      "name": "showOptionDialog",
+      "signature": "int showOptionDialog(java.lang.String&nbsp;title, java.lang.String&nbsp;message, java.lang.String[]&nbsp;options)",
+      "description": "Show a option dialog"
+    },
+    {
+      "returnType": "int",
+      "name": "showOptionDialog",
+      "signature": "int showOptionDialog(java.lang.String&nbsp;title, java.lang.String&nbsp;message, java.lang.String[]&nbsp;options, java.lang.String&nbsp;backgroundColor)",
+      "description": "Show a option dialog"
+    },
+    {
+      "returnType": "void",
+      "name": "speak",
+      "signature": "void speak(java.lang.String&nbsp;sentence)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "testingBackgroundTask",
+      "signature": "void testingBackgroundTask()",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "transferTileToSFTP",
+      "signature": "void transferTileToSFTP(java.lang.String&nbsp;host, int&nbsp;port, java.lang.String&nbsp;username, java.lang.String&nbsp;password, AttachmentField&nbsp;sourceAttachmentField, java.lang.String&nbsp;targetFileName)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "transferTileToSFTP",
+      "signature": "void transferTileToSFTP(java.lang.String&nbsp;host, int&nbsp;port, java.lang.String&nbsp;username, java.lang.String&nbsp;password, java.io.File&nbsp;sourceFile, java.lang.String&nbsp;targetFileName)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "transferTileToSFTP",
+      "signature": "void transferTileToSFTP(java.lang.String&nbsp;host, int&nbsp;port, java.lang.String&nbsp;username, java.lang.String&nbsp;password, java.lang.String&nbsp;sourceFileName, java.lang.String&nbsp;targetFileName)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "transferTileToSFTPWithPVK",
+      "signature": "void transferTileToSFTPWithPVK(java.lang.String&nbsp;host, int&nbsp;port, java.lang.String&nbsp;username, java.lang.String&nbsp;privateKeyFile, AttachmentField&nbsp;sourceAttachmentField, java.lang.String&nbsp;targetFileName)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "transferTileToSFTPWithPVK",
+      "signature": "void transferTileToSFTPWithPVK(java.lang.String&nbsp;host, int&nbsp;port, java.lang.String&nbsp;username, java.lang.String&nbsp;privateKeyFile, java.io.File&nbsp;sourceFile, java.lang.String&nbsp;targetFileName)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "transferTileToSFTPWithPVK",
+      "signature": "void transferTileToSFTPWithPVK(java.lang.String&nbsp;host, int&nbsp;port, java.lang.String&nbsp;username, java.lang.String&nbsp;privateKeyFile, java.lang.String&nbsp;sourceFileName, java.lang.String&nbsp;targetFileName)",
+      "description": ""
+    },
+    {
+      "returnType": "java.util.ArrayList&lt;java.lang.String[]&gt;",
+      "name": "tsvConvert",
+      "signature": "java.util.ArrayList&lt;java.lang.String[]&gt; tsvConvert(AttachmentField&nbsp;attachmentField)",
+      "description": ""
+    },
+    {
+      "returnType": "long",
+      "name": "updateRecordDb",
+      "signature": "long updateRecordDb(java.lang.String&nbsp;tableName, java.util.HashMap&lt;java.lang.String,java.lang.String&gt;&nbsp;contentValues, java.lang.String&nbsp;whereClause, java.lang.String[]&nbsp;whereParams)",
+      "description": "Update record from the database"
+    },
+    {
+      "returnType": "java.lang.String",
+      "name": "validateForm",
+      "signature": "java.lang.String validateForm()",
+      "description": ""
+    }
+  ],
+  "FlexiWebService": [
+    {
+      "returnType": "void",
+      "name": "addAttachment",
+      "signature": "void addAttachment(java.lang.String&nbsp;name, java.lang.String&nbsp;filePath)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "addRequestHeader",
+      "signature": "void addRequestHeader(java.lang.String&nbsp;key, java.lang.String&nbsp;value)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "addText",
+      "signature": "void addText(java.lang.String&nbsp;name, java.lang.String&nbsp;text)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "callWebService",
+      "signature": "void callWebService()",
+      "description": "Calling web service"
+    },
+    {
+      "returnType": "void",
+      "name": "callWebService",
+      "signature": "void callWebService(java.util.HashMap&lt;java.lang.String,java.lang.String&gt;&nbsp;parameters)",
+      "description": "Calling web service"
+    },
+    {
+      "returnType": "void",
+      "name": "callWebService",
+      "signature": "void callWebService(java.util.HashMap&lt;java.lang.String,java.lang.String&gt;&nbsp;parameters, boolean&nbsp;isBackground)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "callWebService",
+      "signature": "void callWebService(java.util.HashMap&lt;java.lang.String,java.lang.String&gt;&nbsp;parameters, int&nbsp;page)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "callWebServiceBackground",
+      "signature": "void callWebServiceBackground(java.util.HashMap&lt;java.lang.String,java.lang.String&gt;&nbsp;parameters)",
+      "description": "This method is used to call a webservice using background thread."
+    },
+    {
+      "returnType": "void",
+      "name": "callWebServiceBackground",
+      "signature": "void callWebServiceBackground(java.util.HashMap&lt;java.lang.String,java.lang.String&gt;&nbsp;parameters, boolean&nbsp;isLOV)",
+      "description": "This method is used to call a webservice using background thread."
+    },
+    {
+      "returnType": "java.lang.Object",
+      "name": "clone",
+      "signature": "java.lang.Object clone()",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "extractPropertiesFromJSON",
+      "signature": "void extractPropertiesFromJSON(org.json.JSONObject&nbsp;json)",
+      "description": ""
+    },
+    {
+      "returnType": "int",
+      "name": "getCacheDuration",
+      "signature": "int getCacheDuration()",
+      "description": ""
+    },
+    {
+      "returnType": "com.intellinum.mia.app.util.webservice.cache.CacheScope",
+      "name": "getCacheScope",
+      "signature": "com.intellinum.mia.app.util.webservice.cache.CacheScope getCacheScope()",
+      "description": ""
+    },
+    {
+      "returnType": "java.lang.String",
+      "name": "getColumnMap",
+      "signature": "java.lang.String getColumnMap()",
+      "description": ""
+    },
+    {
+      "returnType": "java.lang.String",
+      "name": "getContentType",
+      "signature": "java.lang.String getContentType()",
+      "description": ""
+    },
+    {
+      "returnType": "int",
+      "name": "getCurrentPage",
+      "signature": "int getCurrentPage()",
+      "description": ""
+    },
+    {
+      "returnType": "java.lang.String",
+      "name": "getCustom",
+      "signature": "java.lang.String getCustom()",
+      "description": ""
+    },
+    {
+      "returnType": "java.lang.String",
+      "name": "getDescription",
+      "signature": "java.lang.String getDescription()",
+      "description": ""
+    },
+    {
+      "returnType": "java.lang.String",
+      "name": "getFinalUrl",
+      "signature": "java.lang.String getFinalUrl(java.util.HashMap&nbsp;parameters)",
+      "description": ""
+    },
+    {
+      "returnType": "java.lang.Object",
+      "name": "getJSONResult",
+      "signature": "java.lang.Object getJSONResult(java.lang.String&nbsp;path)",
+      "description": ""
+    },
+    {
+      "returnType": "java.lang.String",
+      "name": "getOnCallingRequest",
+      "signature": "java.lang.String getOnCallingRequest()",
+      "description": ""
+    },
+    {
+      "returnType": "java.lang.String",
+      "name": "getOnResponseReceived",
+      "signature": "java.lang.String getOnResponseReceived()",
+      "description": ""
+    },
+    {
+      "returnType": "java.lang.String",
+      "name": "getPassword",
+      "signature": "java.lang.String getPassword()",
+      "description": ""
+    },
+    {
+      "returnType": "java.lang.String",
+      "name": "getRawResponse",
+      "signature": "java.lang.String getRawResponse()",
+      "description": "Get response/result from web service call."
+    },
+    {
+      "returnType": "java.lang.String",
+      "name": "getRequestContent",
+      "signature": "java.lang.String getRequestContent()",
+      "description": ""
+    },
+    {
+      "returnType": "java.lang.String",
+      "name": "getResponse",
+      "signature": "java.lang.String getResponse(java.lang.String&nbsp;name)",
+      "description": "Getting response from web service."
+    },
+    {
+      "returnType": "int",
+      "name": "getResponseCode",
+      "signature": "int getResponseCode()",
+      "description": ""
+    },
+    {
+      "returnType": "java.lang.String",
+      "name": "getRestAction",
+      "signature": "java.lang.String getRestAction()",
+      "description": ""
+    },
+    {
+      "returnType": "java.lang.String",
+      "name": "getRestOperation",
+      "signature": "java.lang.String getRestOperation()",
+      "description": ""
+    },
+    {
+      "returnType": "java.util.ArrayList&lt;java.lang.String[]&gt;",
+      "name": "getTable",
+      "signature": "java.util.ArrayList&lt;java.lang.String[]&gt; getTable()",
+      "description": "Get response in the form of table"
+    },
+    {
+      "returnType": "int",
+      "name": "getTotalPage",
+      "signature": "int getTotalPage()",
+      "description": ""
+    },
+    {
+      "returnType": "com.intellinum.mia.app.ui.logical.FlexiWebService.WebServiceType",
+      "name": "getType",
+      "signature": "com.intellinum.mia.app.ui.logical.FlexiWebService.WebServiceType getType()",
+      "description": ""
+    },
+    {
+      "returnType": "java.lang.String",
+      "name": "getUrl",
+      "signature": "java.lang.String getUrl()",
+      "description": ""
+    },
+    {
+      "returnType": "java.lang.String",
+      "name": "getUsername",
+      "signature": "java.lang.String getUsername()",
+      "description": ""
+    },
+    {
+      "returnType": "boolean",
+      "name": "isCacheEnabled",
+      "signature": "boolean isCacheEnabled()",
+      "description": ""
+    },
+    {
+      "returnType": "boolean",
+      "name": "isIncludeSecurity",
+      "signature": "boolean isIncludeSecurity()",
+      "description": ""
+    },
+    {
+      "returnType": "boolean",
+      "name": "isKeepHistory",
+      "signature": "boolean isKeepHistory()",
+      "description": ""
+    },
+    {
+      "returnType": "boolean",
+      "name": "isSuccess",
+      "signature": "boolean isSuccess()",
+      "description": ""
+    },
+    {
+      "returnType": "static void",
+      "name": "main",
+      "signature": "static void main(java.lang.String[]&nbsp;args)",
+      "description": ""
+    },
+    {
+      "returnType": "protected void",
+      "name": "onResponseReceived",
+      "signature": "protected void onResponseReceived(Event&nbsp;event)",
+      "description": ""
+    },
+    {
+      "returnType": "protected void",
+      "name": "pagingUrlUpdate",
+      "signature": "protected void pagingUrlUpdate(int&nbsp;page)",
+      "description": ""
+    },
+    {
+      "returnType": "protected java.lang.String",
+      "name": "removeNewLine",
+      "signature": "protected java.lang.String removeNewLine(java.lang.String&nbsp;s)",
+      "description": ""
+    },
+    {
+      "returnType": "int",
+      "name": "resultCount",
+      "signature": "int resultCount()",
+      "description": ""
+    },
+    {
+      "returnType": "protected void",
+      "name": "runWebService",
+      "signature": "protected void runWebService(java.util.HashMap&nbsp;parameters)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "setAuthenticationMode",
+      "signature": "void setAuthenticationMode(java.lang.String&nbsp;authenticationMode)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "setCacheDuration",
+      "signature": "void setCacheDuration(int&nbsp;duration)",
+      "description": "Set the cache duration."
+    },
+    {
+      "returnType": "void",
+      "name": "setCacheEnabled",
+      "signature": "void setCacheEnabled(boolean&nbsp;enabled)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "setCacheScope",
+      "signature": "void setCacheScope(com.intellinum.mia.app.util.webservice.cache.CacheScope&nbsp;cacheScope)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "setColumnMapString",
+      "signature": "void setColumnMapString(java.lang.String&nbsp;columnMapString)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "setCustom",
+      "signature": "void setCustom(java.lang.String&nbsp;custom)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "setCustomFieldEnabled",
+      "signature": "void setCustomFieldEnabled(Page&nbsp;page, java.lang.String&nbsp;levelName)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "setDescription",
+      "signature": "void setDescription(java.lang.String&nbsp;description)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "setIncludeSecurity",
+      "signature": "void setIncludeSecurity(boolean&nbsp;includeSecurity)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "setKeepHistory",
+      "signature": "void setKeepHistory(boolean&nbsp;keepHistory)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "setOauth10Parameter",
+      "signature": "void setOauth10Parameter(java.lang.String&nbsp;consumerKey, java.lang.String&nbsp;consumerSecret, java.lang.String&nbsp;accessToken, java.lang.String&nbsp;accessTokenSecret, java.lang.String&nbsp;realm)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "setOauth10Parameter",
+      "signature": "void setOauth10Parameter(java.lang.String&nbsp;consumerKey, java.lang.String&nbsp;consumerSecret, java.lang.String&nbsp;accessToken, java.lang.String&nbsp;accessTokenSecret, java.lang.String&nbsp;realm, java.lang.String&nbsp;signMethod)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "setOnCallingRequest",
+      "signature": "void setOnCallingRequest(java.lang.String&nbsp;onCallingRequest)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "setOnResponseReceived",
+      "signature": "void setOnResponseReceived(java.lang.String&nbsp;onResponseReceived)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "setOperation",
+      "signature": "void setOperation(java.lang.String&nbsp;operation)",
+      "description": "Set operation for the SOAP Web Service"
+    },
+    {
+      "returnType": "void",
+      "name": "setPassword",
+      "signature": "void setPassword(java.lang.String&nbsp;password)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "setRequest",
+      "signature": "void setRequest(java.lang.String&nbsp;requestContent)",
+      "description": "Set content for the callWebService"
+    },
+    {
+      "returnType": "void",
+      "name": "setRequestHeader",
+      "signature": "void setRequestHeader(java.util.HashMap&nbsp;requestHeader)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "setRestAction",
+      "signature": "void setRestAction(java.lang.String&nbsp;restAction)",
+      "description": "Set action for REST Web Service"
+    },
+    {
+      "returnType": "void",
+      "name": "setRestContentType",
+      "signature": "void setRestContentType(java.lang.String&nbsp;contentType)",
+      "description": "Set content type for the web service callWebService."
+    },
+    {
+      "returnType": "void",
+      "name": "setRestOperation",
+      "signature": "void setRestOperation(java.lang.String&nbsp;restOperation)",
+      "description": "Set operation for REST Web Service"
+    },
+    {
+      "returnType": "void",
+      "name": "setType",
+      "signature": "void setType(com.intellinum.mia.app.ui.logical.FlexiWebService.WebServiceType&nbsp;type)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "setType",
+      "signature": "void setType(java.lang.String&nbsp;type)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "setUrl",
+      "signature": "void setUrl(java.lang.String&nbsp;url)",
+      "description": "Set Url Address for the Web service If Web service is SOAP type, then use wsdl address If Web service is REST type, then use web service address without operation path"
+    },
+    {
+      "returnType": "void",
+      "name": "setUsername",
+      "signature": "void setUsername(java.lang.String&nbsp;username)",
+      "description": ""
+    },
+    {
+      "returnType": "protected java.lang.String",
+      "name": "transformUrlString",
+      "signature": "protected java.lang.String transformUrlString(java.lang.String&nbsp;content, int&nbsp;page)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "updateRawResponse",
+      "signature": "void updateRawResponse(java.lang.String&nbsp;response)",
+      "description": ""
+    },
+    {
+      "returnType": "java.lang.String",
+      "name": "updateRequestWithCustomField",
+      "signature": "java.lang.String updateRequestWithCustomField(java.lang.String&nbsp;requestContent)",
+      "description": ""
+    }
+  ],
+  "TextInputField": [
+    {
+      "returnType": "void",
+      "name": "addTextInputListener",
+      "signature": "void addTextInputListener(com.intellinum.mia.app.event.TextInputEventListener&nbsp;textInputEventListener)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "extractPropertiesFromJSON",
+      "signature": "void extractPropertiesFromJSON(org.json.JSONObject&nbsp;json)",
+      "description": "Extract properties from json object."
+    },
+    {
+      "returnType": "org.json.JSONObject",
+      "name": "getJSONObjectProperties",
+      "signature": "org.json.JSONObject getJSONObjectProperties(org.json.JSONObject&nbsp;properties)",
+      "description": "Extract UI object properties into JSON Object."
+    },
+    {
+      "returnType": "java.lang.String",
+      "name": "getObjectType",
+      "signature": "java.lang.String getObjectType()",
+      "description": "Get the object type of the UIObject."
+    },
+    {
+      "returnType": "java.lang.String",
+      "name": "getPasswordValue",
+      "signature": "java.lang.String getPasswordValue()",
+      "description": "Get the plain value for password type text input"
+    },
+    {
+      "returnType": "java.lang.String",
+      "name": "getValue",
+      "signature": "java.lang.String getValue()",
+      "description": "Get value for the Text Input."
+    },
+    {
+      "returnType": "boolean",
+      "name": "isPassword",
+      "signature": "boolean isPassword()",
+      "description": ""
+    },
+    {
+      "returnType": "TextInputField",
+      "name": "setPassword",
+      "signature": "TextInputField setPassword(boolean&nbsp;password)",
+      "description": ""
+    }
+  ],
+  "Page": [
+    {
+      "returnType": "void",
+      "name": "addBarcodeComponentObject",
+      "signature": "void addBarcodeComponentObject(com.intellinum.mia.app.util.scan.BarcodeComponent&nbsp;barcodeComponent, com.intellinum.mia.app.personalization.additional.AdditionalBarcodeComponent&nbsp;additionalBarcodeComponent)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "addBarcodeTypeObject",
+      "signature": "void addBarcodeTypeObject(com.intellinum.mia.app.util.scan.BarcodeType&nbsp;barcodeType, com.intellinum.mia.app.personalization.additional.AdditionalBarcodeType&nbsp;additionalBarcodeType)",
+      "description": "This should only be called by the Personalization Package"
+    },
+    {
+      "returnType": "void",
+      "name": "addContainer",
+      "signature": "void addContainer(Container&nbsp;container)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "addContainerAt",
+      "signature": "void addContainerAt(int&nbsp;index, Container&nbsp;container)",
+      "description": ""
+    },
+    {
+      "returnType": "Page",
+      "name": "addEventListener",
+      "signature": "Page addEventListener(com.intellinum.mia.app.event.PageEventListener&nbsp;eventListener)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "addLogicalObject",
+      "signature": "void addLogicalObject(java.util.ArrayList&lt;FlexiLogicalObject&gt;&nbsp;logicalObjects)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "addLogicalObject",
+      "signature": "void addLogicalObject(FlexiLogicalObject&nbsp;logicalObject)",
+      "description": ""
+    },
+    {
+      "returnType": "abstract void",
+      "name": "buildPage",
+      "signature": "abstract void buildPage()",
+      "description": "Override this function."
+    },
+    {
+      "returnType": "java.lang.String",
+      "name": "checkRequiredField",
+      "signature": "java.lang.String checkRequiredField(java.lang.String&nbsp;name)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "clearPage",
+      "signature": "void clearPage()",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "clearValidNames",
+      "signature": "void clearValidNames()",
+      "description": ""
+    },
+    {
+      "returnType": "protected Event",
+      "name": "closePage",
+      "signature": "protected Event closePage(Event&nbsp;event)",
+      "description": "Function to close page"
+    },
+    {
+      "returnType": "void",
+      "name": "destroy",
+      "signature": "void destroy()",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "disableBackButton",
+      "signature": "void disableBackButton()",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "disableLocalizationFormat",
+      "signature": "void disableLocalizationFormat()",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "doAction",
+      "signature": "void doAction(com.intellinum.mia.app.action.Action&nbsp;action)",
+      "description": "Action taken when receive an input from server."
+    },
+    {
+      "returnType": "void",
+      "name": "enabledBackButton",
+      "signature": "void enabledBackButton()",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "enableLocalizationFormat",
+      "signature": "void enableLocalizationFormat()",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "extractPropertiesFromJSON",
+      "signature": "void extractPropertiesFromJSON(org.json.JSONObject&nbsp;json)",
+      "description": "Extract properties from json object."
+    },
+    {
+      "returnType": "protected Event",
+      "name": "gainFocus",
+      "signature": "protected Event gainFocus(Event&nbsp;event)",
+      "description": "This function is called when object receive a focus/cursor."
+    },
+    {
+      "returnType": "java.lang.String",
+      "name": "getAfterPromptDialog",
+      "signature": "java.lang.String getAfterPromptDialog()",
+      "description": ""
+    },
+    {
+      "returnType": "java.util.ArrayList&lt;com.intellinum.mia.app.FlexiObject&gt;",
+      "name": "getAllComponent",
+      "signature": "java.util.ArrayList&lt;com.intellinum.mia.app.FlexiObject&gt; getAllComponent()",
+      "description": ""
+    },
+    {
+      "returnType": "java.lang.String",
+      "name": "getBackgroundColor",
+      "signature": "java.lang.String getBackgroundColor()",
+      "description": ""
+    },
+    {
+      "returnType": "Component",
+      "name": "getComponent",
+      "signature": "Component getComponent(Container&nbsp;container, java.lang.String&nbsp;name)",
+      "description": ""
+    },
+    {
+      "returnType": "Component",
+      "name": "getComponent",
+      "signature": "Component getComponent(java.lang.String&nbsp;name)",
+      "description": "Get component by name"
+    },
+    {
+      "returnType": "Component",
+      "name": "getComponentIgnoreCase",
+      "signature": "Component getComponentIgnoreCase(java.lang.String&nbsp;name)",
+      "description": "Get Component by case insensitive name"
+    },
+    {
+      "returnType": "int",
+      "name": "getComponentPosition",
+      "signature": "int getComponentPosition(Component&nbsp;component)",
+      "description": "Get component position in the page"
+    },
+    {
+      "returnType": "int",
+      "name": "getComponentPosition",
+      "signature": "int getComponentPosition(java.lang.String&nbsp;name)",
+      "description": "Get component position in the page the last 3 character indicate the position in a container rest the front character indicate the position of container in the page"
+    },
+    {
+      "returnType": "Container",
+      "name": "getContainer",
+      "signature": "Container getContainer(java.lang.String&nbsp;name)",
+      "description": "Get Container by name"
+    },
+    {
+      "returnType": "int",
+      "name": "getContainerIndex",
+      "signature": "int getContainerIndex(java.lang.String&nbsp;name)",
+      "description": ""
+    },
+    {
+      "returnType": "java.util.ArrayList&lt;Container&gt;",
+      "name": "getContainers",
+      "signature": "java.util.ArrayList&lt;Container&gt; getContainers()",
+      "description": ""
+    },
+    {
+      "returnType": "Container",
+      "name": "getCurrentContainer",
+      "signature": "Container getCurrentContainer()",
+      "description": ""
+    },
+    {
+      "returnType": "int",
+      "name": "getCurrentContainerIndex",
+      "signature": "int getCurrentContainerIndex()",
+      "description": "Get active container position"
+    },
+    {
+      "returnType": "java.lang.String",
+      "name": "getCurrentContainerName",
+      "signature": "java.lang.String getCurrentContainerName()",
+      "description": ""
+    },
+    {
+      "returnType": "java.lang.Object",
+      "name": "getCustomFieldContent",
+      "signature": "java.lang.Object getCustomFieldContent()",
+      "description": ""
+    },
+    {
+      "returnType": "java.lang.String",
+      "name": "getCustomFieldIdentifier",
+      "signature": "java.lang.String getCustomFieldIdentifier()",
+      "description": ""
+    },
+    {
+      "returnType": "java.lang.String",
+      "name": "getInputProcessor",
+      "signature": "java.lang.String getInputProcessor()",
+      "description": ""
+    },
+    {
+      "returnType": "org.json.JSONObject",
+      "name": "getJSONObjectProperties",
+      "signature": "org.json.JSONObject getJSONObjectProperties(org.json.JSONObject&nbsp;properties)",
+      "description": "Extract UI object properties into JSON Object."
+    },
+    {
+      "returnType": "java.lang.String",
+      "name": "getLastActiveComponent",
+      "signature": "java.lang.String getLastActiveComponent()",
+      "description": ""
+    },
+    {
+      "returnType": "java.util.Vector&lt;FlexiLogicalObject&gt;",
+      "name": "getLogicalObjects",
+      "signature": "java.util.Vector&lt;FlexiLogicalObject&gt; getLogicalObjects()",
+      "description": ""
+    },
+    {
+      "returnType": "Component",
+      "name": "getNextComponent",
+      "signature": "Component getNextComponent()",
+      "description": "Get next component after the current active component."
+    },
+    {
+      "returnType": "java.lang.String",
+      "name": "getObjectType",
+      "signature": "java.lang.String getObjectType()",
+      "description": "Get the object type of the UIObject."
+    },
+    {
+      "returnType": "java.lang.String",
+      "name": "getOnBulkScan",
+      "signature": "java.lang.String getOnBulkScan()",
+      "description": ""
+    },
+    {
+      "returnType": "java.lang.String",
+      "name": "getOnPromptDialog",
+      "signature": "java.lang.String getOnPromptDialog()",
+      "description": ""
+    },
+    {
+      "returnType": "java.lang.String",
+      "name": "getOnRfidCaptured",
+      "signature": "java.lang.String getOnRfidCaptured()",
+      "description": ""
+    },
+    {
+      "returnType": "java.lang.String",
+      "name": "getOnStatusChanged",
+      "signature": "java.lang.String getOnStatusChanged()",
+      "description": ""
+    },
+    {
+      "returnType": "java.lang.String",
+      "name": "getPageID",
+      "signature": "java.lang.String getPageID()",
+      "description": ""
+    },
+    {
+      "returnType": "com.intellinum.mia.app.personalization.manager.PersonalizationManager",
+      "name": "getPersonalizationManager",
+      "signature": "com.intellinum.mia.app.personalization.manager.PersonalizationManager getPersonalizationManager()",
+      "description": ""
+    },
+    {
+      "returnType": "Component",
+      "name": "getPreviousComponent",
+      "signature": "Component getPreviousComponent()",
+      "description": "Get previous component before the current active component"
+    },
+    {
+      "returnType": "java.lang.String",
+      "name": "getTitle",
+      "signature": "java.lang.String getTitle()",
+      "description": "Get Page title"
+    },
+    {
+      "returnType": "java.lang.String",
+      "name": "getVersion",
+      "signature": "java.lang.String getVersion()",
+      "description": ""
+    },
+    {
+      "returnType": "com.intellinum.mia.app.voice.VoiceManager",
+      "name": "getVoiceManager",
+      "signature": "com.intellinum.mia.app.voice.VoiceManager getVoiceManager()",
+      "description": ""
+    },
+    {
+      "returnType": "boolean",
+      "name": "isActive",
+      "signature": "boolean isActive(java.lang.String&nbsp;name)",
+      "description": "Check if the container/component is active (with cursor)"
+    },
+    {
+      "returnType": "boolean",
+      "name": "isDisableLocalizationFormat",
+      "signature": "boolean isDisableLocalizationFormat()",
+      "description": ""
+    },
+    {
+      "returnType": "boolean",
+      "name": "isFocusable",
+      "signature": "boolean isFocusable()",
+      "description": "is the object can receive focus override this function if the object is not focusable like header, separator, or readonly field."
+    },
+    {
+      "returnType": "boolean",
+      "name": "isParentContainer",
+      "signature": "boolean isParentContainer(java.lang.String&nbsp;parentName, java.lang.String&nbsp;componentName)",
+      "description": "Check whether the container is a parent of a component"
+    },
+    {
+      "returnType": "boolean",
+      "name": "isValidNames",
+      "signature": "boolean isValidNames(java.lang.String&nbsp;name)",
+      "description": ""
+    },
+    {
+      "returnType": "boolean",
+      "name": "isVoiceEnable",
+      "signature": "boolean isVoiceEnable()",
+      "description": ""
+    },
+    {
+      "returnType": "Event",
+      "name": "lostFocus",
+      "signature": "Event lostFocus(Event&nbsp;event)",
+      "description": "This function is called when object lost a focus/cursor."
+    },
+    {
+      "returnType": "void",
+      "name": "moveToNextComponent",
+      "signature": "void moveToNextComponent(com.intellinum.mia.app.action.Action&nbsp;action)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "moveToPreviousComponent",
+      "signature": "void moveToPreviousComponent(com.intellinum.mia.app.action.Action&nbsp;action)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "onPageCreated",
+      "signature": "void onPageCreated(Event&nbsp;event)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "onStatusChanged",
+      "signature": "void onStatusChanged(java.lang.String&nbsp;oldMessage, java.lang.String&nbsp;newMessage)",
+      "description": ""
+    },
+    {
+      "returnType": "Event",
+      "name": "openPage",
+      "signature": "Event openPage(Event&nbsp;event)",
+      "description": "Function to open page"
+    },
+    {
+      "returnType": "void",
+      "name": "putValidNames",
+      "signature": "void putValidNames(java.lang.String&nbsp;name)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "removeChild",
+      "signature": "void removeChild(java.lang.String&nbsp;name)",
+      "description": "Remove childs component from container"
+    },
+    {
+      "returnType": "static &lt;T&gt;&nbsp;java.util.Vector&lt;T&gt;",
+      "name": "removeDuplicates",
+      "signature": "static &lt;T&gt;&nbsp;java.util.Vector&lt;T&gt; removeDuplicates(java.util.Vector&lt;T&gt;&nbsp;list)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "removeValidNames",
+      "signature": "void removeValidNames(java.lang.String&nbsp;name)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "reset",
+      "signature": "void reset()",
+      "description": "Reset UI Object to a default state"
+    },
+    {
+      "returnType": "java.lang.String",
+      "name": "runAfterPromptPage",
+      "signature": "java.lang.String runAfterPromptPage(java.lang.String&nbsp;title, java.lang.String&nbsp;message, java.lang.String&nbsp;userInput)",
+      "description": ""
+    },
+    {
+      "returnType": "java.lang.String",
+      "name": "runAfterPromptPage",
+      "signature": "java.lang.String runAfterPromptPage(java.lang.String&nbsp;title, java.lang.String&nbsp;message, java.lang.String[]&nbsp;options, int&nbsp;choice)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "runBarcode",
+      "signature": "void runBarcode(com.intellinum.mia.app.action.Action&nbsp;action)",
+      "description": "//08212016 SS Extract barcode and assign the value to the respective field"
+    },
+    {
+      "returnType": "com.intellinum.mia.app.runtime.InputData",
+      "name": "runInputProcessor",
+      "signature": "com.intellinum.mia.app.runtime.InputData runInputProcessor(com.intellinum.mia.app.runtime.InputData&nbsp;inputData)",
+      "description": ""
+    },
+    {
+      "returnType": "com.intellinum.mia.app.runtime.InputData",
+      "name": "runInputProcessor",
+      "signature": "com.intellinum.mia.app.runtime.InputData runInputProcessor(java.lang.String&nbsp;inputProcessor, com.intellinum.mia.app.runtime.InputData&nbsp;inputData)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "runOnBulkScan",
+      "signature": "void runOnBulkScan(com.intellinum.mia.app.action.Action&nbsp;action)",
+      "description": ""
+    },
+    {
+      "returnType": "java.lang.String",
+      "name": "runOnPromptPage",
+      "signature": "java.lang.String runOnPromptPage(java.lang.String&nbsp;title, java.lang.String&nbsp;message)",
+      "description": ""
+    },
+    {
+      "returnType": "java.lang.String",
+      "name": "runOnPromptPage",
+      "signature": "java.lang.String runOnPromptPage(java.lang.String&nbsp;title, java.lang.String&nbsp;message, java.lang.String[]&nbsp;options, java.lang.String&nbsp;backgroundColor)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "runOnRFIDCapture",
+      "signature": "void runOnRFIDCapture(com.intellinum.mia.app.action.Action&nbsp;action)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "runSubsequentValue",
+      "signature": "void runSubsequentValue(java.util.HashMap&lt;java.lang.String,java.lang.String&gt;&nbsp;subsequentVal)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "setAfterPromptDialog",
+      "signature": "void setAfterPromptDialog(java.lang.String&nbsp;afterPromptDialog)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "setApplication",
+      "signature": "void setApplication(Application&nbsp;application)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "setBackgroundColor",
+      "signature": "void setBackgroundColor(java.lang.String&nbsp;color)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "setCurrentComponent",
+      "signature": "void setCurrentComponent(Component&nbsp;component)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "setCurrentContainer",
+      "signature": "void setCurrentContainer(Container&nbsp;currentContainer)",
+      "description": ""
+    },
+    {
+      "returnType": "FlexiUIObject",
+      "name": "setFirstFocus",
+      "signature": "FlexiUIObject setFirstFocus()",
+      "description": "Set the cursor to the first focusable field"
+    },
+    {
+      "returnType": "void",
+      "name": "setInputProcessor",
+      "signature": "void setInputProcessor(java.lang.String&nbsp;inputProcessor)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "setLastActiveComponent",
+      "signature": "void setLastActiveComponent(java.lang.String&nbsp;lastActiveComponent)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "setOnBulkScan",
+      "signature": "void setOnBulkScan(java.lang.String&nbsp;onBulkScan)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "setOnPromptDialog",
+      "signature": "void setOnPromptDialog(java.lang.String&nbsp;onPromptDialog)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "setOnRfidCaptured",
+      "signature": "void setOnRfidCaptured(java.lang.String&nbsp;onRfidCaptured)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "setOnStatusChanged",
+      "signature": "void setOnStatusChanged(java.lang.String&nbsp;onStatusChanged)",
+      "description": ""
+    },
+    {
+      "returnType": "Page",
+      "name": "setTitle",
+      "signature": "Page setTitle(java.lang.String&nbsp;title)",
+      "description": "Set page title"
+    },
+    {
+      "returnType": "void",
+      "name": "setVoiceEnable",
+      "signature": "void setVoiceEnable(boolean&nbsp;voiceEnable)",
+      "description": ""
+    },
+    {
+      "returnType": "boolean",
+      "name": "showDisablePersonalizationWarn",
+      "signature": "boolean showDisablePersonalizationWarn()",
+      "description": ""
+    },
+    {
+      "returnType": "protected Event",
+      "name": "specialKey",
+      "signature": "protected Event specialKey(Event&nbsp;event)",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "storeInApplicationObject",
+      "signature": "void storeInApplicationObject()",
+      "description": ""
+    },
+    {
+      "returnType": "org.json.JSONObject",
+      "name": "toJsonObject",
+      "signature": "org.json.JSONObject toJsonObject()",
+      "description": "Get JSON Object that will be used for UI Client."
+    },
+    {
+      "returnType": "java.lang.String",
+      "name": "toString",
+      "signature": "java.lang.String toString()",
+      "description": ""
+    },
+    {
+      "returnType": "void",
+      "name": "updateValidNames",
+      "signature": "void updateValidNames()",
+      "description": ""
+    },
+    {
+      "returnType": "java.lang.String",
+      "name": "validateForm",
+      "signature": "java.lang.String validateForm()",
+      "description": ""
+    }
+  ]
+}

@@ -1,0 +1,1540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flexi PWA Migrator Suite • Dynamic Enterprise Edition</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.1.0/pako.min.js"></script>
+  <script src="js/flexi_client_engine.js"></script>
+  <style>
+    :root {
+      --bg-dark: #0b0f19;
+      --bg-panel: #111827;
+      --bg-card: #1f2937;
+      --bg-input: #0e1526;
+      --border-color: #374151;
+      --border-focus: #3b82f6;
+      --primary: #3b82f6;
+      --primary-hover: #2563eb;
+      --primary-rgb: 59, 130, 246;
+      --accent: #8b5cf6;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --text-main: #f9fafb;
+      --text-muted: #9ca3af;
+      --text-sub: #6b7280;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* Header styling */
+    header {
+      background: rgba(17, 24, 39, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-color);
+      padding: 14px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .brand-wrap { display: flex; align-items: center; gap: 14px; }
+    .brand-badge-logo {
+      width: 42px;
+      height: 42px;
+      background: linear-gradient(135deg, #2563eb, #8b5cf6);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 20px;
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(59, 130, 246, 0.35);
+    }
+
+    .brand-title { font-size: 18px; font-weight: 800; letter-spacing: -0.02em; }
+    .brand-subtitle { font-size: 12px; color: var(--text-muted); font-weight: 400; }
+
+    .header-pills { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      color: #34d399;
+      padding: 5px 12px;
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+    .status-dot { width: 7px; height: 7px; background: #10b981; border-radius: 50%; box-shadow: 0 0 8px #10b981; }
+
+    /* Navigation tabs */
+    .tabs-bar {
+      background: #111827;
+      border-bottom: 1px solid var(--border-color);
+      padding: 0 28px;
+      display: flex;
+      gap: 4px;
+      overflow-x: auto;
+    }
+
+    .tab-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      padding: 13px 18px;
+      font-size: 13.5px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 2px solid transparent;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+    .tab-btn:hover { color: var(--text-main); background: rgba(255, 255, 255, 0.03); }
+    .tab-btn.active { color: var(--primary); border-bottom-color: var(--primary); }
+
+    /* Layout Containers */
+    main { flex: 1; padding: 24px 28px; display: flex; flex-direction: column; gap: 24px; }
+    .tab-pane { display: none; flex-direction: column; gap: 20px; animation: fadeIn 0.2s ease; }
+    .tab-pane.active { display: flex; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* Cards */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    }
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .card-title { font-size: 16px; font-weight: 700; color: #fff; }
+    .card-desc { font-size: 13px; color: var(--text-muted); margin-top: 3px; }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      border: 1px solid transparent;
+      text-decoration: none;
+    }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-primary:hover { background: var(--primary-hover); }
+    .btn-secondary { background: #374151; color: #f3f4f6; }
+    .btn-secondary:hover { background: #4b5563; }
+    .btn-outline { background: transparent; border-color: var(--border-color); color: #d1d5db; }
+    .btn-outline:hover { background: rgba(255, 255, 255, 0.05); color: #fff; border-color: #6b7280; }
+    .btn-success { background: #059669; color: #fff; }
+    .btn-success:hover { background: #047857; }
+    .btn-danger { background: #dc2626; color: #fff; }
+    .btn-sm { padding: 6px 12px; font-size: 12px; border-radius: 6px; }
+
+    /* Dropzone */
+    .dropzone {
+      border: 2px dashed #4b5563;
+      border-radius: 12px;
+      padding: 38px 24px;
+      text-align: center;
+      background: rgba(17, 24, 39, 0.5);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+    .dropzone:hover, .dropzone.dragover {
+      border-color: var(--primary);
+      background: rgba(59, 130, 246, 0.08);
+    }
+    .dropzone input[type="file"] {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      opacity: 0;
+      cursor: pointer;
+    }
+    .upload-icon-circle {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      background: rgba(59, 130, 246, 0.15);
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 14px;
+    }
+    .upload-icon-circle svg { width: 28px; height: 28px; }
+
+    /* Metrics Grid */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 14px;
+    }
+    .metric-card {
+      background: #111827;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .metric-label { font-size: 12px; color: var(--text-muted); font-weight: 500; text-transform: uppercase; letter-spacing: 0.04em; }
+    .metric-val { font-size: 26px; font-weight: 800; color: #fff; font-family: 'JetBrains Mono', monospace; }
+    .metric-tag { font-size: 11px; color: var(--success); font-weight: 500; }
+
+    /* Validation Bar */
+    .validation-bar {
+      background: rgba(16, 185, 129, 0.08);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      border-radius: 10px;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .validation-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12.5px;
+      color: #e5e7eb;
+    }
+    .val-check { color: #10b981; font-weight: 700; }
+
+    /* Screen Selector Bar */
+    .screen-selector-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      overflow-x: auto;
+      padding-bottom: 6px;
+    }
+    .screen-pill {
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: #94a3b8;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+    }
+    .screen-pill:hover { background: #334155; color: #fff; }
+    .screen-pill.active { background: var(--primary); border-color: var(--primary); color: #fff; }
+
+    /* Inspector & Diff layout */
+    .inspector-layout {
+      display: grid;
+      grid-template-columns: 340px 1fr;
+      gap: 18px;
+      min-height: 560px;
+    }
+    @media (max-width: 900px) {
+      .inspector-layout { grid-template-columns: 1fr; }
+    }
+
+    .tree-box {
+      background: #111827;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 14px;
+      overflow-y: auto;
+      max-height: 600px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .tree-item {
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 13px;
+      color: #d1d5db;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      transition: all 0.12s ease;
+    }
+    .tree-item:hover { background: rgba(255, 255, 255, 0.05); color: #fff; }
+    .tree-item.active { background: rgba(59, 130, 246, 0.2); border: 1px solid var(--primary); color: #fff; font-weight: 600; }
+
+    .component-badge {
+      font-size: 10px;
+      text-transform: uppercase;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+    .badge-ws { background: rgba(139, 92, 246, 0.25); color: #c4b5fd; }
+    .badge-btn { background: rgba(245, 158, 11, 0.25); color: #fde68a; }
+    .badge-input { background: rgba(59, 130, 246, 0.25); color: #93c5fd; }
+    .badge-page { background: rgba(16, 185, 129, 0.25); color: #6ee7b7; }
+    .badge-custom { background: rgba(156, 163, 175, 0.25); color: #e5e7eb; }
+
+    /* Code Diff Panes */
+    .diff-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      min-height: 480px;
+    }
+    @media (max-width: 800px) {
+      .diff-container { grid-template-columns: 1fr; }
+    }
+    .diff-pane {
+      background: #030712;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .diff-pane-header {
+      background: #111827;
+      padding: 10px 16px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12.5px;
+      font-weight: 600;
+    }
+    .code-editor {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      min-height: 420px;
+      background: transparent;
+      color: #e5e7eb;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12.5px;
+      line-height: 1.6;
+      border: none;
+      padding: 14px;
+      resize: vertical;
+      outline: none;
+      white-space: pre;
+    }
+
+    /* Markdown Report Styling */
+    .report-card {
+      background: #111827;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 32px;
+      color: #e2e8f0;
+      line-height: 1.7;
+      font-size: 14px;
+    }
+    .report-card h1 { color: #38bdf8; font-size: 24px; margin-bottom: 16px; font-weight: 800; border-bottom: 1px solid #334155; padding-bottom: 10px; }
+    .report-card h2 { color: #f1f5f9; font-size: 18px; margin: 28px 0 12px; font-weight: 700; border-bottom: 1px solid #1e293b; padding-bottom: 6px; }
+    .report-card h3 { color: #93c5fd; font-size: 15px; margin: 18px 0 8px; font-weight: 600; }
+    .report-card table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 13px; }
+    .report-card th, .report-card td { border: 1px solid #334155; padding: 8px 12px; text-align: left; }
+    .report-card th { background: #1e293b; color: #f8fafc; font-weight: 600; }
+    .report-card pre { background: #030712; border: 1px solid #334155; border-radius: 8px; padding: 14px; overflow-x: auto; margin: 12px 0; font-family: 'JetBrains Mono', monospace; font-size: 12px; }
+    .report-card code { background: #1e293b; color: #38bdf8; padding: 2px 6px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 12px; }
+
+    /* Tables */
+    .data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .data-table th, .data-table td { border-bottom: 1px solid var(--border-color); padding: 10px 14px; text-align: left; }
+    .data-table th { color: var(--text-muted); font-size: 11px; text-transform: uppercase; font-weight: 700; }
+    .data-table tr:hover { background: rgba(255, 255, 255, 0.02); }
+
+    /* Toast */
+    #toast {
+      position: fixed;
+      bottom: 24px; right: 24px;
+      background: #1f2937;
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 8px;
+      border-left: 4px solid var(--success);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+      display: none;
+      z-index: 1000;
+      font-size: 13.5px;
+      font-weight: 500;
+    }
+
+    .loader-wrap {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 30px;
+      color: var(--primary);
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .spinner {
+      width: 38px; height: 38px;
+      border: 3px solid rgba(59, 130, 246, 0.2);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navbar -->
+  <header>
+    <div class="brand-wrap">
+      <div class="brand-badge-logo">FP</div>
+      <div>
+        <div class="brand-title">Flexi PWA Migrator Enterprise</div>
+        <div class="brand-subtitle">Dynamic File-Dependent Personalization Migration Platform</div>
+      </div>
+    </div>
+    <div class="header-pills">
+      <div class="status-pill" id="fileActiveBadge" style="display:none; background:rgba(59,130,246,0.15); border-color:rgba(59,130,246,0.3); color:#60a5fa;">
+        📄 <span id="headerFileName">None</span>
+      </div>
+
+      <!-- IMS Quick Report Selector -->
+      <select id="imsSelect" class="btn btn-outline btn-sm" style="background:#111827; color:#f3f4f6; border-color:#374151; padding:7px 12px; cursor:pointer;">
+        <option value="">📁 Select IMS Personalization Report...</option>
+      </select>
+
+      <button class="btn btn-secondary btn-sm" id="btnResetSession" style="display:none;">
+        🔄 Reset / Upload Another File
+      </button>
+
+      <div class="status-pill">
+        <span class="status-dot"></span>
+        <span>Engine Active (100% Dynamic)</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Navigation Tabs -->
+  <nav class="tabs-bar">
+    <button class="tab-btn active" data-tab="tab-migrator">🚀 Migration Studio</button>
+    <button class="tab-btn" data-tab="tab-report" id="tabReportBtn">📑 PWA Audit Report</button>
+    <button class="tab-btn" data-tab="tab-inspector">🔍 Screen & Component Inspector</button>
+    <button class="tab-btn" data-tab="tab-diff">⚡ Code Diff & Editor</button>
+    <button class="tab-btn" data-tab="tab-sql">🗄️ Oracle SQL Generator</button>
+    <button class="tab-btn" data-tab="tab-scratchpad">🧪 Live Groovy Scratchpad</button>
+    <button class="tab-btn" data-tab="tab-api">📚 Intellinum API Catalog</button>
+    <button class="tab-btn" data-tab="tab-rules">📖 Migration Rules Matrix</button>
+  </nav>
+
+  <!-- Main Content Area -->
+  <main>
+
+    <!-- TAB 1: MIGRATION STUDIO -->
+    <div class="tab-pane active" id="tab-migrator">
+      <!-- File Dropzone Card -->
+      <div class="card" id="uploadCard">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Upload Personalization Report (One File at a Time)</div>
+            <div class="card-desc">Accepts Personalization PDF Reports (<code>.pdf</code>), Decoded XML files (<code>.xml</code>), or FlexiAdmin payloads (<code>.txt</code>).</div>
+          </div>
+        </div>
+
+        <div class="dropzone" id="dropzone">
+          <input type="file" id="fileInput" accept=".pdf,.txt,.xml">
+          <div class="upload-icon-circle">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+            </svg>
+          </div>
+          <h3 style="font-size:17px; margin-bottom:6px;" id="dropTitle">Choose or Drag & Drop Personalization File</h3>
+          <p style="color:var(--text-muted); font-size:13.5px;" id="dropDesc">Single-File Session Isolation: Every upload initializes a fresh, 100% file-dependent analysis session.</p>
+        </div>
+
+        <div class="loader-wrap" id="loader">
+          <div class="spinner"></div>
+          <span id="loaderText">Analyzing uploaded file, segregating screens, and compiling PWA JavaScript...</span>
+        </div>
+      </div>
+
+      <!-- Conversion Summary Section (shown once file is parsed) -->
+      <div id="summarySection" style="display:none; flex-direction:column; gap:20px;">
+        <div class="card" style="border-left: 4px solid var(--success);">
+          <div class="card-header">
+            <div>
+              <div style="font-size:12px; color:var(--success); font-weight:700; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:4px;">
+                Migration Status: Verified Complete
+              </div>
+              <h2 style="font-size:24px; font-weight:800;" id="appTitle">Application Name</h2>
+              <div style="font-size:13.5px; color:var(--text-muted); margin-top:4px;" id="fileMetaSub">
+                Source: <strong>uploaded_file.pdf</strong> • Session ID: <code>session_123</code>
+              </div>
+            </div>
+
+            <!-- Export Toolbar -->
+            <div style="display:flex; gap:8px; flex-wrap:wrap;">
+              <button class="btn btn-primary" id="btnViewReportQuick">📑 View Full Audit Report</button>
+              <button class="btn btn-outline" id="btnDownloadSql">🗄️ Download Oracle SQL</button>
+              <button class="btn btn-outline" id="btnDownloadXml">📄 Download XML</button>
+              <button class="btn btn-success" id="btnDownloadTxt">💾 Download .txt Payload</button>
+            </div>
+          </div>
+
+          <!-- Mandatory Pre-Flight Validation Bar -->
+          <div class="validation-bar" id="validationBar">
+            <div class="validation-item"><span class="val-check">✓</span> <span>File-Dependent Analysis: <strong id="valSource">Verified</strong></span></div>
+            <div class="validation-item"><span class="val-check">✓</span> <span>Page Count Fidelity: <strong id="valPages">0 Screens</strong></span></div>
+            <div class="validation-item"><span class="val-check">✓</span> <span>Dynamic Menus: <strong id="valMenus">100% Dynamic</strong></span></div>
+            <div class="validation-item"><span class="val-check">✓</span> <span>AST Syntax: <strong id="valAst">0 Errors</strong></span></div>
+            <div class="validation-item"><span class="val-check">✓</span> <span>Session Isolation: <strong id="valIsolation">Clean State</strong></span></div>
+          </div>
+
+          <!-- Key Metrics -->
+          <div class="metrics-grid">
+            <div class="metric-card">
+              <div class="metric-label">Screens / Pages</div>
+              <div class="metric-val" id="metricPages">0</div>
+              <div class="metric-tag">✓ Fully Segregated</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-label">Scripts Migrated</div>
+              <div class="metric-val" id="metricScripts">0</div>
+              <div class="metric-tag">✓ PWA JavaScript</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-label">Components</div>
+              <div class="metric-val" id="metricComponents">0</div>
+              <div class="metric-tag">Inputs, Buttons & LOVs</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-label">Web Services</div>
+              <div class="metric-val" id="metricWs">0</div>
+              <div class="metric-tag">REST & WMS APIs</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-label">Dynamic LOVs</div>
+              <div class="metric-val" id="metricLovs">0</div>
+              <div class="metric-tag">SQL Lookups</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PWA Text Payload Snippet Viewer & Downloader -->
+        <div class="card" style="border-left: 4px solid var(--primary);">
+          <div class="card-header">
+            <div>
+              <div class="card-title" style="display:flex; align-items:center; gap:8px;">
+                <span>📦 PWA Text Payload Snippet (<code>.txt</code>)</span>
+                <span class="status-pill" id="payloadSizeBadge" style="background:#1e293b; color:#38bdf8; font-size:11px;">Size: 0 KB</span>
+              </div>
+              <div class="card-desc">
+                Standard FlexiAdmin format: <code>personalization=&lt;list&gt;...</code>. Ready for direct terminal or web import into Intellinum Flexi.
+              </div>
+            </div>
+            <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+              <button class="btn btn-secondary btn-sm" id="btnCopyPayloadSnippet">📋 Copy Payload</button>
+              <button class="btn btn-success btn-sm" id="btnDownloadPayloadSnippet">💾 Download .txt File</button>
+            </div>
+          </div>
+
+          <div style="position:relative;">
+            <textarea class="code-editor" id="pwaPayloadSnippetText" readonly spellcheck="false" style="min-height:220px; max-height:360px; background:#030712; border:1px solid var(--border-color); border-radius:10px; color:#38bdf8; font-size:12px; font-family:'JetBrains Mono', monospace;" placeholder="// PWA Text Payload (.txt) will appear here upon upload..."></textarea>
+          </div>
+        </div>
+
+        <!-- Detected Screens Grid -->
+        <div class="card">
+          <div class="card-title">Detected Screens & Component Breakdown for This File</div>
+          <div class="card-desc">Every menu, section, and script below originates strictly from the currently uploaded file.</div>
+          <div id="screensGrid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:14px; margin-top:8px;">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: PWA AUDIT REPORT -->
+    <div class="tab-pane" id="tab-report">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Dynamic PWA Migration Audit Report</div>
+            <div class="card-desc">Detailed file-specific audit log, structural breakdown, AST validations, and deployment instructions.</div>
+          </div>
+          <div style="display:flex; gap:10px;">
+            <button class="btn btn-primary btn-sm" id="btnDownloadReportMd">⬇️ Download Report (.md)</button>
+            <button class="btn btn-outline btn-sm" onclick="window.print()">🖨️ Print / Save PDF</button>
+          </div>
+        </div>
+
+        <div class="report-card" id="reportContent">
+          <div style="text-align:center; padding:40px; color:var(--text-muted);">
+            No report available yet. Please upload a personalization file in Migration Studio to generate a file-dependent audit report.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: SCREEN & COMPONENT INSPECTOR -->
+    <div class="tab-pane" id="tab-inspector">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Screen & Component Hierarchy Inspector</div>
+            <div class="card-desc">Filter by detected screen to inspect UI elements, custom fields, web services, and attached event scripts.</div>
+          </div>
+          <!-- Screen Filter Dropdown -->
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="font-size:12.5px; color:var(--text-muted); font-weight:600;">Active Screen:</span>
+            <select id="inspectorScreenFilter" class="btn btn-outline btn-sm" style="background:#111827; color:#fff; border-color:#374151; padding:6px 12px; cursor:pointer;">
+              <option value="all">All Screens</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="inspector-layout">
+          <!-- Tree panel -->
+          <div>
+            <div style="font-size:12px; font-weight:700; color:var(--text-muted); text-transform:uppercase; margin-bottom:8px;">Components in Selected Screen</div>
+            <div class="tree-box" id="inspectorTree">
+              <div style="color:var(--text-muted); font-size:13px; padding:12px;">Upload a file to inspect components.</div>
+            </div>
+          </div>
+
+          <!-- Detail panel -->
+          <div style="background:#111827; border:1px solid var(--border-color); border-radius:10px; padding:20px; overflow-y:auto; max-height:600px;" id="inspectorDetailPanel">
+            <div style="text-align:center; padding:50px; color:var(--text-muted);">
+              Select a component from the left to inspect its personalization attributes, web service bindings, and event scripts.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 4: CODE DIFF & EDITOR -->
+    <div class="tab-pane" id="tab-diff">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Script Migration Diff & AST Validator</div>
+            <div class="card-desc">Examine original Groovy/Java code side-by-side with converted PWA JavaScript runtime code.</div>
+          </div>
+          <!-- Script Selector -->
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="font-size:12.5px; color:var(--text-muted); font-weight:600;">Script Hook:</span>
+            <select id="scriptSelector" class="btn btn-outline btn-sm" style="background:#111827; color:#fff; border-color:#374151; max-width:380px;">
+              <option value="">No scripts loaded</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="diff-container">
+          <!-- Left: Original Groovy -->
+          <div class="diff-pane">
+            <div class="diff-pane-header">
+              <span style="color:#f59e0b;">☕ Original Groovy / Java (SSH Flexi)</span>
+              <span id="diffOriginalLines" style="font-size:11px; color:var(--text-muted);">0 lines</span>
+            </div>
+            <textarea class="code-editor" id="diffOriginalCode" readonly spellcheck="false" placeholder="// Original Groovy source code will appear here..."></textarea>
+          </div>
+
+          <!-- Right: Migrated PWA JavaScript -->
+          <div class="diff-pane">
+            <div class="diff-pane-header">
+              <span style="color:#34d399;">⚡ Migrated PWA JavaScript (Modern Runtime)</span>
+              <div style="display:flex; align-items:center; gap:8px;">
+                <span id="diffSyntaxBadge" class="status-pill" style="font-size:10.5px; padding:2px 8px;">AST Valid</span>
+                <button class="btn btn-primary btn-sm" id="btnCopyPwaScript">📋 Copy Script</button>
+              </div>
+            </div>
+            <textarea class="code-editor" id="diffPwaCode" spellcheck="false" placeholder="// Migrated PWA JavaScript will appear here..."></textarea>
+          </div>
+        </div>
+
+        <!-- Applied Rules Matrix -->
+        <div style="background:#111827; border:1px solid var(--border-color); border-radius:10px; padding:16px;">
+          <div style="font-size:12.5px; font-weight:700; color:#a78bfa; margin-bottom:8px;">Applied Transformation Rules for Selected Script:</div>
+          <div id="diffAppliedRulesList" style="display:flex; flex-wrap:wrap; gap:8px;">
+            <span style="color:var(--text-muted); font-size:12px;">No script selected.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 5: ORACLE SQL GENERATOR -->
+    <div class="tab-pane" id="tab-sql">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Oracle Database-Direct Migration SQL</div>
+            <div class="card-desc">Automated PL/SQL blocks with safety backup tables and 2500-char CLOB chunking for <code>FLEXI_PERSONALIZATION</code>.</div>
+          </div>
+          <div style="display:flex; gap:8px;">
+            <button class="btn btn-outline btn-sm" id="btnCopySql">📋 Copy SQL</button>
+            <button class="btn btn-primary btn-sm" id="btnDownloadSqlTab">⬇️ Download SQL Script</button>
+          </div>
+        </div>
+
+        <textarea class="code-editor" id="oracleSqlDisplay" readonly style="min-height:500px; background:#030712; border:1px solid var(--border-color); border-radius:10px; color:#38bdf8;" placeholder="-- Oracle SQL migration script will be generated dynamically upon file upload..."></textarea>
+      </div>
+    </div>
+
+    <!-- TAB 6: LIVE GROOVY SCRATCHPAD -->
+    <div class="tab-pane" id="tab-scratchpad">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Live Groovy-to-PWA Scratchpad</div>
+            <div class="card-desc">Type or paste any custom Groovy snippet to test instant PWA JavaScript compilation.</div>
+          </div>
+          <button class="btn btn-primary btn-sm" id="btnRunScratchpad">⚡ Compile Snippet</button>
+        </div>
+
+        <div class="diff-container">
+          <div class="diff-pane">
+            <div class="diff-pane-header"><span>Input Groovy Snippet</span></div>
+            <textarea class="code-editor" id="scratchInput" spellcheck="false">// Paste Groovy code here to test
+if (textOrderNbr != void) {
+  Integer ordId = Integer.parseInt(textOrderNbr.getValue());
+  GET_ORDER_WS.callWebService(null);
+  flexi.putSessionObject("ORD_ID", ordId);
+  flexi.automate("ctrl", "X");
+}</textarea>
+          </div>
+
+          <div class="diff-pane">
+            <div class="diff-pane-header">
+              <span>Compiled PWA JavaScript Output</span>
+              <span id="scratchStatusBadge" class="status-pill" style="font-size:10px; padding:2px 8px;">Ready</span>
+            </div>
+            <textarea class="code-editor" id="scratchOutput" readonly spellcheck="false" placeholder="// Compiled JavaScript output..."></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 7: INTELLINUM API CATALOG -->
+    <div class="tab-pane" id="tab-api">
+      <div class="card">
+        <div class="card-header" style="flex-wrap:wrap; gap:12px;">
+          <div>
+            <div class="card-title">Intellinum Flexi PWA Client API Catalog</div>
+            <div class="card-desc">Standard API methods and runtime contracts natively supported in Intellinum Flexi Studio & Flexi Client.</div>
+          </div>
+          <div style="display:flex; gap:10px; align-items:center;">
+            <input type="text" id="apiSearchInput" placeholder="🔍 Search methods, classes, signatures..." style="background:#030712; border:1px solid var(--border-color); color:#fff; padding:8px 14px; border-radius:8px; font-size:12.5px; width:280px; outline:none;">
+            <span class="status-pill" id="apiCountBadge" style="background:#1e293b; color:#38bdf8; font-size:11px;">292 Methods</span>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:8px; margin: 12px 0; flex-wrap:wrap;" id="apiClassFilters">
+          <button class="btn btn-primary btn-sm api-filter-btn" data-class="all">All Classes (292)</button>
+          <button class="btn btn-outline btn-sm api-filter-btn" data-class="FlexiAPI">flexi (FlexiAPI - 112)</button>
+          <button class="btn btn-outline btn-sm api-filter-btn" data-class="FlexiWebService">Web Services (72)</button>
+          <button class="btn btn-outline btn-sm api-filter-btn" data-class="Page">Page (100)</button>
+          <button class="btn btn-outline btn-sm api-filter-btn" data-class="TextInputField">TextInputField (8)</button>
+        </div>
+
+        <div style="overflow-x:auto; margin-top:8px; max-height:600px; overflow-y:auto; border:1px solid var(--border-color); border-radius:8px;">
+          <table class="data-table" id="methodsTable">
+            <thead style="position:sticky; top:0; background:#111827; z-index:2;">
+              <tr>
+                <th style="width:160px;">Object / Class</th>
+                <th style="width:280px;">Method Signature</th>
+                <th style="width:130px;">Return Type</th>
+                <th>Description & PWA Behavior</th>
+              </tr>
+            </thead>
+            <tbody id="methodsTableBody">
+              <tr><td colspan="4" style="color:var(--text-muted); text-align:center; padding:20px;">Loading method catalog...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 8: MIGRATION RULES MATRIX -->
+    <div class="tab-pane" id="tab-rules">
+      <div class="card">
+        <div class="card-title">Groovy → PWA Migration Rules Matrix</div>
+        <div class="card-desc">Comprehensive list of AST syntax transformations applied by the conversion engine.</div>
+        <div style="overflow-x:auto; margin-top:8px;">
+          <table class="data-table" id="rulesTable">
+            <thead>
+              <tr>
+                <th style="width:160px;">Rule ID</th>
+                <th style="width:220px;">Rule Name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody id="rulesTableBody">
+              <tr><td colspan="3" style="color:var(--text-muted); text-align:center; padding:20px;">Loading migration rules...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <div id="toast">Operation completed successfully</div>
+
+  <script>
+    let currentData = null;
+    let selectedScriptId = null;
+
+    // Tab Navigation
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        const target = document.getElementById(btn.dataset.tab);
+        if (target) target.classList.add('active');
+      });
+    });
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.innerText = msg;
+      t.style.display = 'block';
+      setTimeout(() => { t.style.display = 'none'; }, 3200);
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    // Reset session completely
+    function resetSession() {
+      currentData = null;
+      selectedScriptId = null;
+      document.getElementById('summarySection').style.display = 'none';
+      document.getElementById('fileActiveBadge').style.display = 'none';
+      document.getElementById('btnResetSession').style.display = 'none';
+      document.getElementById('dropTitle').innerText = 'Choose or Drag & Drop Personalization File';
+      document.getElementById('dropDesc').innerText = 'Single-File Session Isolation: Every upload initializes a fresh, 100% file-dependent analysis session.';
+      document.getElementById('fileInput').value = '';
+      document.getElementById('oracleSqlDisplay').value = '';
+      document.getElementById('pwaPayloadSnippetText').value = '';
+      document.getElementById('payloadSizeBadge').innerText = 'Size: 0 KB';
+      document.getElementById('diffOriginalCode').value = '';
+      document.getElementById('diffPwaCode').value = '';
+      document.getElementById('scriptSelector').innerHTML = '<option value="">No scripts loaded</option>';
+      document.getElementById('inspectorTree').innerHTML = '<div style="color:var(--text-muted); font-size:13px; padding:12px;">Upload a file to inspect components.</div>';
+      document.getElementById('inspectorDetailPanel').innerHTML = '<div style="text-align:center; padding:50px; color:var(--text-muted);">Select a component to inspect details.</div>';
+      document.getElementById('reportContent').innerHTML = '<div style="text-align:center; padding:40px; color:var(--text-muted);">No report available yet. Please upload a personalization file.</div>';
+      document.querySelector('[data-tab="tab-migrator"]').click();
+      showToast('Session reset. Ready for next upload!');
+    }
+
+    document.getElementById('btnResetSession').addEventListener('click', resetSession);
+
+    // Dropzone setup
+    const dropzone = document.getElementById('dropzone');
+    const fileInput = document.getElementById('fileInput');
+    const loader = document.getElementById('loader');
+
+    ['dragover', 'dragenter'].forEach(e => {
+      dropzone.addEventListener(e, (ev) => { ev.preventDefault(); dropzone.classList.add('dragover'); });
+    });
+    ['dragleave', 'drop'].forEach(e => {
+      dropzone.addEventListener(e, (ev) => { ev.preventDefault(); dropzone.classList.remove('dragover'); });
+    });
+    dropzone.addEventListener('drop', (ev) => {
+      const file = ev.dataTransfer.files[0];
+      if (file) handleUpload(file);
+    });
+    fileInput.addEventListener('change', (ev) => {
+      const file = ev.target.files[0];
+      if (file) handleUpload(file);
+    });
+
+    const isStaticDeploy = window.location.hostname.endsWith('github.io') || window.location.protocol === 'file:';
+
+    const STATIC_IMS_FILES = [
+      { name: "NSBP - Build PLT Report_Personalization.pdf", sizeKb: "8.2" },
+      { name: "STD - Assign LPNPLT to 0B Report_Personalization.pdf", sizeKb: "6.4" },
+      { name: "STD - Assign Order to Load Report_Personalization.pdf", sizeKb: "6.2" },
+      { name: "STD - Pick wave LPN  PLT Report_Personalization.pdf", sizeKb: "12.3" },
+      { name: "STD - Re Pack Screen Report_Personalization.pdf", sizeKb: "10.7" },
+      { name: "STD - Receiving On PLT Report_Personalization.pdf", sizeKb: "32.7" },
+      { name: "STD - Vehicle load Report_Personalization.pdf", sizeKb: "6.9" },
+      { name: "STD-RECIVING BOX LPN PERSONILAZTION REPORT.pdf", sizeKb: "10.7" }
+    ];
+
+    async function handleUpload(file) {
+      // 1. Reset all prior session state
+      currentData = null;
+      selectedScriptId = null;
+
+      document.getElementById('dropTitle').innerText = file.name;
+      document.getElementById('dropDesc').innerText = `${(file.size / 1024).toFixed(1)} KB — Migrating dynamically...`;
+      loader.style.display = 'flex';
+
+      try {
+        let data = null;
+        if (!isStaticDeploy) {
+          try {
+            const formData = new FormData();
+            formData.append('file', file);
+            const res = await fetch('/api/convert', { method: 'POST', body: formData });
+            if (res.ok) {
+              data = await res.json();
+            }
+          } catch (e) {
+            console.log('Server API not responding, falling back to browser engine:', e);
+          }
+        }
+
+        // In-browser client migration engine
+        if (!data) {
+          if (typeof FlexiClientEngine === 'undefined') {
+            throw new Error('Client migration engine is still initializing. Please re-try.');
+          }
+          if (file.name.toLowerCase().endsWith('.pdf')) {
+            const arrayBuffer = await file.arrayBuffer();
+            data = FlexiClientEngine.convertPdfFile(new Uint8Array(arrayBuffer), file.name);
+          } else {
+            const text = await file.text();
+            data = FlexiClientEngine.convertTxtFile(text, file.name);
+          }
+        }
+
+        renderMigrationData(data);
+        showToast(`Migrated "${file.name}" dynamically!`);
+      } catch (err) {
+        alert('Migration error: ' + err.message);
+      } finally {
+        loader.style.display = 'none';
+      }
+    }
+
+    // Load IMS Reports List into Dropdown
+    async function initImsReportsDropdown() {
+      try {
+        let files = null;
+        if (!isStaticDeploy) {
+          try {
+            const res = await fetch('/api/ims-files');
+            if (res.ok) files = await res.json();
+          } catch (e) {}
+        }
+        if (!files || !files.length) {
+          files = STATIC_IMS_FILES;
+        }
+        const sel = document.getElementById('imsSelect');
+        sel.innerHTML = '<option value="">📁 Select IMS Personalization Report (' + files.length + ' available)...</option>';
+        files.forEach(f => {
+          const opt = document.createElement('option');
+          opt.value = f.name;
+          opt.innerText = `${f.name} (${f.sizeKb} KB)`;
+          sel.appendChild(opt);
+        });
+      } catch (e) {
+        console.warn('Could not load IMS files:', e);
+      }
+    }
+
+    document.getElementById('imsSelect').addEventListener('change', async (ev) => {
+      const fileName = ev.target.value;
+      if (!fileName) return;
+
+      loader.style.display = 'flex';
+      document.getElementById('dropTitle').innerText = fileName;
+      document.getElementById('dropDesc').innerText = `Loading from IMS Personalization Reports...`;
+
+      try {
+        let data = null;
+        if (!isStaticDeploy) {
+          try {
+            const res = await fetch('/api/ims-file?name=' + encodeURIComponent(fileName));
+            if (res.ok) data = await res.json();
+          } catch (e) {}
+        }
+
+        if (!data) {
+          const res = await fetch('samples/' + encodeURIComponent(fileName));
+          if (!res.ok) throw new Error('Could not fetch sample file: ' + fileName);
+          const buf = await res.arrayBuffer();
+          data = FlexiClientEngine.convertPdfFile(new Uint8Array(buf), fileName);
+        }
+
+        renderMigrationData(data);
+        showToast(`Loaded and migrated ${fileName}!`);
+      } catch (e) {
+        alert('Error: ' + e.message);
+      } finally {
+        loader.style.display = 'none';
+      }
+    });
+
+    // Render Data into UI
+    function renderMigrationData(data) {
+      currentData = data;
+
+      // Header pills
+      document.getElementById('headerFileName').innerText = data.fileName;
+      document.getElementById('fileActiveBadge').style.display = 'inline-flex';
+      document.getElementById('btnResetSession').style.display = 'inline-flex';
+
+      // Summary section
+      document.getElementById('summarySection').style.display = 'flex';
+      document.getElementById('appTitle').innerText = data.appName;
+      document.getElementById('fileMetaSub').innerHTML = `Source: <strong>${escapeHtml(data.fileName)}</strong> (${(data.fileSize / 1024).toFixed(1)} KB) • Session: <code>${escapeHtml(data.sessionId)}</code> • 100% Dynamic`;
+
+      // Metrics
+      document.getElementById('metricPages').innerText = data.pagesCount;
+      document.getElementById('metricScripts').innerText = data.scriptsCount;
+      document.getElementById('metricComponents').innerText = data.componentsCount;
+      document.getElementById('metricWs').innerText = data.webServicesCount;
+      document.getElementById('metricLovs').innerText = data.lovsCount;
+
+      // Validation Bar
+      document.getElementById('valSource').innerText = escapeHtml(data.fileName);
+      document.getElementById('valPages').innerText = `${data.pagesCount} Screen(s)`;
+      document.getElementById('valMenus').innerText = `Relevant to ${data.appName}`;
+      const validCount = data.scripts.filter(s => s.isValid).length;
+      document.getElementById('valAst').innerText = `${validCount}/${data.scripts.length} Valid`;
+      document.getElementById('valIsolation').innerText = `Session ${data.sessionId.slice(-6)}`;
+
+      // Screen breakdown cards
+      const screensGrid = document.getElementById('screensGrid');
+      screensGrid.innerHTML = '';
+      data.pages.forEach((p, idx) => {
+        const card = document.createElement('div');
+        card.className = 'metric-card';
+        card.style.background = '#1e293b';
+        card.style.borderColor = '#334155';
+        card.innerHTML = `
+          <div style="font-size:11px; color:#38bdf8; font-weight:700; text-transform:uppercase;">Screen ${idx + 1}</div>
+          <div style="font-size:16px; font-weight:700; color:#fff; margin:2px 0;">${escapeHtml(p.pageName)}</div>
+          <div style="font-size:12px; color:var(--text-muted); margin-bottom:8px;">Components: <strong>${p.components.length}</strong> | Scripts: <strong>${p.components.reduce((acc, c) => acc + (c.scripts ? c.scripts.length : 0), 0)}</strong></div>
+          <div style="display:flex; gap:6px;">
+            <button class="btn btn-outline btn-sm" onclick="filterInspectorByScreen(${idx})">Inspect Screen</button>
+          </div>
+        `;
+        screensGrid.appendChild(card);
+      });
+
+      // Oracle SQL display
+      document.getElementById('oracleSqlDisplay').value = data.sql || '';
+
+      // PWA Text Payload Snippet
+      const payloadStr = data.payload || '';
+      const payloadSizeKb = (payloadStr.length / 1024).toFixed(1);
+      document.getElementById('payloadSizeBadge').innerText = `Size: ${payloadSizeKb} KB`;
+      document.getElementById('pwaPayloadSnippetText').value = payloadStr;
+
+      // Populate Report Tab
+      if (data.pwaReport) {
+        renderReportTab(data.pwaReport);
+      }
+
+      // Populate Inspector & Diff
+      populateInspector(data);
+      populateDiffSelector(data);
+    }
+
+    // Render Report Tab
+    function renderReportTab(report) {
+      const container = document.getElementById('reportContent');
+      const md = report.markdown || '';
+
+      let html = md
+        .replace(/^### (.*$)/gim, '<h3>$1</h3>')
+        .replace(/^## (.*$)/gim, '<h2>$1</h2>')
+        .replace(/^# (.*$)/gim, '<h1>$1</h1>')
+        .replace(/^\> (.*$)/gim, '<blockquote>$1</blockquote>')
+        .replace(/\*\*(.*?)\*\*/gim, '<strong>$1</strong>')
+        .replace(/\*(.*?)\*/gim, '<em>$1</em>')
+        .replace(/```javascript([\s\S]*?)```/gim, '<pre><code style="color:#a78bfa;">$1</code></pre>')
+        .replace(/```sql([\s\S]*?)```/gim, '<pre><code style="color:#34d399;">$1</code></pre>')
+        .replace(/```([\s\S]*?)```/gim, '<pre><code>$1</code></pre>')
+        .replace(/`([^`]+)`/gim, '<code>$1</code>')
+        .replace(/\n\n/gim, '<br><br>');
+
+      container.innerHTML = html;
+    }
+
+    // View Report Quick Button
+    document.getElementById('btnViewReportQuick').addEventListener('click', () => {
+      document.getElementById('tabReportBtn').click();
+    });
+
+    // Download Report Markdown
+    document.getElementById('btnDownloadReportMd').addEventListener('click', () => {
+      if (!currentData || !currentData.pwaReport) return alert('No report generated yet.');
+      downloadFile(currentData.pwaReport.markdown, `${currentData.appName}_PWA_Migration_Report.md`, 'text/markdown');
+    });
+
+    // Inspector Populator
+    function populateInspector(data) {
+      const screenSelect = document.getElementById('inspectorScreenFilter');
+      screenSelect.innerHTML = '<option value="all">All Screens (' + data.pages.length + ')</option>';
+      data.pages.forEach((p, i) => {
+        const opt = document.createElement('option');
+        opt.value = i;
+        opt.innerText = `Screen ${i + 1}: ${p.pageName}`;
+        screenSelect.appendChild(opt);
+      });
+
+      renderInspectorTree('all');
+    }
+
+    window.filterInspectorByScreen = function(idx) {
+      document.querySelector('[data-tab="tab-inspector"]').click();
+      const screenSelect = document.getElementById('inspectorScreenFilter');
+      screenSelect.value = idx;
+      renderInspectorTree(idx);
+    };
+
+    document.getElementById('inspectorScreenFilter').addEventListener('change', (ev) => {
+      renderInspectorTree(ev.target.value);
+    });
+
+    function renderInspectorTree(screenFilter) {
+      if (!currentData) return;
+      const tree = document.getElementById('inspectorTree');
+      tree.innerHTML = '';
+
+      const targetPages = screenFilter === 'all'
+        ? currentData.pages
+        : [currentData.pages[parseInt(screenFilter, 10)]].filter(Boolean);
+
+      targetPages.forEach(page => {
+        const pageEl = document.createElement('div');
+        pageEl.innerHTML = `
+          <div style="font-weight:700; color:#38bdf8; font-size:13px; padding:6px 0; margin-top:8px; border-bottom:1px solid #334155; display:flex; justify-content:space-between;">
+            <span>📄 ${escapeHtml(page.pageName)}</span>
+            <span style="font-size:11px; color:var(--text-sub);">${page.components.length} components</span>
+          </div>
+        `;
+        tree.appendChild(pageEl);
+
+        page.components.forEach(comp => {
+          const item = document.createElement('div');
+          item.className = 'tree-item';
+          const badgeClass = comp.type === 'Web Service' ? 'badge-ws' : comp.type === 'Button' ? 'badge-btn' : comp.type === 'Input' ? 'badge-input' : comp.type === 'Page Level' ? 'badge-page' : 'badge-custom';
+          item.innerHTML = `
+            <span style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:180px;">${escapeHtml(comp.name)}</span>
+            <span class="component-badge ${badgeClass}">${escapeHtml(comp.type)}</span>
+          `;
+          item.addEventListener('click', () => {
+            document.querySelectorAll('.tree-item').forEach(i => i.classList.remove('active'));
+            item.classList.add('active');
+            showComponentDetails(page, comp);
+          });
+          tree.appendChild(item);
+        });
+      });
+
+      // Select first component
+      if (targetPages[0] && targetPages[0].components[0]) {
+        showComponentDetails(targetPages[0], targetPages[0].components[0]);
+      }
+    }
+
+    function showComponentDetails(page, comp) {
+      const panel = document.getElementById('inspectorDetailPanel');
+      const props = comp.properties || {};
+      const scripts = comp.scripts || [];
+
+      let html = `
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px solid var(--border-color); padding-bottom:10px;">
+          <div>
+            <h3 style="font-size:18px; font-weight:700; color:#fff;">${escapeHtml(comp.name)}</h3>
+            <div style="font-size:12.5px; color:var(--text-muted);">Screen: <strong>${escapeHtml(page.pageName)}</strong> | Type: <strong>${escapeHtml(comp.type)}</strong></div>
+          </div>
+          <span class="component-badge ${comp.type === 'Web Service' ? 'badge-ws' : 'badge-input'}" style="font-size:12px; padding:4px 10px;">${escapeHtml(comp.type)}</span>
+        </div>
+      `;
+
+      if (scripts.length > 0) {
+        html += `<div style="font-size:13px; font-weight:700; color:#38bdf8; margin:14px 0 8px;">Attached Script Triggers (${scripts.length}):</div>`;
+        scripts.forEach(s => {
+          html += `
+            <div style="background:#030712; border:1px solid var(--border-color); border-radius:8px; padding:10px 14px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center;">
+              <div>
+                <span style="color:#a78bfa; font-weight:600; font-family:'JetBrains Mono';">${escapeHtml(s.propertyName)}</span>
+                <span style="font-size:11px; color:${s.isValid ? '#34d399' : '#f59e0b'}; margin-left:8px;">${s.isValid ? '✓ AST Valid' : '⚠️ AST Notice'}</span>
+              </div>
+              <button class="btn btn-outline btn-sm" onclick="switchToScriptDiff(${s.id})">Open Diff & Editor</button>
+            </div>
+          `;
+        });
+      }
+
+      html += `<div style="font-size:13px; font-weight:700; color:var(--text-muted); margin:18px 0 8px;">Personalization Properties:</div>`;
+      html += `<table class="data-table"><thead><tr><th style="width:160px;">Property</th><th>Value</th></tr></thead><tbody>`;
+      for (const k of Object.keys(props)) {
+        const v = props[k];
+        const valStr = typeof v.current === 'string' && v.current.startsWith('script:') ? '[Script Hook Attached]' : String(v.current || '');
+        html += `
+          <tr>
+            <td style="font-family:'JetBrains Mono'; font-size:12px; color:#93c5fd;">${escapeHtml(k)}</td>
+            <td style="font-family:'JetBrains Mono'; font-size:12px; color:#d1d5db; word-break:break-all;">${escapeHtml(valStr)}</td>
+          </tr>
+        `;
+      }
+      html += `</tbody></table>`;
+      panel.innerHTML = html;
+    }
+
+    window.switchToScriptDiff = function(scriptId) {
+      document.querySelector('[data-tab="tab-diff"]').click();
+      const sel = document.getElementById('scriptSelector');
+      sel.value = scriptId;
+      sel.dispatchEvent(new Event('change'));
+    };
+
+    // Diff Selector Populator
+    function populateDiffSelector(data) {
+      const sel = document.getElementById('scriptSelector');
+      sel.innerHTML = '';
+
+      if (!data.scripts || data.scripts.length === 0) {
+        sel.innerHTML = '<option value="">No Groovy scripts in this file</option>';
+        document.getElementById('diffOriginalCode').value = '// No scripts in this file';
+        document.getElementById('diffPwaCode').value = '// No scripts in this file';
+        return;
+      }
+
+      data.scripts.forEach(s => {
+        const opt = document.createElement('option');
+        opt.value = s.id;
+        opt.innerText = `#${s.id} [${s.pageName}] ${s.componentName}.${s.propertyName}`;
+        sel.appendChild(opt);
+      });
+
+      sel.addEventListener('change', () => {
+        loadScriptDiff(parseInt(sel.value, 10));
+      });
+
+      loadScriptDiff(data.scripts[0].id);
+    }
+
+    function loadScriptDiff(scriptId) {
+      if (!currentData || !currentData.scripts) return;
+      const script = currentData.scripts.find(s => s.id === scriptId);
+      if (!script) return;
+
+      selectedScriptId = scriptId;
+      document.getElementById('diffOriginalCode').value = script.groovyCode || '';
+      document.getElementById('diffPwaCode').value = script.pwaCode || '';
+      document.getElementById('diffOriginalLines').innerText = `${(script.groovyCode || '').split('\n').length} lines`;
+
+      const badge = document.getElementById('diffSyntaxBadge');
+      if (script.isValid) {
+        badge.innerText = 'AST Valid';
+        badge.style.background = 'rgba(16, 185, 129, 0.15)';
+        badge.style.color = '#34d399';
+      } else {
+        badge.innerText = 'Syntax Notice';
+        badge.style.background = 'rgba(245, 158, 11, 0.15)';
+        badge.style.color = '#fbbf24';
+      }
+
+      const rulesList = document.getElementById('diffAppliedRulesList');
+      rulesList.innerHTML = '';
+      if (!script.appliedRules || script.appliedRules.length === 0) {
+        rulesList.innerHTML = '<span style="color:var(--text-muted); font-size:12px;">Standard JavaScript syntax (no SSH rewrite needed).</span>';
+      } else {
+        script.appliedRules.forEach(r => {
+          const pill = document.createElement('span');
+          pill.style.background = '#1e293b';
+          pill.style.border = '1px solid #3b82f6';
+          pill.style.color = '#93c5fd';
+          pill.style.fontSize = '11px';
+          pill.style.padding = '4px 8px';
+          pill.style.borderRadius = '6px';
+          pill.title = r.description || '';
+          pill.innerText = `✓ ${r.name || r.id}`;
+          rulesList.appendChild(pill);
+        });
+      }
+    }
+
+    // Scratchpad compiler
+    document.getElementById('btnRunScratchpad').addEventListener('click', async () => {
+      const code = document.getElementById('scratchInput').value;
+      const status = document.getElementById('scratchStatusBadge');
+      status.innerText = 'Compiling...';
+      try {
+        let out = null;
+        if (!isStaticDeploy) {
+          try {
+            const res = await fetch('/api/convert-snippet', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ code })
+            });
+            if (res.ok) out = await res.json();
+          } catch (e) {}
+        }
+        if (!out && typeof FlexiClientEngine !== 'undefined') {
+          const res = FlexiClientEngine.convertGroovyToPwaJs(code);
+          out = { code: res.pwaJs, isValid: res.isValid, warnings: res.warnings, rules: res.appliedRules };
+        }
+        if (out) {
+          document.getElementById('scratchOutput').value = out.code || '';
+          status.innerText = out.isValid ? 'Valid PWA JS' : 'Syntax Notice';
+          status.style.color = out.isValid ? '#34d399' : '#fbbf24';
+        }
+      } catch (e) {
+        alert('Compilation error: ' + e.message);
+      }
+    });
+
+    // File Download Helper
+    function downloadFile(content, fileName, mimeType) {
+      const blob = new Blob([content], { type: mimeType });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = fileName;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      showToast(`Downloaded ${fileName}!`);
+    }
+
+    document.getElementById('btnDownloadTxt').addEventListener('click', () => {
+      if (!currentData) return;
+      downloadFile(currentData.payload, `${currentData.appName}_PWA_Payload.txt`, 'text/plain');
+    });
+
+    document.getElementById('btnDownloadPayloadSnippet').addEventListener('click', () => {
+      if (!currentData || !currentData.payload) return alert('No payload available. Please upload a file first.');
+      downloadFile(currentData.payload, `${currentData.appName}_PWA_Payload.txt`, 'text/plain');
+    });
+
+    document.getElementById('btnCopyPayloadSnippet').addEventListener('click', () => {
+      const text = document.getElementById('pwaPayloadSnippetText').value;
+      if (!text) return alert('No payload available to copy.');
+      navigator.clipboard.writeText(text);
+      showToast('PWA Text Payload copied to clipboard!');
+    });
+
+    document.getElementById('btnDownloadXml').addEventListener('click', () => {
+      if (!currentData) return;
+      downloadFile(currentData.xml, `${currentData.appName}_PWA_Import.xml`, 'application/xml');
+    });
+
+    document.getElementById('btnDownloadSql').addEventListener('click', () => {
+      if (!currentData) return;
+      downloadFile(currentData.sql, `${currentData.appName}_Direct_DB_Migration.sql`, 'text/plain');
+    });
+
+    document.getElementById('btnDownloadSqlTab').addEventListener('click', () => {
+      if (!currentData) return;
+      downloadFile(currentData.sql, `${currentData.appName}_Direct_DB_Migration.sql`, 'text/plain');
+    });
+
+    document.getElementById('btnCopySql').addEventListener('click', () => {
+      const sql = document.getElementById('oracleSqlDisplay').value;
+      navigator.clipboard.writeText(sql);
+      showToast('Oracle SQL copied to clipboard!');
+    });
+
+    document.getElementById('btnCopyPwaScript').addEventListener('click', () => {
+      const script = document.getElementById('diffPwaCode').value;
+      navigator.clipboard.writeText(script);
+      showToast('PWA script copied to clipboard!');
+    });
+
+    // Load Rules Matrix
+    async function loadRulesCatalog() {
+      try {
+        let rules = null;
+        if (!isStaticDeploy) {
+          try {
+            const res = await fetch('/api/rules');
+            if (res.ok) rules = await res.json();
+          } catch (e) {}
+        }
+        if (!rules && typeof FlexiClientEngine !== 'undefined') {
+          rules = FlexiClientEngine.MIGRATION_RULES.map(r => ({
+            id: r.id,
+            name: r.name,
+            description: r.description
+          }));
+        }
+
+        const tbody = document.getElementById('rulesTableBody');
+        tbody.innerHTML = '';
+        if (rules && rules.length) {
+          rules.forEach(r => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+              <td><code style="color:#38bdf8;">${escapeHtml(r.id)}</code></td>
+              <td style="font-weight:600; color:#fff;">${escapeHtml(r.name)}</td>
+              <td style="color:#d1d5db;">${escapeHtml(r.description)}</td>
+            `;
+            tbody.appendChild(tr);
+          });
+        }
+      } catch (e) {
+        console.warn('Could not load rules:', e);
+      }
+    }
+
+    // Load Intellinum Methods Catalog
+    let allMethodsList = [];
+    let currentMethodClass = 'all';
+
+    async function loadMethodsCatalog() {
+      try {
+        let data = null;
+        if (!isStaticDeploy) {
+          try {
+            const res = await fetch('/api/methods');
+            if (res.ok) data = await res.json();
+          } catch (e) {}
+        }
+        if (!data) {
+          try {
+            const res = await fetch('all_intellinum_methods.json');
+            if (res.ok) data = await res.json();
+          } catch (e) {}
+        }
+        
+        allMethodsList = [];
+        if (Array.isArray(data)) {
+          allMethodsList = data;
+        } else if (typeof data === 'object' && data !== null) {
+          for (const className of Object.keys(data)) {
+            const arr = data[className];
+            if (Array.isArray(arr)) {
+              arr.forEach(item => {
+                allMethodsList.push({
+                  className: className === 'FlexiAPI' ? 'flexi (FlexiAPI)' : className,
+                  rawClass: className,
+                  name: item.name || '',
+                  signature: item.signature ? item.signature.replace(/&nbsp;/g, ' ') : (item.name || ''),
+                  returnType: item.returnType || 'void',
+                  description: item.description || ''
+                });
+              });
+            }
+          }
+        }
+
+        renderFilteredMethods();
+
+        // Search listener
+        document.getElementById('apiSearchInput').addEventListener('input', () => {
+          renderFilteredMethods();
+        });
+
+        // Filter button listeners
+        document.querySelectorAll('.api-filter-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            document.querySelectorAll('.api-filter-btn').forEach(b => {
+              b.classList.remove('btn-primary');
+              b.classList.add('btn-outline');
+            });
+            btn.classList.remove('btn-outline');
+            btn.classList.add('btn-primary');
+            currentMethodClass = btn.dataset.class;
+            renderFilteredMethods();
+          });
+        });
+
+      } catch (e) {
+        console.warn('Could not load methods:', e);
+        document.getElementById('methodsTableBody').innerHTML = '<tr><td colspan="4" style="color:var(--danger); text-align:center;">Failed to load method catalog.</td></tr>';
+      }
+    }
+
+    function renderFilteredMethods() {
+      const q = (document.getElementById('apiSearchInput')?.value || '').toLowerCase().trim();
+      const tbody = document.getElementById('methodsTableBody');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+
+      let filtered = allMethodsList.filter(m => {
+        if (currentMethodClass !== 'all' && m.rawClass !== currentMethodClass) return false;
+        if (!q) return true;
+        return m.className.toLowerCase().includes(q) ||
+               m.signature.toLowerCase().includes(q) ||
+               m.name.toLowerCase().includes(q) ||
+               m.returnType.toLowerCase().includes(q) ||
+               m.description.toLowerCase().includes(q);
+      });
+
+      document.getElementById('apiCountBadge').innerText = `${filtered.length} of ${allMethodsList.length} Methods`;
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="4" style="color:var(--text-muted); text-align:center; padding:24px;">No matching Intellinum methods found.</td></tr>';
+        return;
+      }
+
+      // Display up to 150 items for speed
+      filtered.slice(0, 150).forEach(m => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><code style="color:#a78bfa; font-weight:700;">${escapeHtml(m.className)}</code></td>
+          <td style="font-family:'JetBrains Mono', monospace; color:#38bdf8; font-size:12px;">${escapeHtml(m.signature)}</td>
+          <td><code style="color:#34d399; font-size:11.5px;">${escapeHtml(m.returnType)}</code></td>
+          <td style="color:#d1d5db; font-size:12.5px;">${escapeHtml(m.description || 'Flexi native client runtime method')}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // Initialize catalogs and IMS reports on page load
+    window.addEventListener('DOMContentLoaded', () => {
+      initImsReportsDropdown();
+      loadRulesCatalog();
+      loadMethodsCatalog();
+    });
+  </script>
+</body>
+</html>

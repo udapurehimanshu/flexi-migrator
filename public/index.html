@@ -7,6 +7,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.1.0/pako.min.js"></script>
+  <script src="js/flexi_client_engine.js"></script>
   <style>
     :root {
       --bg-dark: #0b0f19;
@@ -895,25 +897,57 @@ if (textOrderNbr != void) {
       if (file) handleUpload(file);
     });
 
+    const isStaticDeploy = window.location.hostname.endsWith('github.io') || window.location.protocol === 'file:';
+
+    const STATIC_IMS_FILES = [
+      { name: "NSBP - Build PLT Report_Personalization.pdf", sizeKb: "8.2" },
+      { name: "STD - Assign LPNPLT to 0B Report_Personalization.pdf", sizeKb: "6.4" },
+      { name: "STD - Assign Order to Load Report_Personalization.pdf", sizeKb: "6.2" },
+      { name: "STD - Pick wave LPN  PLT Report_Personalization.pdf", sizeKb: "12.3" },
+      { name: "STD - Re Pack Screen Report_Personalization.pdf", sizeKb: "10.7" },
+      { name: "STD - Receiving On PLT Report_Personalization.pdf", sizeKb: "32.7" },
+      { name: "STD - Vehicle load Report_Personalization.pdf", sizeKb: "6.9" },
+      { name: "STD-RECIVING BOX LPN PERSONILAZTION REPORT.pdf", sizeKb: "10.7" }
+    ];
+
     async function handleUpload(file) {
       // 1. Reset all prior session state
       currentData = null;
       selectedScriptId = null;
 
       document.getElementById('dropTitle').innerText = file.name;
-      document.getElementById('dropDesc').innerText = `${(file.size / 1024).toFixed(1)} KB — Uploading and migrating dynamically...`;
+      document.getElementById('dropDesc').innerText = `${(file.size / 1024).toFixed(1)} KB — Migrating dynamically...`;
       loader.style.display = 'flex';
 
-      const formData = new FormData();
-      formData.append('file', file);
-
       try {
-        const res = await fetch('/api/convert', { method: 'POST', body: formData });
-        if (!res.ok) {
-          const err = await res.json();
-          throw new Error(err.error || 'Server conversion error');
+        let data = null;
+        if (!isStaticDeploy) {
+          try {
+            const formData = new FormData();
+            formData.append('file', file);
+            const res = await fetch('/api/convert', { method: 'POST', body: formData });
+            if (res.ok) {
+              data = await res.json();
+            }
+          } catch (e) {
+            console.log('Server API not responding, falling back to browser engine:', e);
+          }
         }
-        const data = await res.json();
+
+        // In-browser client migration engine
+        if (!data) {
+          if (typeof FlexiClientEngine === 'undefined') {
+            throw new Error('Client migration engine is still initializing. Please re-try.');
+          }
+          if (file.name.toLowerCase().endsWith('.pdf')) {
+            const arrayBuffer = await file.arrayBuffer();
+            data = FlexiClientEngine.convertPdfFile(new Uint8Array(arrayBuffer), file.name);
+          } else {
+            const text = await file.text();
+            data = FlexiClientEngine.convertTxtFile(text, file.name);
+          }
+        }
+
         renderMigrationData(data);
         showToast(`Migrated "${file.name}" dynamically!`);
       } catch (err) {
@@ -926,9 +960,16 @@ if (textOrderNbr != void) {
     // Load IMS Reports List into Dropdown
     async function initImsReportsDropdown() {
       try {
-        const res = await fetch('/api/ims-files');
-        if (!res.ok) return;
-        const files = await res.json();
+        let files = null;
+        if (!isStaticDeploy) {
+          try {
+            const res = await fetch('/api/ims-files');
+            if (res.ok) files = await res.json();
+          } catch (e) {}
+        }
+        if (!files || !files.length) {
+          files = STATIC_IMS_FILES;
+        }
         const sel = document.getElementById('imsSelect');
         sel.innerHTML = '<option value="">📁 Select IMS Personalization Report (' + files.length + ' available)...</option>';
         files.forEach(f => {
@@ -948,15 +989,24 @@ if (textOrderNbr != void) {
 
       loader.style.display = 'flex';
       document.getElementById('dropTitle').innerText = fileName;
-      document.getElementById('dropDesc').innerText = `Loading from IMS PERSONALIZATION DPW...`;
+      document.getElementById('dropDesc').innerText = `Loading from IMS Personalization Reports...`;
 
       try {
-        const res = await fetch('/api/ims-file?name=' + encodeURIComponent(fileName));
-        if (!res.ok) {
-          const err = await res.json();
-          throw new Error(err.error || 'Failed to load IMS file');
+        let data = null;
+        if (!isStaticDeploy) {
+          try {
+            const res = await fetch('/api/ims-file?name=' + encodeURIComponent(fileName));
+            if (res.ok) data = await res.json();
+          } catch (e) {}
         }
-        const data = await res.json();
+
+        if (!data) {
+          const res = await fetch('samples/' + encodeURIComponent(fileName));
+          if (!res.ok) throw new Error('Could not fetch sample file: ' + fileName);
+          const buf = await res.arrayBuffer();
+          data = FlexiClientEngine.convertPdfFile(new Uint8Array(buf), fileName);
+        }
+
         renderMigrationData(data);
         showToast(`Loaded and migrated ${fileName}!`);
       } catch (e) {
@@ -1256,16 +1306,28 @@ if (textOrderNbr != void) {
     document.getElementById('btnRunScratchpad').addEventListener('click', async () => {
       const code = document.getElementById('scratchInput').value;
       const status = document.getElementById('scratchStatusBadge');
+      status.innerText = 'Compiling...';
       try {
-        const res = await fetch('/api/convert-snippet', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ code })
-        });
-        const out = await res.json();
-        document.getElementById('scratchOutput').value = out.code || '';
-        status.innerText = out.isValid ? 'Valid PWA JS' : 'Syntax Notice';
-        status.style.color = out.isValid ? '#34d399' : '#fbbf24';
+        let out = null;
+        if (!isStaticDeploy) {
+          try {
+            const res = await fetch('/api/convert-snippet', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ code })
+            });
+            if (res.ok) out = await res.json();
+          } catch (e) {}
+        }
+        if (!out && typeof FlexiClientEngine !== 'undefined') {
+          const res = FlexiClientEngine.convertGroovyToPwaJs(code);
+          out = { code: res.pwaJs, isValid: res.isValid, warnings: res.warnings, rules: res.appliedRules };
+        }
+        if (out) {
+          document.getElementById('scratchOutput').value = out.code || '';
+          status.innerText = out.isValid ? 'Valid PWA JS' : 'Syntax Notice';
+          status.style.color = out.isValid ? '#34d399' : '#fbbf24';
+        }
       } catch (e) {
         alert('Compilation error: ' + e.message);
       }
@@ -1330,19 +1392,34 @@ if (textOrderNbr != void) {
     // Load Rules Matrix
     async function loadRulesCatalog() {
       try {
-        const res = await fetch('/api/rules');
-        const rules = await res.json();
+        let rules = null;
+        if (!isStaticDeploy) {
+          try {
+            const res = await fetch('/api/rules');
+            if (res.ok) rules = await res.json();
+          } catch (e) {}
+        }
+        if (!rules && typeof FlexiClientEngine !== 'undefined') {
+          rules = FlexiClientEngine.MIGRATION_RULES.map(r => ({
+            id: r.id,
+            name: r.name,
+            description: r.description
+          }));
+        }
+
         const tbody = document.getElementById('rulesTableBody');
         tbody.innerHTML = '';
-        rules.forEach(r => {
-          const tr = document.createElement('tr');
-          tr.innerHTML = `
-            <td><code style="color:#38bdf8;">${escapeHtml(r.id)}</code></td>
-            <td style="font-weight:600; color:#fff;">${escapeHtml(r.name)}</td>
-            <td style="color:#d1d5db;">${escapeHtml(r.description)}</td>
-          `;
-          tbody.appendChild(tr);
-        });
+        if (rules && rules.length) {
+          rules.forEach(r => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+              <td><code style="color:#38bdf8;">${escapeHtml(r.id)}</code></td>
+              <td style="font-weight:600; color:#fff;">${escapeHtml(r.name)}</td>
+              <td style="color:#d1d5db;">${escapeHtml(r.description)}</td>
+            `;
+            tbody.appendChild(tr);
+          });
+        }
       } catch (e) {
         console.warn('Could not load rules:', e);
       }
@@ -1354,8 +1431,19 @@ if (textOrderNbr != void) {
 
     async function loadMethodsCatalog() {
       try {
-        const res = await fetch('/api/methods');
-        const data = await res.json();
+        let data = null;
+        if (!isStaticDeploy) {
+          try {
+            const res = await fetch('/api/methods');
+            if (res.ok) data = await res.json();
+          } catch (e) {}
+        }
+        if (!data) {
+          try {
+            const res = await fetch('all_intellinum_methods.json');
+            if (res.ok) data = await res.json();
+          } catch (e) {}
+        }
         
         allMethodsList = [];
         if (Array.isArray(data)) {

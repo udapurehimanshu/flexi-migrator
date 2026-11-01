@@ -485,6 +485,7 @@ fs.readFileSync('pwa_report_generator.js', 'utf8')
 `
   // Export to global scope
   global.FlexiClientEngine = {
+    VERSION: '2.0.2',
     ORIGINAL_DEFAULTS: ORIGINAL_DEFAULTS,
     MIGRATION_RULES: MIGRATION_RULES,
     extractPdfLines: extractPdfLines,
@@ -504,3 +505,4 @@ fs.readFileSync('pwa_report_generator.js', 'utf8')
 fs.writeFileSync('public/js/flexi_client_engine.js', bundle);
 fs.writeFileSync('js/flexi_client_engine.js', bundle);
 console.log('Successfully bundled flexi_client_engine.js into public/ and root js/!');
+

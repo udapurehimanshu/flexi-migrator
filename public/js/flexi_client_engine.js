@@ -1652,6 +1652,7 @@ function generatePwaReport(data) {
 
   // Export to global scope
   global.FlexiClientEngine = {
+    VERSION: '2.0.2',
     ORIGINAL_DEFAULTS: ORIGINAL_DEFAULTS,
     MIGRATION_RULES: MIGRATION_RULES,
     extractPdfLines: extractPdfLines,

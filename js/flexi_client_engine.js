@@ -75,24 +75,38 @@
       else if (sIdx2 !== -1) { start = sIdx2; offset = 7; }
       if (start === -1) break;
 
-      const end = findSubarray(uint8, endStream, start);
-      if (end === -1) break;
+      const endStreamIdx = findSubarray(uint8, endStream, start);
+      if (endStreamIdx === -1) break;
+
+      // In PDF standard, a newline (\r\n or \n) immediately precedes 'endstream'.
+      // Trim trailing \r and \n from the compressed slice so pako handles the deflate stream cleanly.
+      let streamEnd = endStreamIdx;
+      while (streamEnd > start + offset && (uint8[streamEnd - 1] === 10 || uint8[streamEnd - 1] === 13)) {
+        streamEnd--;
+      }
 
       try {
-        const slice = uint8.slice(start + offset, end);
+        const slice = uint8.slice(start + offset, streamEnd);
         let dec = '';
-        if (typeof global.pako !== 'undefined') {
-          dec = global.pako.inflate(slice, { to: 'string' });
-        } else {
-          // Native browser fallback if pako not loaded
-          const decArray = global.pako ? global.pako.inflate(slice) : slice;
-          dec = new TextDecoder('latin1').decode(decArray);
+        const pakoObj = (typeof window !== 'undefined' && window.pako) ||
+                        (typeof global !== 'undefined' && global.pako) ||
+                        (typeof pako !== 'undefined' ? pako : null);
+
+        if (pakoObj && typeof pakoObj.inflate === 'function') {
+          const unz = pakoObj.inflate(slice);
+          if (unz) {
+            dec = new TextDecoder('latin1').decode(unz);
+          }
+        }
+        if (!dec) {
+          // Fallback if uncompressed or plain stream
+          dec = new TextDecoder('latin1').decode(slice);
         }
         if (dec && dec.includes('BT') && dec.includes('ET')) {
           pageStreams.push(dec);
         }
       } catch(e) {}
-      pos = end + 9;
+      pos = endStreamIdx + 9;
     }
 
     const allLines = [];
@@ -1345,3 +1359,4 @@
   };
 
 })(typeof window !== 'undefined' ? window : global);
+

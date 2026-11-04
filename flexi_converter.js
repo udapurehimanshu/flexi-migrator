@@ -95,9 +95,34 @@ const MIGRATION_RULES = [
     description: 'Converts `.getInt(...)`, `.getLong(...)`, `.getDouble(...)` to numeric conversions'
   },
   {
+    id: 'ARRAY_LITERALS',
+    name: 'Java Array Literals',
+    description: 'Converts `new String[] { ... }` or `new Object[] { ... }` to JavaScript array literals `[ ... ]`'
+  },
+  {
     id: 'TYPE_DECLARATIONS',
     name: 'Strong Types to var',
-    description: 'Converts Java/Groovy type keywords (`int`, `String`, `boolean`, `double`, `def`) to `var`'
+    description: 'Converts Java/Groovy type keywords (`int`, `String`, `boolean`, `double`, `def`, `TableResult`, `DateFormat`, etc.) to `var`'
+  },
+  {
+    id: 'JAVA_IMPORTS',
+    name: 'Java Imports Transpilation',
+    description: 'Comments out backend Java package import statements for browser ECMAScript compatibility'
+  },
+  {
+    id: 'TYPED_CATCH',
+    name: 'Java Typed Catch Transpilation',
+    description: 'Converts typed exception catch clauses (`catch(ParseException e)`) to standard JavaScript (`catch (e)`)'
+  },
+  {
+    id: 'JAVA_MATH_ROUNDING',
+    name: 'Java Math & RoundingMode Transpilation',
+    description: 'Converts `BigDecimal.setScale(n, RoundingMode.DOWN)` and Java math classes to native JavaScript `Math.floor` / `.toFixed`'
+  },
+  {
+    id: 'PRIMITIVE_VALUE_CONVERSIONS',
+    name: 'Primitive Value Accessors',
+    description: 'Converts `.doubleValue()`, `.intValue()`, `.longValue()`, `.floatValue()` to JavaScript numeric conversions'
   },
   {
     id: 'LOGGER_COMMENT',
@@ -246,8 +271,11 @@ function convertGroovyToPwaJs(sourceCode) {
   let code = masked;
   const appliedRules = [];
 
-  // 1. Remove java / groovy imports
-  code = code.replace(/^[ \t]*import\s+(?:java|groovy)\..+;?[ \t]*$/gm, '');
+  // 1. Comment out java / groovy imports
+  code = code.replace(/^[ \t]*import\s+[a-zA-Z0-9_.*]+;?[ \t]*\r?$/gm, (m) => {
+    appliedRules.push('JAVA_IMPORTS');
+    return `// ${m.trim()}`;
+  });
 
   // 2. Strip org.json. and java.util.
   code = code.replace(/\b(?:org\.json|java\.util)\./g, '');
@@ -256,7 +284,7 @@ function convertGroovyToPwaJs(sourceCode) {
   const jsons = new Set();
 
   // 3. Collection declarations: ArrayList, HashSet, HashMap, etc.
-  code = code.replace(/\b(ArrayList|HashSet|LinkedList|List|Set|HashMap|Map|TreeMap)\s*(?:<[^>;]*>)?\s+(\w+)\s*=\s*new\s+\w+\s*(?:<[^>;]*>)?\s*\(\s*\);?/g, (m, type, varName) => {
+  code = code.replace(/\b(ArrayList|HashSet|LinkedHashSet|LinkedList|List|Set|HashMap|LinkedHashMap|Map|TreeMap)\s*(?:<[^>;]*>)?\s+(\w+)\s*=\s*new\s+\w+\s*(?:<[^>;]*>)?\s*\(\s*\);?/g, (m, type, varName) => {
     colls.add(varName);
     appliedRules.push('COLLECTION_DECLARATION');
     return `var ${varName} = ${type.includes('Map') ? '{}' : '[]'};`;
@@ -280,6 +308,12 @@ function convertGroovyToPwaJs(sourceCode) {
   // Standalone new ArrayList() / new HashSet() / new HashMap()
   code = code.replace(/\bnew\s+(?:ArrayList|HashSet|LinkedList|List|Set)\s*(?:<[^>;]*>)?\s*\(\s*\)/g, '[]');
   code = code.replace(/\bnew\s+(?:HashMap|Map|TreeMap)\s*(?:<[^>;]*>)?\s*\(\s*\)/g, '{}');
+
+  // Java array literals: new Type[] { ... } -> [ ... ]
+  code = code.replace(/\bnew\s+(?:(?:[a-zA-Z_]\w*\.)*[A-Za-z_]\w*)\s*\[\s*\]\s*\{([^}]*)\}/g, (m, items) => {
+    appliedRules.push('ARRAY_LITERALS');
+    return `[${items}]`;
+  });
 
   // 5. .equals() handling using backward balanced expression finder
   let eqIdx;
@@ -322,6 +356,55 @@ function convertGroovyToPwaJs(sourceCode) {
   code = subCall(code, '\\bBigDecimal\\.valueOf\\s*\\(', (m, args) => {
     appliedRules.push('STATIC_TYPE_HELPERS');
     return `Number(${args.trim()})`;
+  });
+
+  // 6b. Java Math & RoundingMode conversions
+  code = code.replace(/([\w$.]+(?:\([^()]*\))?)\.setScale\s*\(\s*([^,)]+?)\s*,\s*(?:RoundingMode\.(?:DOWN|FLOOR)|BigDecimal\.ROUND_(?:DOWN|FLOOR))\s*\)/g, (m, target, scale) => {
+    appliedRules.push('JAVA_MATH_ROUNDING');
+    scale = scale.trim();
+    if (/^\d+$/.test(scale)) {
+      const factor = Math.pow(10, parseInt(scale, 10));
+      return `(Math.floor(Number(${target}) * ${factor}) / ${factor}).toFixed(${scale})`;
+    }
+    return `(Math.floor(Number(${target}) * Math.pow(10, ${scale})) / Math.pow(10, ${scale})).toFixed(${scale})`;
+  });
+
+  code = code.replace(/([\w$.]+(?:\([^()]*\))?)\.setScale\s*\(\s*([^,)]+?)\s*,\s*(?:RoundingMode\.\w+|BigDecimal\.ROUND_\w+)\s*\)/g, (m, target, scale) => {
+    appliedRules.push('JAVA_MATH_ROUNDING');
+    return `(Number(${target})).toFixed(${scale.trim()})`;
+  });
+
+  code = code.replace(/([\w$.]+(?:\([^()]*\))?)\.setScale\s*\(\s*([^)]+?)\s*\)/g, (m, target, scale) => {
+    appliedRules.push('JAVA_MATH_ROUNDING');
+    return `(Number(${target})).toFixed(${scale.trim()})`;
+  });
+
+  // 6c. Primitive value accessors (.doubleValue, .intValue, .longValue, .floatValue)
+  code = code.replace(/([\w$.]+(?:\([^()]*\))?)\.doubleValue\s*\(\s*\)/g, (m, target) => {
+    appliedRules.push('PRIMITIVE_VALUE_CONVERSIONS');
+    return `Number(${target})`;
+  });
+  code = code.replace(/([\w$.]+(?:\([^()]*\))?)\.floatValue\s*\(\s*\)/g, (m, target) => {
+    appliedRules.push('PRIMITIVE_VALUE_CONVERSIONS');
+    return `parseFloat(${target})`;
+  });
+  code = code.replace(/([\w$.]+(?:\([^()]*\))?)\.intValue\s*\(\s*\)/g, (m, target) => {
+    appliedRules.push('PRIMITIVE_VALUE_CONVERSIONS');
+    return `parseInt(${target}, 10)`;
+  });
+  code = code.replace(/([\w$.]+(?:\([^()]*\))?)\.longValue\s*\(\s*\)/g, (m, target) => {
+    appliedRules.push('PRIMITIVE_VALUE_CONVERSIONS');
+    return `parseInt(${target}, 10)`;
+  });
+
+  // 6d. Standalone RoundingMode references cleanup
+  code = code.replace(/\bRoundingMode\.\w+/g, () => {
+    appliedRules.push('JAVA_MATH_ROUNDING');
+    return '0';
+  });
+  code = code.replace(/\bBigDecimal\.ROUND_\w+/g, () => {
+    appliedRules.push('JAVA_MATH_ROUNDING');
+    return '0';
   });
 
   // 7. Typed numeric getters
@@ -386,12 +469,15 @@ function convertGroovyToPwaJs(sourceCode) {
   });
 
   // 12. Type declarations -> var
-  code = code.replace(/\b(?:final\s+)?(?:int|long|double|float|short|boolean|String|Integer|Double|Long|Boolean|Object|JSONObject|JSONArray|BigDecimal|ArrayList|List|Set|HashSet|Map|HashMap)\s+(?=[A-Za-z_]\w*\s*(?:=|;|,|\)))/g, () => {
+  code = code.replace(/\b(?:final\s+)?(?:(?:[a-zA-Z_]\w*\.)*[A-Z]\w*|int|long|double|float|short|boolean|byte|char)(?:<[^>]+>)?(?:\s*\[\s*\])?\s+(?=[A-Za-z_]\w*\s*(?:=|;|,|\)))/g, () => {
     appliedRules.push('TYPE_DECLARATIONS');
     return 'var ';
   });
   code = code.replace(/\bdef\b\s+(\w+)/g, 'var $1');
-  code = code.replace(/\bcatch\s*\(\s*[\w.]+\s+(\w+)\s*\)/g, 'catch ($1)');
+  code = code.replace(/\bcatch\s*\(\s*(?:(?:[a-zA-Z_]\w*\.)*[A-Za-z_]\w*\s+)?([A-Za-z_]\w*)\s*\)/g, (m, v) => {
+    appliedRules.push('TYPED_CATCH');
+    return `catch (${v})`;
+  });
 
   // 13. != void and == void
   code = code.replace(/\b(\w+)\s*(!=|==)\s*void\b/g, (m, varName, op) => {
@@ -808,8 +894,8 @@ function convertTxtFile(contentStr, fileName = 'uploaded_payload.txt') {
     }
   }
 
-  // Extract blocks
-  const pznBlockRegex = /<com\.intellinum\.flexi\.personalization\.Personalization>([\s\S]*?)<\/com\.intellinum\.flexi\.personalization\.Personalization>/g;
+  // Extract blocks (supporting both modern flexi and legacy miaadmin export models)
+  const pznBlockRegex = /<(?:com\.intellinum\.[^>]*?Personalization|[^>]*?Personalization)>([\s\S]*?)<\/(?:com\.intellinum\.[^>]*?Personalization|[^>]*?Personalization)>/g;
   let matches = [];
   let m;
   while ((m = pznBlockRegex.exec(decoded)) !== null) {
@@ -1035,3 +1121,66 @@ module.exports = {
   convertTxtFile,
   generateOracleSql
 };
+
+// Direct execution CLI runner
+if (require.main === module) {
+  const fs = require('fs');
+  const path = require('path');
+
+  const target = process.argv[2] || (fs.existsSync('SSH') ? 'SSH' : 'IMS PERSONALIZATION DPW');
+  let filesToProcess = [];
+
+  if (fs.existsSync(target)) {
+    const stat = fs.statSync(target);
+    if (stat.isDirectory()) {
+      filesToProcess = fs.readdirSync(target)
+        .filter(f => f.toLowerCase().endsWith('.pdf') || f.toLowerCase().endsWith('.txt'))
+        .map(f => path.join(target, f));
+    } else {
+      filesToProcess = [target];
+    }
+  } else {
+    console.error(`Target path does not exist: ${target}`);
+    process.exit(1);
+  }
+
+  console.log('='.repeat(80));
+  console.log(`INTELLINUM FLEXI PWA CONVERTER CLI`);
+  console.log(`Processing ${filesToProcess.length} file(s) from: "${target}"`);
+  console.log('='.repeat(80));
+
+  const summary = [];
+
+  filesToProcess.forEach((filePath, idx) => {
+    const fileName = path.basename(filePath);
+    const buf = fs.readFileSync(filePath);
+    const t0 = Date.now();
+    const res = fileName.endsWith('.txt') ? convertTxtFile(buf.toString('utf8'), fileName) : convertPdfFile(buf, fileName);
+    const elapsed = Date.now() - t0;
+    const validCount = res.scripts.filter(s => s.isValid).length;
+
+    console.log(`\n[${idx + 1}/${filesToProcess.length}] ${fileName}`);
+    console.log(`  App Name         : ${res.appName}`);
+    console.log(`  Screens Extracted: ${res.pagesCount} -> [${res.pages.map(p => p.pageName).join(', ')}]`);
+    console.log(`  Components Found : ${res.componentsCount}`);
+    console.log(`  Web Services     : ${res.webServicesCount}`);
+    console.log(`  LOV Statements   : ${res.lovsCount}`);
+    console.log(`  Scripts Migrated : ${res.scriptsCount} (${validCount}/${res.scriptsCount} valid syntax)`);
+    console.log(`  Validation Status: ${res.validation.passed ? 'PASSED' : 'WARNING'}`);
+    console.log(`  Execution Time   : ${elapsed}ms`);
+
+    summary.push({
+      file: fileName,
+      app: res.appName,
+      screens: res.pagesCount,
+      scripts: res.scriptsCount,
+      valid: validCount,
+      status: res.validation.passed ? 'PASSED' : 'CHECK'
+    });
+  });
+
+  console.log('\n' + '='.repeat(80));
+  console.log('MIGRATION SUMMARY MATRIX:');
+  console.log('='.repeat(80));
+  console.table(summary);
+}

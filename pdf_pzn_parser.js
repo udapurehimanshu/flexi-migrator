@@ -56,83 +56,146 @@ function hasOddQuotes(str) {
 
 function isPlainCommentContinuation(str) {
   const s = str.trim();
-  if (/^[A-Za-z0-9_\s\-.,'"]+$/.test(s) && !/[;{}=()<>]/.test(s)) {
-    return true;
-  }
-  return false;
+  if (!s) return false;
+  if (/[;{}=()<>]/.test(s)) return false;
+  return true;
 }
 
 function stitchScriptLines(rawLines) {
   const result = [];
 
   for (let i = 0; i < rawLines.length; i++) {
-    let line = rawLines[i].trimEnd();
-    if (!line) continue;
+    let rawLine = rawLines[i].trimEnd();
+    if (!rawLine) continue;
 
-    if (result.length === 0) {
-      result.push(line);
-      continue;
-    }
+    // Split glued comment and code e.g. "// ... try{" or "// ... flexi." or "... ===> ... flexi."
+    const splitLines = rawLine
+      .replace(/(\/\/[^\r\n]*?)\s*(try\s*\{|catch\s*\(|if\s*\(|while\s*\(|for\s*\(|flexi\.|logger\.)/g, '$1\r\n$2')
+      .replace(/(={3,}>?[^\r\n]*?)\s*(try\s*\{|catch\s*\(|if\s*\(|while\s*\(|for\s*\(|flexi\.|logger\.)/g, '$1\r\n$2')
+      .split(/\r?\n/);
 
-    const prevIdx = result.length - 1;
-    const prev = result[prevIdx].trim();
-    const cur = line.trim();
+    for (let sLine of splitLines) {
+      let line = sLine.trimEnd();
+      if (!line) continue;
 
-    // 1. If previous line has an unclosed string literal, current line MUST continue it
-    if (hasOddQuotes(prev)) {
-      result[prevIdx] = result[prevIdx] + cur;
-      continue;
-    }
-
-    // 2. If current line is an explicit new comment
-    if (cur.startsWith('//') || cur.startsWith('/*')) {
-      result.push(line);
-      continue;
-    }
-
-    // 3. If previous line was a comment
-    if (prev.startsWith('//') || prev.startsWith('/*')) {
-      if (prev.endsWith('-') || prev.endsWith('+') || cur.startsWith('>') || cur.startsWith('+') || isPlainCommentContinuation(cur)) {
-        result[prevIdx] = result[prevIdx] + (prev.endsWith('-') ? '' : ' ') + cur;
+      if (result.length === 0) {
+        result.push(line);
         continue;
       }
-      result.push(line);
-      continue;
-    }
 
-    // 4. Hanging operators or closers at start of current line
-    if (/^(\)+;?|\}+;?|\]+;?|;|\+|-|\.|\/|\*|==|!=|>|<|&&|\|\|)/.test(cur)) {
-      if (/^\}+;?$/.test(cur) && (prev.endsWith(';') || prev.endsWith('}') || prev.endsWith('{'))) {
+      let prevIdx = result.length - 1;
+      let prev = result[prevIdx].trim();
+      let cur = line.trim();
+
+      const prevEndsInSingleComment = prev.includes('//') && !hasOddQuotes(prev.split('//')[0]);
+
+      // 0. If current line starts with a closing curly brace '}' (e.g. '}', '}else{', '} else', '} catch', '} finally'), it must ALWAYS be its own line!
+      if (/^\}/.test(cur)) {
         result.push(line);
-      } else {
-        result[prevIdx] = result[prevIdx] + (cur.startsWith('.') || cur.startsWith(')') || cur.startsWith(';') ? '' : ' ') + cur;
+        continue;
       }
-      continue;
-    }
 
-    // 5. Hanging callers: e.g. "());"
-    if (/^\(\);?/.test(cur)) {
-      result[prevIdx] = result[prevIdx] + cur;
-      continue;
-    }
+      // 0b. If current line starts with ASCII divider characters like '=====' or '-----'
+      // No JS/Groovy statement can start with == or --. If prev is comment, stitch; otherwise mark as comment.
+      if (/^[=\-*~#]{2,}/.test(cur)) {
+        if (prev.startsWith('//') || prev.startsWith('/*')) {
+          result[prevIdx] = result[prevIdx] + ' ' + cur;
+        } else {
+          result.push('// ' + line);
+        }
+        continue;
+      }
 
-    // 6. Hanging openers or operators at end of previous line
-    if (/[+\-*/=><.,:(]$/.test(prev)) {
-      result[prevIdx] = result[prevIdx] + (prev.endsWith('.') || prev.endsWith('(') ? '' : ' ') + cur;
-      continue;
-    }
-
-    // 7. Broken identifier across lines (e.g. "ar" + "rList[j]" or "getVa" + "lue()")
-    if (/[A-Za-z0-9_]$/.test(prev) && /^[A-Za-z0-9_]+[().\[]/.test(cur) && !prev.endsWith(';') && !prev.endsWith('{') && !prev.endsWith('}')) {
-      const lastWord = prev.match(/([A-Za-z0-9_]+)$/)?.[1] || '';
-      if (lastWord.length >= 2 && !['var', 'return', 'else', 'new', 'if', 'in', 'do'].includes(lastWord)) {
+      // 1. If previous line has an unclosed string literal, current line MUST continue it
+      // Do not check odd quotes if prev ends in a single-line comment
+      if (!prev.startsWith('//') && !prevEndsInSingleComment && hasOddQuotes(prev)) {
         result[prevIdx] = result[prevIdx] + cur;
         continue;
       }
-    }
 
-    // Default: new line
-    result.push(line);
+      // 2. If current line is an explicit new comment
+      if (cur.startsWith('//') || cur.startsWith('/*')) {
+        result.push(line);
+        continue;
+      }
+
+      // 3. If previous line was or ended in a comment
+      if (prev.startsWith('//') || prev.startsWith('/*') || prevEndsInSingleComment) {
+        const isExplicitCodeKeyword = /^(?:if\s*\(|for\s*\(|while\s*\(|switch\s*\(|try\s*\{|catch\s*\(|return\b|var\b|let\b|const\b|function\b|import\b|logger\.|flexi\.|[a-zA-Z0-9_]+\.(?:callWebService|setHidden|setValue|reset|gotoComponent))/i.test(cur);
+        const isDividerComment = /^(\/\/|\/\*)\s*[=\-*#_~]{3,}\s*$/.test(prev);
+
+        // If previous comment has unclosed parentheses/brackets or ends with an opener/operator (e.g. commented-out code wrapped across lines in PDF)
+        const unclosedInComment = !isDividerComment && prev.startsWith('//') && (
+          (prev.split('(').length > prev.split(')').length) ||
+          (prev.split('[').length > prev.split(']').length) ||
+          /[+\-*/=><.,:(&|]$/.test(prev)
+        );
+
+        // If cur has a glued statement keyword preceded by words (comment continuation), split them
+        const gluedCodeMatch = cur.match(/^(.*?)(?:\b(if\s*\(|for\s*\(|while\s*\(|try\s*\{|switch\s*\(|return\b|logger\.|flexi\.|[a-zA-Z0-9_]+\.(?:callWebService|setHidden|setValue|reset|gotoComponent)))/i);
+        if (gluedCodeMatch && gluedCodeMatch[1].trim() && isPlainCommentContinuation(gluedCodeMatch[1])) {
+          result[prevIdx] = result[prevIdx] + (prev.endsWith('-') ? '' : ' ') + gluedCodeMatch[1].trim();
+          line = cur.slice(gluedCodeMatch[1].length).trim();
+          cur = line;
+          prev = result[prevIdx].trim();
+        }
+
+        const isCommentContinuation = !isDividerComment && (unclosedInComment ||
+          prev.endsWith('-') ||
+          prev.endsWith('+') ||
+          cur.startsWith('>') ||
+          cur.startsWith('+') ||
+          cur.startsWith('=') ||
+          cur.includes('====') ||
+          cur.includes('===>') ||
+          /^\)+;?$/.test(cur) ||
+          isPlainCommentContinuation(cur) ||
+          (!/[;{}=]/.test(cur) && !isExplicitCodeKeyword));
+
+        if (isCommentContinuation && (!isExplicitCodeKeyword || unclosedInComment)) {
+          result[prevIdx] = result[prevIdx] + (prev.endsWith('-') ? '' : ' ') + cur;
+          continue;
+        }
+        result.push(line);
+        continue;
+      }
+
+      // 4. Hanging operators or closers at start of current line
+      if (/^(\)+;?|\}+;?|\]+;?|;|,|\+|-|\.|\/|\*|==|!=|>|<|&&|\|\||&|\|)/.test(cur)) {
+        if (/^\}\s*(?:;|\/\/.*|\/\*.*\*\/)?$/.test(cur)) {
+          result.push(line);
+        } else {
+          const noSpace = cur.startsWith('.') || cur.startsWith(')') || cur.startsWith(';') || cur.startsWith(',') || (prev.endsWith('&') && cur.startsWith('&')) || (prev.endsWith('|') && cur.startsWith('|'));
+          result[prevIdx] = result[prevIdx] + (noSpace ? '' : ' ') + cur;
+        }
+        continue;
+      }
+
+      // 5. Hanging callers: e.g. "());"
+      if (/^\(\);?/.test(cur)) {
+        result[prevIdx] = result[prevIdx] + cur;
+        continue;
+      }
+
+      // 6. Hanging openers or operators at end of previous line
+      if (/[+\-*/=><.,:(&|]$/.test(prev)) {
+        const noSpace = prev.endsWith('.') || prev.endsWith('(') || prev.endsWith(',') || (prev.endsWith('&') && cur.startsWith('&')) || (prev.endsWith('|') && cur.startsWith('|'));
+        result[prevIdx] = result[prevIdx] + (noSpace ? '' : ' ') + cur;
+        continue;
+      }
+
+      // 7. Broken identifier across lines (e.g. "ar" + "rList[j]" or "DELIVERY_SEQ_" + "NO+")
+      if (/[A-Za-z0-9_]$/.test(prev) && /^[A-Za-z0-9_]+[().\[\],;}+\-*/]/.test(cur) && !prev.endsWith(';') && !prev.endsWith('{') && !prev.endsWith('}')) {
+        const lastWord = prev.match(/([A-Za-z0-9_]+)$/)?.[1] || '';
+        if (lastWord.length >= 1 && !['var', 'return', 'else', 'new', 'if', 'in', 'do'].includes(lastWord)) {
+          result[prevIdx] = result[prevIdx] + cur;
+          continue;
+        }
+      }
+
+      // Default: new line
+      result.push(line);
+    }
   }
 
   return result.join('\r\n');

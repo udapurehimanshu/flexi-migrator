@@ -5,13 +5,25 @@
  */
 const fs = require('fs');
 
+const pakoCode = fs.readFileSync('js/pako.min.js', 'utf8');
+
 const bundle = `/**
  * =============================================================================
  * Intellinum Flexi PWA Migrator - Client Runtime Engine
  * 100% Client-Side Pure JavaScript Engine (GitHub Pages & Offline Compatible)
  * 100% File-Dependent • AST-Masked Groovy Compiler • Zero Hardcoded Fallbacks
+ * Embedded Pako 2.1.0 Deflate/Inflate Decompressor
  * =============================================================================
  */
+var pakoLib = {};
+(function(exports, module) {
+${pakoCode}
+})(pakoLib, { exports: pakoLib });
+var pako = pakoLib.pako || pakoLib;
+if (typeof globalThis !== 'undefined') globalThis.pako = pako;
+if (typeof window !== 'undefined') window.pako = pako;
+if (typeof global !== 'undefined') global.pako = pako;
+
 (function(global) {
   'use strict';
 
@@ -64,6 +76,7 @@ const bundle = `/**
   // Multi-candidate stream decompression to avoid cutting off Adler32 checksum
   function inflateStream(slice) {
     const p = (typeof window !== 'undefined' && window.pako) ||
+              (typeof globalThis !== 'undefined' && globalThis.pako) ||
               (typeof global !== 'undefined' && global.pako) ||
               (typeof pako !== 'undefined' ? pako : null);
 
@@ -210,277 +223,53 @@ const bundle = `/**
     return allLines;
   }
 
-  // ----------------- Stitching Engine -----------------
-  function hasOddQuotes(str) {
-    let dQuotes = 0;
-    let sQuotes = 0;
-    for (let i = 0; i < str.length; i++) {
-      if (str[i] === '"' && (i === 0 || str[i - 1] !== '\\\\')) dQuotes++;
-      if (str[i] === "'" && (i === 0 || str[i - 1] !== '\\\\')) sQuotes++;
-    }
-    return (dQuotes % 2 !== 0) || (sQuotes % 2 !== 0);
-  }
-
-  function isPlainCommentContinuation(str) {
-    const s = str.trim();
-    if (/^[A-Za-z0-9_\\s\\-.,'"]+$/.test(s) && !/[;{}=()<>]/.test(s)) {
-      return true;
-    }
-    return false;
-  }
-
-  function stitchScriptLines(rawLines) {
-    const result = [];
-
-    for (let i = 0; i < rawLines.length; i++) {
-      let line = rawLines[i].trimEnd();
-      if (!line) continue;
-
-      if (result.length === 0) {
-        result.push(line);
-        continue;
-      }
-
-      const prevIdx = result.length - 1;
-      const prev = result[prevIdx].trim();
-      const cur = line.trim();
-
-      if (hasOddQuotes(prev)) {
-        result[prevIdx] = result[prevIdx] + cur;
-        continue;
-      }
-
-      if (cur.startsWith('//') || cur.startsWith('/*')) {
-        result.push(line);
-        continue;
-      }
-
-      if (prev.startsWith('//') || prev.startsWith('/*')) {
-        if (prev.endsWith('-') || prev.endsWith('+') || cur.startsWith('>') || cur.startsWith('+') || isPlainCommentContinuation(cur)) {
-          result[prevIdx] = result[prevIdx] + (prev.endsWith('-') ? '' : ' ') + cur;
-          continue;
-        }
-        result.push(line);
-        continue;
-      }
-
-      if (/^(\\)+;?|\\}+;?|\\]+;?|;|\\+|-|\\.|\\/|\\*|==|!=|>|<|&&|\\|\\|)/.test(cur)) {
-        if (/^\\}+;?$/.test(cur) && (prev.endsWith(';') || prev.endsWith('}') || prev.endsWith('{'))) {
-          result.push(line);
-        } else {
-          result[prevIdx] = result[prevIdx] + (cur.startsWith('.') || cur.startsWith(')') || cur.startsWith(';') ? '' : ' ') + cur;
-        }
-        continue;
-      }
-
-      if (/^\\(\\);?/.test(cur)) {
-        result[prevIdx] = result[prevIdx] + cur;
-        continue;
-      }
-
-      if (/[+\\-*/=><.,:(]$/.test(prev)) {
-        result[prevIdx] = result[prevIdx] + (prev.endsWith('.') || prev.endsWith('(') ? '' : ' ') + cur;
-        continue;
-      }
-
-      if (/[A-Za-z0-9_]$/.test(prev) && /^[A-Za-z0-9_]+[().\\[]/.test(cur) && !prev.endsWith(';') && !prev.endsWith('{') && !prev.endsWith('}')) {
-        const lastWord = prev.match(/([A-Za-z0-9_]+)$/)?.[1] || '';
-        if (lastWord.length >= 2 && !['var', 'return', 'else', 'new', 'if', 'in', 'do'].includes(lastWord)) {
-          result[prevIdx] = result[prevIdx] + cur;
-          continue;
-        }
-      }
-
-      result.push(line);
-    }
-
-    return result.join('\\r\\n');
-  }
-
-  // ----------------- Report Structural Parser -----------------
-  const VALUE_X = 216.0;
-
-  function parseFlexiPdfReport(pdfBuffer, fileName) {
-    fileName = fileName || 'uploaded_report.pdf';
-    const lines = extractPdfLines(pdfBuffer);
-    if (!lines || lines.length === 0) {
-      throw new Error('PDF file could not be decoded or contains no readable text streams.');
-    }
-
-    const rawScreens = [];
-    let currentScreen = null;
-    let mode = null;
-    let curField = null;
-    let curProp = null;
-
-    for (let i = 0; i < lines.length; i++) {
-      const ln = lines[i];
-      const t = ln.text.trim();
-      if (!t) continue;
-
-      if (t.startsWith('<< Start Personalization')) {
-        currentScreen = {
-          applicationName: '',
-          pageName: '',
-          level: 'Site',
-          value: 'Global',
-          newFields: [],
-          pageProps: {},
-          fields: {}
+  // ----------------- Intellinum Client Shims & Polyfills -----------------
+  var java = {
+    text: {
+      SimpleDateFormat: function(format) {
+        this.format = function(d) {
+          d = d || new Date();
+          var pad = function(n) { return String(n).padStart(2, '0'); };
+          var day = pad(d.getDate());
+          var month = pad(d.getMonth() + 1);
+          var year = d.getFullYear();
+          if (format === 'dd-MM-yyyy') return day + '-' + month + '-' + year;
+          if (format === 'dd/MM/yyyy') return day + '/' + month + '/' + year;
+          if (format === 'yyyyMMdd') return String(year) + month + day;
+          if (format === 'yyyy-MM-dd') return String(year) + '-' + month + '-' + day;
+          return day + '/' + month + '/' + year;
         };
-        rawScreens.push(currentScreen);
-        mode = 'head';
-        curField = null;
-        curProp = null;
-        continue;
-      }
-
-      if (!currentScreen || t.startsWith('<< End Personalization')) {
-        mode = null;
-        curProp = null;
-        continue;
-      }
-
-      if (t === 'FLEXI PERSONALIZATION REPORT') continue;
-
-      if (mode === 'head') {
-        if (t.startsWith('Application Name:')) {
-          currentScreen.applicationName = t.replace('Application Name:', '').trim();
-          continue;
-        }
-        if (t.startsWith('Page Name:')) {
-          currentScreen.pageName = t.replace('Page Name:', '').trim();
-          continue;
-        }
-        if (t.startsWith('Personalization Level :') || t.startsWith('Personalization Level:')) {
-          currentScreen.level = t.split(':')[1].trim();
-          continue;
-        }
-        if (t.startsWith('Personalization Value :') || t.startsWith('Personalization Value:')) {
-          currentScreen.value = t.split(':')[1].trim();
-          continue;
-        }
-      }
-
-      if (t === 'New Fields') {
-        mode = 'newfields';
-        curField = null;
-        curProp = null;
-        continue;
-      }
-      if (t === 'Page Level Properties') {
-        mode = 'page';
-        curField = '-1';
-        curProp = null;
-        continue;
-      }
-      if (t === 'Field Level Properties') {
-        mode = 'await_field';
-        curProp = null;
-        continue;
-      }
-      if (t === 'Barcode Level Properties') {
-        mode = 'barcode';
-        curProp = null;
-        continue;
-      }
-
-      if (t.startsWith('Field Name:')) {
-        curField = t.replace('Field Name:', '').trim();
-        mode = 'field';
-        curProp = null;
-        currentScreen.fields[curField] = currentScreen.fields[curField] || {};
-        continue;
-      }
-
-      if (t.replace(/\\s+/g, '') === 'FieldNameTypePosition' || t.replace(/\\s+/g, '') === 'PropertyNamePropertyValue') {
-        continue;
-      }
-
-      if (mode === 'newfields') {
-        const match = t.match(/^([A-Za-z0-9_]+)(Text|Web Service|Button|Label|Custom|LOV)(.*)$/);
-        if (match) {
-          currentScreen.newFields.push({
-            name: match[1],
-            type: match[2],
-            position: match[3].trim()
-          });
-        }
-        continue;
-      }
-
-      if (mode === 'page' || mode === 'field') {
-        const col1Chars = ln.items.filter(function(it) { return it.x < VALUE_X; }).map(function(it) { return it.text; }).join('').trim();
-        const col2Chars = ln.items.filter(function(it) { return it.x >= VALUE_X - 1; }).map(function(it) { return it.text; }).join('');
-
-        const store = mode === 'page' ? currentScreen.pageProps : (currentScreen.fields[curField] || {});
-
-        if (col1Chars) {
-          curProp = col1Chars;
-          store[curProp] = [col2Chars];
-        } else if (curProp && store[curProp]) {
-          store[curProp].push(col2Chars);
-        }
-      }
+        this.parse = function(s) { return new Date(s); };
+        this.setTimeZone = function() {};
+      },
+      DateFormat: function() {}
+    },
+    util: {
+      Date: function() { return new Date(); },
+      TimeZone: { getTimeZone: function() { return {}; } }
     }
-
-    const detectedApp = rawScreens.find(function(s) { return s.applicationName && s.applicationName.trim(); })?.applicationName ||
-      fileName.replace(/\\.pdf$/i, '').replace(/_Personalization/i, '').replace(/Report/i, '').trim();
-
-    const screens = rawScreens.map(function(raw, scIdx) {
-      const pageName = raw.pageName || (scIdx === 0 ? '(Main Screen)' : ('Screen ' + (scIdx + 1)));
-      const appName = raw.applicationName || detectedApp;
-
-      const pageProperties = {};
-      for (const k of Object.keys(raw.pageProps)) {
-        pageProperties[k] = stitchScriptLines(raw.pageProps[k]);
-      }
-
-      const components = [];
-      if (Object.keys(pageProperties).length > 0 || raw.newFields.length > 0) {
-        components.push({
-          name: '-1',
-          type: 'Page Level',
-          properties: Object.assign({}, pageProperties)
-        });
-      }
-
-      for (const fName of Object.keys(raw.fields)) {
-        const fieldProps = {};
-        for (const k of Object.keys(raw.fields[fName])) {
-          fieldProps[k] = stitchScriptLines(raw.fields[fName][k]);
-        }
-
-        components.push({
-          name: fName,
-          type: fName.endsWith('_WS') ? 'Web Service' : fName.startsWith('btn') ? 'Button' : fName.startsWith('text') ? 'Input' : 'Custom',
-          properties: fieldProps
-        });
-      }
-
-      return {
-        applicationName: appName,
-        pageName: pageName,
-        level: raw.level || 'Site',
-        value: raw.value || 'Global',
-        newFields: raw.newFields,
-        pageProperties: pageProperties,
-        components: components
-      };
-    });
-
-    if (screens.length === 0) {
-      throw new Error('No valid Flexi personalization screens detected in uploaded PDF.');
-    }
-
-    return {
-      fileName: fileName,
-      appName: detectedApp,
-      screens: screens
+  };
+  global.java = java;
+  global.SimpleDateFormat = java.text.SimpleDateFormat;
+  global.DateFormat = java.text.DateFormat;
+  global.TimeZone = java.util.TimeZone;
+  global.LinkedHashSet = function() {
+    var s = new Set();
+    var origAdd = s.add.bind(s);
+    s.add = function(val) {
+      if (s.has(val)) return false;
+      origAdd(val);
+      return true;
     };
-  }
+    return s;
+  };
 
 ` +
+// Clean pdf_pzn_parser.js logic
+fs.readFileSync('pdf_pzn_parser.js', 'utf8')
+  .replace(/const \{ extractPdfLines \} = require\('\.\/pure_pdf_parser\.js'\);/g, '')
+  .replace(/module\.exports = \{[\s\S]*?\};/, '')
++
 // Clean flexi_converter.js logic
 fs.readFileSync('flexi_converter.js', 'utf8')
   .replace(/const crypto = require\('crypto'\);/g, '')
@@ -498,7 +287,7 @@ fs.readFileSync('pwa_report_generator.js', 'utf8')
 `
   // Export to global scope
   global.FlexiClientEngine = {
-    VERSION: '2.0.2',
+    VERSION: '2.1.0',
     ORIGINAL_DEFAULTS: ORIGINAL_DEFAULTS,
     MIGRATION_RULES: MIGRATION_RULES,
     extractPdfLines: extractPdfLines,
@@ -514,6 +303,9 @@ fs.readFileSync('pwa_report_generator.js', 'utf8')
 
   if (typeof window !== 'undefined') {
     window.FlexiClientEngine = global.FlexiClientEngine;
+  }
+  if (typeof module !== 'undefined' && module.exports) {
+    module.exports = global.FlexiClientEngine;
   }
 
 })(typeof window !== 'undefined' ? window : global);

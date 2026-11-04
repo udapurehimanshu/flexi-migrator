@@ -3,3 +3,8 @@ node_modules/
 .DS_Store
 Thumbs.db
 
+# Sensitive local binaries and benchmark files
+*.exe
+SSH/
+PWA/
+

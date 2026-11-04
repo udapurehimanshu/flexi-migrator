@@ -1123,7 +1123,7 @@ module.exports = {
 };
 
 // Direct execution CLI runner
-if (require.main === module) {
+if (typeof require !== 'undefined' && typeof module !== 'undefined' && require.main === module) {
   const fs = require('fs');
   const path = require('path');
 

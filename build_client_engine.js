@@ -276,7 +276,7 @@ fs.readFileSync('flexi_converter.js', 'utf8')
   .replace(/const \{ parseFlexiPdfReport \} = require\('\.\/pdf_pzn_parser\.js'\);/g, '')
   .replace(/const \{ generatePwaReport \} = require\('\.\/pwa_report_generator\.js'\);/g, '')
   .replace(/crypto\.randomUUID\(\)/g, 'generateUUID()')
-  .replace(/module\.exports = \{[\s\S]*?\};/, '')
+  .replace(/module\.exports = \{[\s\S]*$/, '')
 +
 // Clean pwa_report_generator.js logic
 fs.readFileSync('pwa_report_generator.js', 'utf8')

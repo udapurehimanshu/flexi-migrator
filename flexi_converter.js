@@ -130,6 +130,16 @@ const MIGRATION_RULES = [
     description: 'Converts `new DecimalFormat("0.0").format(x)` to standard JavaScript `Number(x).toFixed(1)`'
   },
   {
+    id: 'JAVA_TYPE_CAST',
+    name: 'Java Type Cast Removal',
+    description: 'Strips Java type casts like `(TableRow) event.getSource()` or `(String) val` for JavaScript compliance'
+  },
+  {
+    id: 'SYSTEM_PRINT_TO_CONSOLE',
+    name: 'System.out.println to console.log',
+    description: 'Converts `System.out.println` and `System.err.println` to standard JavaScript `console.log` / `console.error`'
+  },
+  {
     id: 'AUTO_VAR_DECLARATION',
     name: 'Variable Declaration Normalization',
     description: 'Auto-declares undeclared object/array initializations with `var` for strict mode safety'
@@ -544,6 +554,26 @@ function convertGroovyToPwaJs(sourceCode) {
   code = code.replace(/\bcatch\s*\(\s*(?:(?:[a-zA-Z_]\w*\.)*[A-Za-z_]\w*\s+)?([A-Za-z_]\w*)\s*\)/g, (m, v) => {
     appliedRules.push('TYPED_CATCH');
     return `catch (${v})`;
+  });
+
+  // Java Type Casts: (TableRow) event.getSource() -> event.getSource()
+  code = code.replace(/\(\s*(?:[A-Z]\w*|int|long|double|float|short|boolean|byte|char)\s*\)\s*(?=[a-zA-Z0-9_$.(])/g, () => {
+    appliedRules.push('JAVA_TYPE_CAST');
+    return '';
+  });
+
+  // System.out.println / System.err.println -> console.log / console.error
+  code = code.replace(/\bSystem\.out\.println\s*\(/g, () => {
+    appliedRules.push('SYSTEM_PRINT_TO_CONSOLE');
+    return 'console.log(';
+  });
+  code = code.replace(/\bSystem\.err\.println\s*\(/g, () => {
+    appliedRules.push('SYSTEM_PRINT_TO_CONSOLE');
+    return 'console.error(';
+  });
+  code = code.replace(/\bSystem\.out\.print\s*\(/g, () => {
+    appliedRules.push('SYSTEM_PRINT_TO_CONSOLE');
+    return 'console.log(';
   });
 
   // Auto-declare undeclared object/array initializations

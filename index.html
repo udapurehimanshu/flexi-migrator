@@ -439,8 +439,8 @@
         📄 <span id="headerFileName">None</span>
       </div>
 
-      <!-- IMS Quick Report Selector -->
-      <select id="imsSelect" class="btn btn-outline btn-sm" style="background:#111827; color:#f3f4f6; border-color:#374151; padding:7px 12px; cursor:pointer;">
+      <!-- IMS Quick Report Selector (Owner Access Only) -->
+      <select id="imsSelect" class="btn btn-outline btn-sm" style="display:none; background:#111827; color:#f3f4f6; border-color:#374151; padding:7px 12px; cursor:pointer;">
         <option value="">📁 Select IMS Personalization Report...</option>
       </select>
 
@@ -982,6 +982,55 @@ if (textOrderNbr != void) {
         console.warn('Could not load IMS files:', e);
       }
     }
+
+    // Owner Secret Unhide Mechanisms:
+    // 1. Triple click on brand badge logo (FP)
+    // 2. Secret shortcut: Ctrl + Shift + I or Alt + Shift + I
+    // 3. URL query param: ?owner=true or ?admin=true
+    function toggleOwnerImsDropdown() {
+      const sel = document.getElementById('imsSelect');
+      if (!sel) return;
+      if (sel.style.display === 'none' || !sel.style.display) {
+        sel.style.display = 'inline-block';
+        localStorage.setItem('flexi_owner_unlocked', '1');
+      } else {
+        sel.style.display = 'none';
+        localStorage.removeItem('flexi_owner_unlocked');
+      }
+    }
+
+    // Check URL parameter or stored owner unlock status on load
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('owner') === 'true' || urlParams.get('owner') === '1' || urlParams.get('admin') === '1' || localStorage.getItem('flexi_owner_unlocked') === '1') {
+      const sel = document.getElementById('imsSelect');
+      if (sel) sel.style.display = 'inline-block';
+    }
+
+    // Triple click on logo to toggle
+    let logoClickCount = 0;
+    let logoClickTimer = null;
+    const logoEl = document.querySelector('.brand-badge-logo');
+    if (logoEl) {
+      logoEl.style.cursor = 'pointer';
+      logoEl.addEventListener('click', () => {
+        logoClickCount++;
+        clearTimeout(logoClickTimer);
+        if (logoClickCount >= 3) {
+          toggleOwnerImsDropdown();
+          logoClickCount = 0;
+        } else {
+          logoClickTimer = setTimeout(() => { logoClickCount = 0; }, 1200);
+        }
+      });
+    }
+
+    // Secret keyboard shortcut
+    window.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.altKey) && e.shiftKey && (e.key === 'I' || e.key === 'i')) {
+        e.preventDefault();
+        toggleOwnerImsDropdown();
+      }
+    });
 
     document.getElementById('imsSelect').addEventListener('change', async (ev) => {
       const fileName = ev.target.value;

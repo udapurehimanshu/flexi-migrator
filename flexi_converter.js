@@ -115,6 +115,26 @@ const MIGRATION_RULES = [
     description: 'Converts typed exception catch clauses (`catch(ParseException e)`) to standard JavaScript (`catch (e)`)'
   },
   {
+    id: 'LENGTH_PRECEDENCE_FIX',
+    name: 'Operator Precedence Fix',
+    description: 'Fixes `!x.length === 0` to `x.length > 0` and `!x.isEmpty()` to `x.length > 0`'
+  },
+  {
+    id: 'JAVA_MATCHES_TO_TEST',
+    name: 'RegExp Pattern Matching',
+    description: 'Converts Java `str.matches(pattern)` to JavaScript `new RegExp(pattern).test(str)`'
+  },
+  {
+    id: 'DECIMAL_FORMAT',
+    name: 'Number Formatting',
+    description: 'Converts `new DecimalFormat("0.0").format(x)` to standard JavaScript `Number(x).toFixed(1)`'
+  },
+  {
+    id: 'AUTO_VAR_DECLARATION',
+    name: 'Variable Declaration Normalization',
+    description: 'Auto-declares undeclared object/array initializations with `var` for strict mode safety'
+  },
+  {
     id: 'JAVA_MATH_ROUNDING',
     name: 'Java Math & RoundingMode Transpilation',
     description: 'Converts `BigDecimal.setScale(n, RoundingMode.DOWN)` and Java math classes to native JavaScript `Math.floor` / `.toFixed`'
@@ -265,7 +285,7 @@ function getStringVal(strings, placeholder) {
  */
 function convertGroovyToPwaJs(sourceCode) {
   let src = (sourceCode || '').trim();
-  if (src.startsWith('script:')) src = src.slice(7).trim();
+  src = src.replace(/^\s*script:\s*/i, '').trim();
 
   const { masked, strings, comments } = maskCode(src);
   let code = masked;
@@ -456,10 +476,57 @@ function convertGroovyToPwaJs(sourceCode) {
 
   code = code.replace(/\.length\(\)/g, '.length');
   code = code.replace(/\.size\(\)/g, '.length');
-  code = code.replace(/\.isEmpty\(\)/g, '.length === 0');
-  code = code.replace(/\.contains\s*\(([^()]*)\)/g, (m, arg) => {
-    appliedRules.push('COLLECTION_CONTAINS');
-    return `.indexOf(${arg}) !== -1`;
+
+  // Fix isEmpty() and length precedence bugs (!a.length === 0 -> a.length > 0)
+  code = code.replace(/!\s*([a-zA-Z0-9_$.()]+)\.isEmpty\(\)/g, (m, target) => {
+    appliedRules.push('LENGTH_PRECEDENCE_FIX');
+    return `${target}.length > 0`;
+  });
+  code = code.replace(/([a-zA-Z0-9_$.()]+)\.isEmpty\(\)/g, (m, target) => {
+    appliedRules.push('COLLECTION_METHODS');
+    return `${target}.length === 0`;
+  });
+  code = code.replace(/!\s*([a-zA-Z0-9_$.()]+)\.length\s*===?\s*0\b/g, (m, target) => {
+    appliedRules.push('LENGTH_PRECEDENCE_FIX');
+    return `${target}.length > 0`;
+  });
+  code = code.replace(/!\s*([a-zA-Z0-9_$.()]+)\.length\s*!==?\s*0\b/g, (m, target) => {
+    appliedRules.push('LENGTH_PRECEDENCE_FIX');
+    return `${target}.length === 0`;
+  });
+
+  // Balanced .contains(...) -> .indexOf(...) !== -1 (supporting nested function calls)
+  let cIdx = 0;
+  while ((cIdx = code.indexOf('.contains(', cIdx)) !== -1) {
+    const openParen = cIdx + 9;
+    const closeParen = findBalancedParen(code, openParen);
+    if (closeParen !== -1) {
+      const arg = code.slice(openParen + 1, closeParen);
+      const before = code.slice(0, cIdx);
+      const after = code.slice(closeParen + 1);
+      appliedRules.push('COLLECTION_CONTAINS');
+      code = `${before}.indexOf(${arg}) !== -1${after}`;
+      cIdx = before.length + `.indexOf(${arg}) !== -1`.length;
+    } else {
+      cIdx += 9;
+    }
+  }
+
+  // Java String.matches(pattern) -> new RegExp(pattern).test(target)
+  code = code.replace(/([a-zA-Z0-9_$.()]+)\.matches\s*\(\s*(\x01S\d+\x01|['"][^'"]*['"]|[^)]+)\s*\)/g, (m, target, pattern) => {
+    appliedRules.push('JAVA_MATCHES_TO_TEST');
+    return `new RegExp(${pattern}).test(${target})`;
+  });
+
+  // new DecimalFormat(...) -> Number(val).toFixed(...)
+  code = code.replace(/new\s+(?:java\.text\.)?DecimalFormat\s*\(\s*(\x01S\d+\x01|['"][^'"]*['"])\s*\)\.format\s*\(([^)]+)\)/g, (m, fmtToken, val) => {
+    appliedRules.push('DECIMAL_FORMAT');
+    const rawFmt = (getStringVal(strings, fmtToken) || fmtToken).replace(/['"]/g, '');
+    const decMatch = rawFmt.match(/\.(0+)/);
+    if (decMatch) {
+      return `Number(${val}).toFixed(${decMatch[1].length})`;
+    }
+    return `String(Math.round(Number(${val})))`;
   });
 
   // 11. toString()
@@ -477,6 +544,13 @@ function convertGroovyToPwaJs(sourceCode) {
   code = code.replace(/\bcatch\s*\(\s*(?:(?:[a-zA-Z_]\w*\.)*[A-Za-z_]\w*\s+)?([A-Za-z_]\w*)\s*\)/g, (m, v) => {
     appliedRules.push('TYPED_CATCH');
     return `catch (${v})`;
+  });
+
+  // Auto-declare undeclared object/array initializations
+  code = code.replace(/^([ \t]*)([a-zA-Z_$][a-zA-Z0-9_$]*)\s*=\s*(\{.*?\}|\[.*?\])/gm, (m, indent, vName, rVal) => {
+    if (['return', 'if', 'while', 'for', 'switch', 'var', 'let', 'const', 'this'].includes(vName)) return m;
+    appliedRules.push('AUTO_VAR_DECLARATION');
+    return `${indent}var ${vName} = ${rVal}`;
   });
 
   // 13. != void and == void
@@ -548,6 +622,23 @@ function encodeHtmlEntities(str) {
     .replace(/'/g, '&apos;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;');
+}
+
+function normalizeLevel(level) {
+  if (!level) return '1';
+  const l = String(level).trim().toLowerCase();
+  if (l === 'site' || l === 'global' || l === '1') return '1';
+  if (l === 'app' || l === 'application' || l === '2') return '2';
+  if (l === 'resp' || l === 'responsibility' || l === '3') return '3';
+  if (l === 'user' || l === '4') return '4';
+  return String(level).trim();
+}
+
+function normalizeValue(value, level) {
+  if (value && String(value).trim()) return String(value).trim();
+  const lvl = normalizeLevel(level);
+  if (lvl === '1') return 'Global';
+  return '';
 }
 
 function chunkString(str, size = 2500) {
@@ -746,11 +837,11 @@ function convertPdfFile(pdfBuffer, fileName = 'uploaded_report.pdf') {
         const isScript = propName.startsWith('_after') ||
           propName.startsWith('_before') ||
           propName.startsWith('_on') ||
-          (typeof rawVal === 'string' && (rawVal.startsWith('script:') || rawVal.includes('flexi.')));
+          (typeof rawVal === 'string' && (/^\s*script:/i.test(rawVal) || rawVal.includes('flexi.')));
 
         if (isScript) {
           totalScripts++;
-          const cleanGroovy = rawVal.replace(/^\s*script:\s*/, '');
+          const cleanGroovy = rawVal.replace(/^\s*script:\s*/i, '');
           const conv = convertGroovyToPwaJs(cleanGroovy);
 
           const scriptItem = {
@@ -774,9 +865,13 @@ function convertPdfFile(pdfBuffer, fileName = 'uploaded_report.pdf') {
             personalize_value: 'script:\r\n' + conv.code.replace(/\r?\n/g, '\r\n')
           };
         } else {
+          let sanitizedVal = rawVal;
+          if (typeof sanitizedVal === 'string' && sanitizedVal.includes('=')) {
+            sanitizedVal = sanitizedVal.replace(/([a-zA-Z0-9_]+)=\1=/g, '$1=');
+          }
           pznDetail.personalization[comp.name][propName] = {
             original_value: ORIGINAL_DEFAULTS[propName] !== undefined ? ORIGINAL_DEFAULTS[propName] : '',
-            personalize_value: rawVal
+            personalize_value: sanitizedVal
           };
         }
       }
@@ -787,24 +882,27 @@ function convertPdfFile(pdfBuffer, fileName = 'uploaded_report.pdf') {
     pages.push(pageObj);
 
     const detailJson = JSON.stringify(pznDetail);
+    const normLevel = normalizeLevel(screen.level);
+    const normValue = normalizeValue(screen.value, screen.level);
+
     dbRecords.push({
       applicationName: targetApp,
       pageName: pageName,
-      personalizationLevel: screen.level || 'Site',
-      personalizationValue: screen.value || '',
+      personalizationLevel: normLevel,
+      personalizationValue: normValue,
       enabled: 'Y',
       detail: detailJson
     });
 
     const isDefaultPage = !pageName || pageName.trim() === '' || pageName.includes('(Main');
-    xmlInner += `  <com.intellinum.flexi.personalization.Personalization>\n`;
+    xmlInner += `  <com.intellinum.miaadmin.objects.export.Personalization>\n`;
     xmlInner += `    <applicationName>${encodeHtmlEntities(targetApp)}</applicationName>\n`;
     xmlInner += `    <pageName>${isDefaultPage ? '' : encodeHtmlEntities(pageName)}</pageName>\n`;
-    xmlInner += `    <personalizationLevel>${encodeHtmlEntities(screen.level || 'Site')}</personalizationLevel>\n`;
-    xmlInner += `    <personalizationValue>${encodeHtmlEntities(screen.value || '')}</personalizationValue>\n`;
+    xmlInner += `    <personalizationLevel>${encodeHtmlEntities(normLevel)}</personalizationLevel>\n`;
+    xmlInner += `    <personalizationValue>${encodeHtmlEntities(normValue)}</personalizationValue>\n`;
     xmlInner += `    <enabled>Y</enabled>\n`;
     xmlInner += `    <personalizationDetail>${encodeHtmlEntities(detailJson)}</personalizationDetail>\n`;
-    xmlInner += `  </com.intellinum.flexi.personalization.Personalization>\n`;
+    xmlInner += `  </com.intellinum.miaadmin.objects.export.Personalization>\n`;
   });
 
   const fullXml = `<list>\n${xmlInner}</list>`;
@@ -1000,11 +1098,11 @@ function convertTxtFile(contentStr, fileName = 'uploaded_payload.txt') {
         const isScript = propName.startsWith('_after') ||
           propName.startsWith('_before') ||
           propName.startsWith('_on') ||
-          (typeof val === 'string' && (val.startsWith('script:') || val.includes('flexi.')));
+          (typeof val === 'string' && (/^\s*script:/i.test(val) || val.includes('flexi.')));
 
         if (isScript) {
           totalScripts++;
-          const rawScript = val.replace(/^script:\r?\n?/, '');
+          const rawScript = val.replace(/^\s*script:\s*/i, '');
           const conv = convertGroovyToPwaJs(rawScript);
 
           propObj.original_value = propObj.original_value !== undefined ? propObj.original_value : (ORIGINAL_DEFAULTS[propName] || '');
@@ -1025,6 +1123,8 @@ function convertTxtFile(contentStr, fileName = 'uploaded_payload.txt') {
 
           compSummary.scripts.push(scriptItem);
           allScripts.push(scriptItem);
+        } else if (typeof propObj.personalize_value === 'string' && propObj.personalize_value.includes('=')) {
+          propObj.personalize_value = propObj.personalize_value.replace(/([a-zA-Z0-9_]+)=\1=/g, '$1=');
         }
       }
 
@@ -1034,19 +1134,26 @@ function convertTxtFile(contentStr, fileName = 'uploaded_payload.txt') {
     pages.push(pageInfo);
 
     const updatedDetailJson = JSON.stringify(pznData);
+    const normLevel = normalizeLevel(levelMatch ? levelMatch[1].trim() : 'Site');
+    const normValue = normalizeValue(valMatch ? valMatch[1].trim() : '', normLevel);
+
     dbRecords.push({
       applicationName: currApp,
       pageName: currPage,
-      personalizationLevel: levelMatch ? levelMatch[1].trim() : 'Site',
-      personalizationValue: valMatch ? valMatch[1].trim() : '',
+      personalizationLevel: normLevel,
+      personalizationValue: normValue,
       enabled: enabledMatch ? enabledMatch[1].trim() : 'Y',
       detail: updatedDetailJson
     });
 
-    return fullBlock.replace(
+    let cleanBlock = fullBlock.replace(
       detailMatch[0],
       `<personalizationDetail>${encodeHtmlEntities(updatedDetailJson)}</personalizationDetail>`
     );
+    cleanBlock = cleanBlock
+      .replace(/<com\.intellinum\.flexi\.personalization\.Personalization>/g, '<com.intellinum.miaadmin.objects.export.Personalization>')
+      .replace(/<\/com\.intellinum\.flexi\.personalization\.Personalization>/g, '</com.intellinum.miaadmin.objects.export.Personalization>');
+    return cleanBlock;
   });
 
   const appName = detectedApp || fileName.replace(/\.[^/.]+$/, '');
@@ -1057,7 +1164,7 @@ function convertTxtFile(contentStr, fileName = 'uploaded_payload.txt') {
     success: true,
     sessionId,
     fileName,
-    fileSize: Buffer.byteLength(contentStr, 'utf8'),
+    fileSize: typeof Buffer !== 'undefined' ? Buffer.byteLength(contentStr, 'utf8') : new TextEncoder().encode(contentStr).length,
     appName,
     pagesCount: totalScreens,
     scriptsCount: totalScripts,

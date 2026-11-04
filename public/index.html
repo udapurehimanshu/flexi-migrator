@@ -7,8 +7,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <script src="js/pako.min.js?v=2.0.5"></script>
-  <script src="js/flexi_client_engine.js?v=2.0.5"></script>
+  <script src="js/pako.min.js?v=2.1.0"></script>
+  <script src="js/flexi_client_engine.js?v=2.1.0"></script>
   <style>
     :root {
       --bg-dark: #0b0f19;
@@ -937,7 +937,14 @@ if (textOrderNbr != void) {
         // In-browser client migration engine
         if (!data) {
           if (typeof FlexiClientEngine === 'undefined') {
-            throw new Error('Client migration engine is still initializing. Please re-try.');
+            let waited = 0;
+            while (typeof FlexiClientEngine === 'undefined' && waited < 5000) {
+              await new Promise(r => setTimeout(r, 150));
+              waited += 150;
+            }
+          }
+          if (typeof FlexiClientEngine === 'undefined') {
+            throw new Error('Client migration engine is still downloading or blocked by cache. Please refresh (Ctrl+F5) and retry.');
           }
           if (file.name.toLowerCase().endsWith('.pdf')) {
             const arrayBuffer = await file.arrayBuffer();
@@ -1053,6 +1060,16 @@ if (textOrderNbr != void) {
           const res = await fetch('samples/' + encodeURIComponent(fileName));
           if (!res.ok) throw new Error('Could not fetch sample file: ' + fileName);
           const buf = await res.arrayBuffer();
+          if (typeof FlexiClientEngine === 'undefined') {
+            let waited = 0;
+            while (typeof FlexiClientEngine === 'undefined' && waited < 5000) {
+              await new Promise(r => setTimeout(r, 150));
+              waited += 150;
+            }
+          }
+          if (typeof FlexiClientEngine === 'undefined') {
+            throw new Error('Client migration engine is still downloading or blocked by cache. Please refresh (Ctrl+F5) and retry.');
+          }
           data = FlexiClientEngine.convertPdfFile(new Uint8Array(buf), fileName);
         }
 

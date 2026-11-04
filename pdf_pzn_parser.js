@@ -78,6 +78,12 @@ function stitchScriptLines(rawLines) {
       let line = sLine.trimEnd();
       if (!line) continue;
 
+      // Strip leading script: or Script: artifact if at start of script block
+      if (result.length === 0) {
+        line = line.replace(/^\s*script:\s*/i, '').trimEnd();
+        if (!line) continue;
+      }
+
       if (result.length === 0) {
         result.push(line);
         continue;
@@ -96,8 +102,9 @@ function stitchScriptLines(rawLines) {
       }
 
       // 0b. If current line starts with ASCII divider characters like '=====' or '-----'
-      // No JS/Groovy statement can start with == or --. If prev is comment, stitch; otherwise mark as comment.
-      if (/^[=\-*~#]{2,}/.test(cur)) {
+      // Only treat as divider if it's 4+ repeated symbols or a pure divider line, NOT operator continuation (=== 0, !== 0, etc.)
+      const isDividerLine = /^([=\-*~#])\1{3,}/.test(cur) && !/^(?:===|!==|==)\s*[\w"'`({\[]/.test(cur);
+      if (isDividerLine) {
         if (prev.startsWith('//') || prev.startsWith('/*')) {
           result[prevIdx] = result[prevIdx] + ' ' + cur;
         } else {
